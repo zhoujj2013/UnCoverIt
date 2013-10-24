@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+        <title>UnCoverIt</title>
+        <description>UnCoverIt - Zhoujj</description>
+        <link>http://zhoujj2013.github.io</link>
+        <link>http://zhoujj2013.github.io</link>
+        <lastBuildDate>2013-10-24T15:02:21+08:00</lastBuildDate>
+        <pubDate>2013-10-24T15:02:21+08:00</pubDate>
+        <ttl>1800</ttl>
+
+
+        <item>
+                <title>UnCoverIt: a ghost born</title>
+                <description>
+&lt;p&gt;Hi all, I am here.&lt;/p&gt;
+
+&lt;p&gt;In this web site, I will guide to you to understand the real idea behind the huge massive data set, such as DNA/RNA sequencing data, stock marketing data, complex social network and other kinds of data from our daily life.&lt;/p&gt;
+
+&lt;p&gt;Hope everything is better to common people.&lt;/p&gt;
+
+&lt;p&gt;Let’s go!&lt;/p&gt;
+</description>
+                <link>http://zhoujj2013.github.io/life/2013/10/24/uncoverit-a-ghost-born</link>
+                <guid>http://zhoujj2013.github.io/life/2013/10/24/uncoverit-a-ghost-born</guid>
+                <pubDate>2013-10-24T00:00:00+08:00</pubDate>
+        </item>
+
+
+</channel>
+</rss>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ 
+ <title>UnCoverIt</title>
+ <link href="http://zhoujj2013.github.io/" rel="self"/>
+ <link href="http://zhoujj2013.github.io"/>
+ <updated>2013-10-24T15:02:21+08:00</updated>
+ <id>http://zhoujj2013.github.io</id>
+ <author>
+   <name>Zhoujj</name>
+   <email>zhoujj2013@gmail.com</email>
+ </author>
+
+ 
+ <entry>
+   <title>UnCoverIt: a ghost born</title>
+   <link href="http://zhoujj2013.github.io/life/2013/10/24/uncoverit-a-ghost-born"/>
+   <updated>2013-10-24T00:00:00+08:00</updated>
+   <id>http://zhoujj2013.github.io/life/2013/10/24/uncoverit-a-ghost-born</id>
+   <content type="html">
+&lt;p&gt;Hi all, I am here.&lt;/p&gt;
+
+&lt;p&gt;In this web site, I will guide to you to understand the real idea behind the huge massive data set, such as DNA/RNA sequencing data, stock marketing data, complex social network and other kinds of data from our daily life.&lt;/p&gt;
+
+&lt;p&gt;Hope everything is better to common people.&lt;/p&gt;
+
+&lt;p&gt;Let’s go!&lt;/p&gt;
+</content>
+ </entry>
+ 
+ 
+</feed>
