@@ -1,0 +1,27 @@
+#asfasdjfl
+---
+name: ingy
+age: old
+weight: heavy
+---
+favorite colors/1sfd:
+ - red
+ - green
+ - blue
+---
+- Clark Evans
+- Oren Ben-Kiki
+- Ingy döt Net
+---
+hr:  65    # Home runs
+avg: 0.278 # Batting average
+rbi: 147   # Runs Batted In
+---
+-
+  name: Mark McGwire
+  hr:   65
+  avg:  0.278
+-
+  name: Sammy Sosa
+  hr:   63
+  avg:  0.288

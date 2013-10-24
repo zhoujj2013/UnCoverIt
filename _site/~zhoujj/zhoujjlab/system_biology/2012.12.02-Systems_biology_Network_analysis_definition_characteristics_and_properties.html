@@ -1,0 +1,185 @@
+<!doctype html>
+<head>
+	<meta charset='utf-8'>
+	<title>Network analysis: definition, characteristics and properties</title>
+</head>
+<body>
+	<h1>Network analysis: definition, characteristics and properties</h1>
+
+<h2>Definition</h2>
+
+<p>A <em>biological network</em> is any network that applies to biological systems. A network is any system with <em>sub-units</em> that are linked into <em>a whole</em>, such as species units linked into a whole <em>food web</em>. Biological networks provide a <em>mathematical analysis</em> of connections found in <em>ecological</em>, <em>evolutionary</em>, and <em>physiological studies</em>, such as <em>neural networks</em>.</p>
+
+<h2>Biology network model</h2>
+
+<ul>
+<li>Network: A linked list of interconnected nodes.</li>
+<li>Note: Chemical, miRNA, protein, cell and species etc.</li>
+<li>Edges: Biological relationships, etc., interactions, regulations, reactions, transformations, activation, inhibitions.</li>
+<li>network type: social network, informatics network etc.</li>
+</ul>
+
+<h2>Networks in biology</h2>
+
+<ul>
+<li><p>Species-species Network</p>
+
+<ul>
+<li>Tooth biofilm &amp;&amp; Interspecies collaboration</li>
+<li>S. sanguis is a normal inhabitant of the healthy human mouth, infective endocarditis;</li>
+<li>P. gingivalis is one of the bacteria that is known to cause gingivitis</li>
+</ul></li>
+<li><p>Protein-protein interaction networks</p>
+
+<ul>
+<li>Yeast Protein Interaction Network</li>
+</ul></li>
+<li><p>Gene regulatory networks (DNA-protein interaction networks)</p>
+
+<ul>
+<li>GAL gene regulation</li>
+<li>Expression network </li>
+</ul></li>
+<li><p>Metabolic networks</p>
+
+<ul>
+<li>TCA cycle</li>
+</ul></li>
+<li><p>Signaling networks</p>
+
+<ul>
+<li>A Signal Transduction Example: MAPK signal pathway</li>
+</ul></li>
+<li><p>Neuronal network</p></li>
+<li><p>Food webs</p></li>
+</ul>
+
+<h2>Network format</h2>
+
+<ul>
+<li>Matrix</li>
+<li>Graph</li>
+</ul>
+
+<h2>Network Comparisons: Properties of Large Networks</h2>
+
+<ul>
+<li><p>Global network properties: give an overall view of the network, but might not be detailed enough to capture complex topological characteristics of large networks;</p>
+
+<ol>
+<li><p>Degree distribution</p>
+
+<ul>
+<li>Definition: degree of a node is the number of edges incident to the node.</li>
+<li>Average degree of a network;</li>
+<li>Biological network degree distribution: <a href="http://en.wikipedia.org/wiki/Scale-free_network">scale-free</a> &amp;&amp; <a href="http://en.wikipedia.org/wiki/Power_law">power law</a>;</li>
+<li>The probability that a new vertex will be connected to vertex i depends on the connectivity of that vertex;</li>
+<li>Random network degree distribution: <a href="http://en.wikipedia.org/wiki/Poisson_distribution">Poisson distribution</a>;</li>
+<li>Degree distribution is not a good way to reflect the network structure.</li>
+</ul></li>
+<li><p>Average <a href="http://en.wikipedia.org/wiki/Clustering_coefficient">clustering coefficient</a></p>
+
+<ul>
+<li>Total number of possible connections for an undirected matrix or network: 1/2*k(k-1);</li>
+<li>Clustering coefficient for a specify node: 
+<ul>
+<li>Cv = | E(N(v)) |/(max possible number of edges in N(v))</li>
+<li>Where N(v) the neighborhood of v, i.e., all nodes adjacent to v.</li>
+<li>Cv can be viewed as the probability that two neighbors of v are connected.</li>
+<li>For vertex v of degree 0 or 1, by definition Cv=0.</li>
+</ul></li>
+<li>Average clustering coefficient(Ca): The average of all the node clustering coefficient: Ca = sum(Cv)/n, n: number of node in the network;</li>
+</ul></li>
+<li>Clustering spectrum
+<ul>
+<li>Distribution of clustering coefficient of different degree Node.</li>
+</ul></li>
+<li>Average Diameter
+<ul>
+<li>Distance(Diameter): the distance between two nodes is the smallest number of links that have to be traversed to get from one node to the other;</li>
+<li>Average network diameter: the average of shortest path lengths over all pairs of nodes in a network;</li>
+</ul></li>
+<li><p>Spectrum of shortest path lengths</p>
+
+<ul>
+<li>Definition: Let S(d) be the percentage of node pairs that are at distance d. The spectrum of shortest path lengths is the distribution of S(d) over d.</li>
+<li>Graph like power law.</li>
+<li>Small world
+<ol>
+<li>A small average path length;</li>
+<li>Any node can be reached within a small number of edges, 4~5 hops.</li>
+</ol></li>
+</ul></li>
+<li><p>Centrality: Quantifies the topological importance of a node (edge) in a network.</p>
+
+<ul>
+<li>Degree centrality Cd: nodes with a large number of neighbors (i.e., edges) have high centrality. Therefore we have Cd(v)=deg(v); # biological important</li>
+<li>Closeness centrality, Cc(v): nodes with short paths to all other nodes in the network have high closeness centrality;</li>
+<li>Betweenness centrality, Cb(v): Nodes (or edges) which occur in many of the shortest paths have high betweenness centrality.</li>
+</ul></li>
+</ol></li>
+<li><p>Local network properties: more detailed network descriptors which usually encompass larger number of constraints, thus reducing degrees of freedom in which the networks being compared can vary.</p>
+
+<ul>
+<li>Network motifs
+<ul>
+<li>Definition: A network motif is a small <em>over-represented</em> partial subgraph of real network;</li>
+<li>Erdos-Renyi(ER) random graphs: A graph with n nodes, Edges are added between pairs of nodes uniformly at random with same probability p.</li>
+<li>Application:
+<ul>
+<li>May provide insight into both the structure and function of the whole network;</li>
+<li>Networks of similar type share the same motifs;</li>
+<li>Motifs could reflect the evolutionary processes that generated these network classes;</li>
+</ul></li>
+</ul></li>
+<li>Graphlets
+<ul>
+<li>Definition: Graphlets are small connected induced non-isomorphic subgraphs of a large network;</li>
+<li>Graphlet frequencies: count the occurrences of all small (2 to 5 node) graphlets in a network;</li>
+<li>Relative Graphlet Frequency Distance (RGF-distance);</li>
+<li>Graphlet Degree Distribution Agreement (GDD-agreement);</li>
+</ul></li>
+</ul></li>
+<li>Biological Networks Properties
+<ul>
+<li>Power law degree distribution: Rich get richer</li>
+<li>Small World: A small average path length. Mean shortest node-to-node path</li>
+<li>Robustness: Resilient and have strong resistance to failure on random attacks and vulnerable to targeted attacks
+<ul>
+<li>Attack Tolerance;</li>
+</ul></li>
+<li>Hierarchical Modularity: A large clustering coefficient, How many of a node’s neighbors are connected to each other
+<ul>
+<li>PPI network;</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h2>Network topology</h2>
+
+<ul>
+<li>Definition: Arrangement of elements in network;</li>
+<li>Direction &amp; Group</li>
+</ul>
+
+<h2>Summary</h2>
+
+<ul>
+<li>Properties to describe the complex network;</li>
+<li>Network motif and Graphlet reflect local network;</li>
+<li>Topology of network;</li>
+<li>Some network model: EA model, BA model, scale-free network.</li>
+</ul>
+
+<h2>Further reading</h2>
+
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Scale-free_network">scale-free</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Power_law">power law</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Poisson_distribution">Poisson distribution</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Clustering_coefficient">clustering coefficient</a></li>
+</ul>
+
+</body>
+<div> 2013-01-25 20:26:07 </div>
+</html>

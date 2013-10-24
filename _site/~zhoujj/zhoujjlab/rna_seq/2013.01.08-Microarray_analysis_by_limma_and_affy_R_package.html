@@ -1,0 +1,174 @@
+<!doctype html>
+<head>
+	<meta charset='utf-8'>
+	<title>Microarray analysis by limma and affy R package</title>
+</head>
+<body>
+	<h1>Microarray analysis by limma and affy R package</h1>
+
+<h2>Microarray wikipedia</h2>
+
+<p>A DNA microarray (also commonly known as DNA chip or biochip) is a collection of microscopic DNA spots attached to a solid surface. Scientists use DNA microarrays to measure the expression levels of large numbers of genes simultaneously or to genotype multiple regions of a genome. Each DNA spot contains picomoles (10−12 moles) of a specific DNA sequence, known as probes (or reporters or oligos). These can be a short section of a gene or other DNA element that are used to hybridize a cDNA or cRNA (also called anti-sense RNA) sample (called target) under high-stringency conditions. Probe-target hybridization is usually detected and quantified by detection of fluorophore-, silver-, or chemiluminescence-labeled targets to determine relative abundance of nucleic acid sequences in the target. <em><a href="http://en.wikipedia.org/wiki/DNA_microarray">Link 1</a></em></p>
+
+<h2>Microarray company</h2>
+
+<ul>
+<li><a href="http://www.illumina.com/applications/genotyping.ilmn">Illumina</a></li>
+<li><a href="http://www.agilent.com">Agilent</a></li>
+<li><a href="http://www.affymetrix.com">Affymetrix</a></li>
+</ul>
+
+<h2>Analysis pipline</h2>
+
+<ul>
+<li>Importing and accessing probe-level data; </li>
+<li>Exploratory Analysis/Quality Assessment;</li>
+<li>Preprocessing
+<ul>
+<li>Background adjustment</li>
+<li>Normalization</li>
+<li>Summarization</li>
+</ul></li>
+<li>Quality assessment; </li>
+<li>Differential expression; </li>
+<li>Functional analysis of large gene lists; </li>
+</ul>
+
+<h2>R package</h2>
+
+<ul>
+<li><a href="http://www.bioconductor.org/packages/2.12/bioc/html/limma.html">limma</a></li>
+<li><a href="http://www.bioconductor.org/packages/2.11/bioc/html/affy.html">affy</a></li>
+<li><a href="http://www.bioconductor.org/packages/2.11/bioc/html/affyPLM.html">affyPLM</a></li>
+<li><a href="http://www.bioconductor.org/packages/2.6/data/experiment/html/affydata.html">affydata</a></li>
+<li><a href="http://www.bioconductor.org/packages/2.10/bioc/html/tkWidgets.html">tkWidgets</a></li>
+</ul>
+
+<h2>Analysis .CEL(probe level data set) file by "affy"</h2>
+
+<h3>read in .CEL file</h3>
+
+<p>Create a directory, move all the relevant CEL files to that directory</p>
+
+<p>If using linux/unix, start R in that directory.</p>
+
+<p>If using the Rgui for Microsoft Windows make sure your working directory contains
+the Cel files (use \File -> Change Dir" menu item).</p>
+
+<p>Load the library.</p>
+
+<pre><code>R&gt; library(affy) ##load the affy package
+</code></pre>
+
+<p>Read in the data and create an expression, using RMA for example.</p>
+
+<pre><code>R&gt; Data=ReadAffy() ##read data in working directory
+</code></pre>
+
+<h3>Normalization</h3>
+
+<p>load sample data: Dilution</p>
+
+<pre><code>R&gt; source("http://bioconductor.org/biocLite.R")
+R&gt; biocLite("affydata")
+R&gt; library(affydata)
+R&gt; data(Dilution)
+</code></pre>
+
+<p>Normalization</p>
+
+<pre><code>R&gt; eset &lt;- rma(Dilution) 
+#This command use rma normalized method. or you can use:
+R&gt; eset &lt;- mas5(Data)
+</code></pre>
+
+<p>Write out normalization gene expression result</p>
+
+<pre><code>R&gt; write.exprs(eset, file="mydata.txt")
+</code></pre>
+
+<h3>Exploratory Analysis/Quality Assessment</h3>
+
+<p>check data structure</p>
+
+<pre><code>R&gt; attributes(eset)
+</code></pre>
+
+<p>Spatial Image</p>
+
+<p>Histograms / Density plot</p>
+
+<pre><code>R&gt; png("histgrams.png")
+R&gt; hist(eset[,1:2])
+R&gt; dev.off()
+</code></pre>
+
+<p>MAplot</p>
+
+<pre><code>R&gt; png("maplot.png")
+R&gt; MAplot(eset[,c(1:2)], pairs=TRUE, plot.method="smoothScatter")
+R&gt; dev.off()
+</code></pre>
+
+<h3>Differential expressed gene detected by other software</h3>
+
+<p># cont.</p>
+
+<h3>Function annotation by other software</h3>
+
+<p># cont.</p>
+
+<h2>Analysis .gpr file by "limma"</h2>
+
+<h3>load library and read in .gpr file</h3>
+
+<p>R command:</p>
+
+<pre><code>R&gt; library(limma)
+R&gt; targets &lt;- readTargets("targets.txt")
+</code></pre>
+
+<p>"targets.txt" should prepare like this:</p>
+
+<pre><code>FileName
+GSM798892.gpr
+GSM798893.gpr
+GSM798894.gpr
+GSM798895.gpr
+GSM798896.gpr
+GSM798897.gpr
+</code></pre>
+
+<h3>Normalization</h3>
+
+<p>Set up a filter so that any spot with a flag of -99 or less gets zero weight.</p>
+
+<pre><code>&gt; f &lt;- function(x) as.numeric(x$Flags &gt; -99)
+</code></pre>
+
+<p>Normalize</p>
+
+<pre><code># read in data 
+RG &lt;- read.maimages(targets, source="genepix", wt.fun=f, columns=list(Rf='F635 Median',Gf='F635 Median', Rb = 'B635 Median', Gb='B635 Median'))
+# background correction
+RGb &lt;- backgroundCorrect(RG, method="subtract")
+# quantile normalization
+MA.q &lt;- normalizeBetweenArrays(RGb, method="quantile")
+</code></pre>
+
+<p>QC</p>
+
+<pre><code># MA plot to check the quality
+plotMA(RG)
+</code></pre>
+
+<p># cont.</p>
+
+<p>Ref:</p>
+
+<p><a href="http://www.sbforum.org/cmsimages/presentations/BioC.pdf">http://www.sbforum.org/cmsimages/presentations/BioC.pdf</a>
+<a href="http://shiulab.plantbiology.msu.edu/wiki/index.php/Affymetrix_processing">http://shiulab.plantbiology.msu.edu/wiki/index.php/Affymetrix_processing</a></p>
+
+</body>
+<div> 2013-01-25 20:26:07 </div>
+</html>

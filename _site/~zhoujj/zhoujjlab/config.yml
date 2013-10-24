@@ -1,0 +1,36 @@
+# 
+# config file for create html page, format YAML: http://yaml.org/spec/1.1/
+#
+---
+# index title
+index_title: zhoujj'lab
+
+# css directory _prefix_xxxx.css mean the file is active, prefix should equal to a issue.
+css: ./stylecss
+
+# directory output
+outdir: ./
+
+# html template file, the same as css setting
+template: ./template
+
+# setting specify index.html template file name
+index: index_template.html
+
+# issue which will covert markdown file to html file
+content:
+ - [MSc research project, ./MSc_research_project]
+ - [Data collection method and tools, ./data_collection]
+ - [System biology, ./system_biology]
+ - [Exploring genetic interaction, ./exploring_genetic_interaction]
+ - [RNA-seq data analysis, ./rna_seq]
+ - [Algorithm for biology, ./algorithm]
+ - [Network analysis, ./network_analysis]
+ - [Annotation, ./Annotation]
+ - [perl&&python&&C, ./perl_python_C]
+ - [web programming, ./web_programming]
+ - [Linux, ./Linux]
+ - [Unknown, ./unknown]
+
+# log file that record the lastest update
+log: ./log

@@ -1,0 +1,107 @@
+# log file for pblog, you can load the file by YAML load function
+# Data structure:
+# $hash{issue_name}{md_file_name}->(array)
+---
+./MSc_research_project:
+  ./MSc_research_project/2013.02.01-Mapping_genetic_interaction_of_yeast_to_protein_complexes_and_functional_pathways.md:
+    - Mapping genetic interaction of yeast to protein complexes and functional pathways
+    - 3213
+    - 1360832607
+    - 2013-02-14 17:03:27
+    - ./MSc_research_project/2013.02.01-Mapping_genetic_interaction_of_yeast_to_protein_complexes_and_functional_pathways.html
+    - update
+  ./MSc_research_project/2013.02.01-Mapping_protein_interaction_of_yeast_to_protein_complexes_and_functional_pathways.md:
+    - Mapping protein interaction of yeast to protein complexes and functional pathways
+    - 1895
+    - 1360832494
+    - 2013-02-14 17:01:34
+    - ./MSc_research_project/2013.02.01-Mapping_protein_interaction_of_yeast_to_protein_complexes_and_functional_pathways.html
+    - unchange
+./data_collection:
+  ./data_collection/2012.12.13-Gene_id_converter_collection.md:
+    - Gene id converter collection
+    - 851
+    - 1359116767
+    - 2013-01-25 20:26:07
+    - ./data_collection/2012.12.13-Gene_id_converter_collection.html
+    - unchange
+./rna_seq:
+  ./rna_seq/2013.01.02-Inferring_gene_expression_network_based_on_RNA-seq_or_Microarray_data.md:
+    - seq or Microarray data
+    - 3810
+    - 1359116767
+    - 2013-01-25 20:26:07
+    - ./rna_seq/2013.01.02-Inferring_gene_expression_network_based_on_RNA-seq_or_Microarray_data.html
+    - unchange
+  ./rna_seq/2013.01.08-Microarray_analysis_by_limma_and_affy_R_package.md:
+    - Microarray analysis by limma and affy R package
+    - 4446
+    - 1359116767
+    - 2013-01-25 20:26:07
+    - ./rna_seq/2013.01.08-Microarray_analysis_by_limma_and_affy_R_package.html
+    - unchange
+  ./rna_seq/2013.01.09-Sequencing_QC_and_data_process.md:
+    - Sequencing QC and data process
+    - 3102
+    - 1359116767
+    - 2013-01-25 20:26:07
+    - ./rna_seq/2013.01.09-Sequencing_QC_and_data_process.html
+    - unchange
+  ./rna_seq/2013.01.09-Some_examples_about_re-engineering_gene_regulatory_network_based_on_expression_data.md:
+    - engineering gene regulatory network based on expression data
+    - 3463
+    - 1359116767
+    - 2013-01-25 20:26:07
+    - ./rna_seq/2013.01.09-Some_examples_about_re-engineering_gene_regulatory_network_based_on_expression_data.html
+    - unchange
+./system_biology:
+  ./system_biology/2012.12.02-Systems_biology_Network_analysis_definition_characteristics_and_properties.md:
+    - Systems biology Network analysis definition characteristics and properties
+    - 6261
+    - 1359116767
+    - 2013-01-25 20:26:07
+    - ./system_biology/2012.12.02-Systems_biology_Network_analysis_definition_characteristics_and_properties.html
+    - unchange
+  ./system_biology/2012.12.02-Systems_biology_Network_analysis_fundamental_knowledge.md:
+    - Systems biology Network analysis fundamental knowledge
+    - 1792
+    - 1359116767
+    - 2013-01-25 20:26:07
+    - ./system_biology/2012.12.02-Systems_biology_Network_analysis_fundamental_knowledge.html
+    - unchange
+  ./system_biology/2012.12.02-Systems_biology_introdunction.md:
+    - Systems biology introdunction
+    - 2385
+    - 1359362836
+    - 2013-01-28 16:47:16
+    - ./system_biology/2012.12.02-Systems_biology_introdunction.html
+    - unchange
+  ./system_biology/2012.12.03-Systems_biology_Disease_Network_Analysis.md:
+    - Systems biology Disease Network Analysis
+    - 1910
+    - 1359116767
+    - 2013-01-25 20:26:07
+    - ./system_biology/2012.12.03-Systems_biology_Disease_Network_Analysis.html
+    - unchange
+  ./system_biology/2012.12.03-Systems_biology_Flux_balance_analysis.md:
+    - Systems biology Flux balance analysis
+    - 2614
+    - 1359116767
+    - 2013-01-25 20:26:07
+    - ./system_biology/2012.12.03-Systems_biology_Flux_balance_analysis.html
+    - unchange
+  ./system_biology/2012.12.04-Systems_biology_Microbiome_Microbiota_analysis.md:
+    - Systems biology Microbiome Microbiota analysis
+    - 2225
+    - 1359116767
+    - 2013-01-25 20:26:07
+    - ./system_biology/2012.12.04-Systems_biology_Microbiome_Microbiota_analysis.html
+    - unchange
+./unknown:
+  ./unknown/2013.01.30-Simple_test_report_of_compress_softwares_for_short_read_alignment.md:
+    - Simple test report of compress softwares for short read alignment
+    - 2656
+    - 1359696961
+    - 2013-02-01 13:36:01
+    - ./unknown/2013.01.30-Simple_test_report_of_compress_softwares_for_short_read_alignment.html
+    - unchange

@@ -1,0 +1,112 @@
+<!doctype html>
+<head>
+	<meta charset='utf-8'>
+	<title>Inferring gene expression network based on RNA-seq or Micro-array data</title>
+</head>
+<body>
+	<h1>Inferring gene expression network based on RNA-seq or Micro-array data</h1>
+
+<h2>Synopsis</h2>
+
+<p><a href="http://en.wikipedia.org/wiki/Gene_regulatory_network">Gene regulatory network, wikipedia</a></p>
+
+<h2>Data source</h2>
+
+<ul>
+<li>Single gene expression data;</li>
+<li>Time series gene expression data;</li>
+<li>Perturbation(gene knockout, chemical perturbation or virus infection) gene expression data;</li>
+<li>Drug effect expression data;</li>
+</ul>
+
+<h2>Network reconstruction method</h2>
+
+<ul>
+<li>Pearson's linear correlation coefficient &amp; Hierarchical clustering;</li>
+<li>Bayesian conditional probability tables;</li>
+<li>Mutual information(Information-theoretic approaches);</li>
+<li>Ordinary differential equations.</li>
+</ul>
+
+<h3>Transcriptional network re-construction software</h3>
+
+<ul>
+<li><p>Base on clustering</p>
+
+<ul>
+<li>Cluster 3.0  <em><a href="http://bonsai.hgc.jp/~mdehoon/software/cluster/software.htm#ctv">1</a></em>, <em><a href="http://bioinformatics.oxfordjournals.org/content/21/suppl_1/i159.full.pdf+html">3</a></em>;</li>
+<li>STEM <em><a href="http://www.cs.cmu.edu/~jernst/stem/">2</a></em> (integrate HMM algorithm to infer co-express);</li>
+</ul></li>
+<li><p>Bayesian Network</p>
+
+<ul>
+<li>Banjo <em><a href="http://www.cs.duke.edu/~amink/software/banjo/">11</a></em>;</li>
+<li>Bayes Net Toolbox <em><a href="http://compbio.cs.huji.ac.il/LibB/programs.html#GenInstance">12</a></em>, <em><a href="https://code.google.com/p/bnt/">13</a></em>;</li>
++ 
+</ul></li>
+<li><p>Mutual information</p>
+
+<ul>
+<li>ARACNE <em><a href="http://wiki.c2b2.columbia.edu/califanolab/index.php/Software/ARACNE">10</a></em>;</li>
+</ul></li>
+<li><p>Ordinary differential equations</p>
+
+<ul>
+<li>NIR <em><a href="http://dibernardo.tigem.it/wiki/index.php/Network_Inference_by_Reverse-engineering_NIR">5</a></em>;</li>
+<li>TSNI <em><a href="http://dibernardo.tigem.it/wiki/index.php/Time_Series_Network_Identification_TSNI">6</a></em>, <em><a href="http://www.seas.ucla.edu/~liaoj/download.html">9</a></em>;</li>
+</ul></li>
+<li><p>Integrated method</p>
+
+<ul>
+<li>DREM 2.0 <em><a href="http://www.sb.cs.cmu.edu/drem/">4</a></em>;</li>
+<li>Inferelator <em><a href="http://err.bio.nyu.edu/inferelator/">7</a></em>, <em><a href="http://genomebiology.com/2006/7/5/R36">8</a></em>;</li>
+</ul></li>
+<li><p>Others</p>
+
+<ul>
+<li>Killer <em><a href="http://cogito-b.ml.cmu.edu/keller/">14</a></em>;</li>
+<li>ANOVA <em><a href="http://www2.bio.ifi.lmu.de/~kueffner/anova.tar.gz">15</a></em>;</li>
+</ul></li>
+</ul>
+
+<h2>Reviews about Network reconstruction</h2>
+
+<ol>
+<li><a href="http://www.the-dream-project.org/">Dialogue for Reverse Engineering Assessments and Methods</a></li>
+<li><a href="https://www.dropbox.com/s/7h9a5rh7ea5cggr/Integrating_multiple_evidence_sources_to_predict_transcription_factor_binding_in_the_human_genome_Genome-Res.-2010-Ernst-526-36.pdf">Wisdom of crowds for robust gene network inference</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Gene_regulatory_network">Gene regulatory network, wikipedia</a></li>
+</ol>
+
+<h2>Some examples</h2>
+
+<p>[Some examples about re-engineering gene regulatory network based on expression data][24]</p>
+
+<p>Ref:</p>
+
+<p><a href="http://www.graphviz.org/Documentation.php">http://www.graphviz.org/Documentation.php</a></p>
+
+<p><a href="http://rwiki.sciviews.org/doku.php?id=packages:cran:catnet">http://rwiki.sciviews.org/doku.php?id=packages:cran:catnet</a></p>
+
+<p><a href="http://dream.broadinstitute.org/">http://dream.broadinstitute.org/</a></p>
+
+<p><a href="http://genepattern.broadinstitute.org/gp/pages/index.jsf">http://genepattern.broadinstitute.org/gp/pages/index.jsf</a></p>
+
+<p><a href="http://cran.r-project.org/web/packages/catnet/index.html">http://cran.r-project.org/web/packages/catnet/index.html</a></p>
+
+<p>Last updated: Jan. 9, 2013</p>
+
+<ul>
+<li>http://bioinformatics.oxfordjournals.org/content/28/10/1376.full</li>
+<li>http://bib.oxfordjournals.org/content/4/3/228.abstract</li>
+<li>http://bioinformatics.oxfordjournals.org/content/22/20/2523.short</li>
+<li>http://bib.oxfordjournals.org/content/8/2/109.full</li>
+<li>http://www.nature.com/msb/journal/v3/n1/full/msb4100120.html</li>
+<li>http://rsfs.royalsocietypublishing.org/content/1/6/857.full.pdf</li>
+<li>http://www-users.cselabs.umn.edu/classes/Spring-2011/csci8980-mbds/slides/Varun_CSci8980_presentation_casestudy_grn_copyfinal.pdf</li>
+<li>http://www.mybiosoftware.com/</li>
+<li>http://www.nature.com/nmeth/journal/v9/n8/full/nmeth.2016.html</li>
+</ul>
+
+</body>
+<div> 2013-01-25 20:26:07 </div>
+</html>

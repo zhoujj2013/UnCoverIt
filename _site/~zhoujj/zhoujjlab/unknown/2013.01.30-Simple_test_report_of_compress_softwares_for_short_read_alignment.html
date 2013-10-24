@@ -1,0 +1,106 @@
+<!doctype html>
+<head>
+<meta charset='utf-8'>
+<title>Simple test report of compress software for short-read alignment result</title>
+<meta http-equiv="Content-Language" content="English" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="../stylecss/style.css" media="screen" />
+</head>
+<body>
+	<h1 id="simpletestreportofcompresssoftwareforshort-readalignmentresult">Simple test report of compress software for short-read alignment result</h1>
+
+<h2 id="software">software</h2>
+
+<ul>
+<li><a href="https://bitbucket.org/ajitsb/saitrandomaccess/downloads">SAITRandomAccess</a>;</li>
+<li><a href="http://www.ebi.ac.uk/ena/about/cram_toolkit">CRAM</a> developed by EBI;</li>
+</ul>
+
+<h2 id="someweakgoodpiont">Some weak/good piont</h2>
+
+<ul>
+<li><p>SAITRandomAccess</p>
+
+<ul>
+<li>Don't support paired end reads alignment result. Paired-end sequencing is wildly use now. If you use paired end reads result, you will get error: " *** glibc detected <em>*</em> ./RandomAccessEnc: corrupted double-linked list: 0x083fad08 *** ";</li>
+<li>Only support sam file. Many aligner output the bam to save storage. It unreasonable to limit the file format;</li>
+<li>The software package should include test data set and explain the specify requirements of input/output files such as only single mapping result;</li>
+<li>When user use bam file as input file, the program give any error messages.</li>
+<li>When the chromosome name of sam file are not corresponding to the reference fa file, it also don't give a error message and just running until you stop the process;</li>
+<li>when the sam file only contain reads mapped to one chromosome, I use the whole genome fasta file as reference, ./RandomAccessEnc just running, without any result and error messages. I only success run RandomAccessEnc based one chromosome fasta file;</li>
+<li>when RandomAccessEnc compress the sam file, it almost copy reference fasta file to another file and create another *.aux file. it's not efficiency to do that.</li>
+<li>use decode program to retrieve the information from *.enc file, the output file format without explanation. </li>
+</ul></li>
+<li><p>cram</p>
+
+<ul>
+<li>it's written in java and error messages can guide me to complete the compress and decompress steps;</li>
+<li>Regarding to the retrieve result, I check it with samtool and find that the reads information lost the quality information and the original ID has changed to be a number;</li>
+</ul></li>
+</ul>
+
+<h2 id="comparisonofefficiency">Comparison of efficiency</h2>
+
+<p>Test data(741M): <a href="ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data/NA12878/alignment/NA12878.chrom11.ILLUMINA.bwa.CEU.low_coverage.20120522.bam">ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data/NA12878/alignment/NA12878.chrom11.ILLUMINA.bwa.CEU.low_coverage.20120522.bam</a></p>
+
+<table>
+<caption>Compress/decompress time</caption>
+<col />
+<col />
+<thead>
+</thead>
+<tbody>
+<tr>
+	<td>software</td>
+	<td>compress time</td>
+	<td>decompress time</td>
+</tr>
+<tr>
+	<td>SAITRandomAccess</td>
+	<td>3m7.985s</td>
+	<td>4m26.988s</td>
+</tr>
+<tr>
+	<td>CRAM</td>
+	<td>5m3.405s</td>
+	<td>1m3.945s</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<caption>Storage usage</caption>
+<col />
+<col />
+<thead>
+</thead>
+<tbody>
+<tr>
+	<td>software</td>
+	<td>before compress</td>
+	<td>after compress</td>
+</tr>
+<tr>
+	<td>SAITRandomAccess</td>
+	<td>3.3G(*.sam)</td>
+	<td>1.5G(*.aux)+341M(*.enc)</td>
+</tr>
+<tr>
+	<td>CRAM</td>
+	<td>741M(*.bam)</td>
+	<td>39M</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<ul>
+<li>CRAM is better than SAITRandomAccess;</li>
+<li>SAITRandomAccess is not well designed and without light-point;</li>
+<li>All of these tow method will lost some information of origin bam/sam file.</li>
+</ul>
+
+</body>
+<div> Last updated by zhoujj: 2013-02-01 13:36:01 </div>
+</html>

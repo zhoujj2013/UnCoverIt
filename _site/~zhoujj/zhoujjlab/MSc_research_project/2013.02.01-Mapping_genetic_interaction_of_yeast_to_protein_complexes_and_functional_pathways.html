@@ -1,0 +1,196 @@
+<!doctype html>
+<head>
+<meta charset='utf-8'>
+<title>Mapping genetic interaction of yeast to protein complex and functional pathway</title>
+<meta http-equiv="Content-Language" content="English" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="../stylecss/style.css" media="screen" />
+</head>
+<body>
+	<h1 id="mappinggeneticinteractionofyeasttoproteincomplexandfunctionalpathway">Mapping genetic interaction of yeast to protein complex and functional pathway</h1>
+
+<h2 id="background">Background</h2>
+
+<ul>
+<li>Positive interaction and negative interaction tend to be group into pathway/complex or between pathway and complex.<span class="markdowncitation"> (<a href="#1">1</a>, <span class="locator">1</span>)</span></li>
+<li>Positive interaction and negative interaction can also be grouped into metabolic pathway, FBA analysis can explain part of negative and positive interaction.<span class="markdowncitation"> (<a href="#2">2</a>, <span class="locator">2</span>)</span></li>
+<li>Mapping genetic interaction into groups is the fundamental to provide insight into the istribution and monochromaticity of genetic interactions between functional groups.<span class="markdowncitation"> (<a href="#2">2</a>, <span class="locator">2</span>)</span><span class="markdowncitation"> (<a href="#3">3</a>, <span class="locator">3</span>)</span></li>
+</ul>
+
+<h2 id="methodology">Methodology</h2>
+
+<h3 id="datacollection">Data collection</h3>
+
+<ul>
+<li>Download curated data from SGD website <a href="http://www.yeastgenome.org/download-data/curation">download</a>;</li>
+<li>Download the interaction data from <a href="http://thebiogrid.org/">BioGrid</a><span class="markdowncitation"> (<a href="#4">4</a>, <span class="locator">4</span>)</span>;</li>
+<li>Download the pathway interaction data from <a href="http://www.kegg.jp/kegg/pathway.html">KEGG PATHWAY</a> and I developed a program to get the gene belong to every pathway of yeast through the <a href="http://www.kegg.jp/kegg/rest/keggapi.html">REST</a> service. <a href="https://github.com/zhoujj2013/CBAKit/KEGGrest">download the program</a></li>
+<li>Download the protein complex data from multi-source<span class="markdowncitation"> (<a href="#1">1</a>, <span class="locator">1</span>)</span>,<span class="markdowncitation"> (<a href="#5">5</a>, <span class="locator">5</span>)</span>,<span class="markdowncitation"> (<a href="#6">6</a>, <span class="locator">6</span>)</span>,<span class="markdowncitation"> (<a href="#7">7</a>, <span class="locator">7</span>)</span>,<span class="markdowncitation"> (<a href="#8">8</a>, <span class="locator">8</span>)</span>. </li>
+</ul>
+
+<h3 id="method">Method</h3>
+
+<ul>
+<li>Grouping genes into the complex and pathway directly<span class="markdowncitation"> (<a href="#1">1</a>, <span class="locator">1</span>)</span>, <span class="markdowncitation"> (<a href="#2">2</a>, <span class="locator">2</span>)</span>;</li>
+<li>Monochromatic analysis<span class="markdowncitation"> (<a href="#1">1</a>, <span class="locator">1</span>)</span>, <span class="markdowncitation"> (<a href="#2">2</a>, <span class="locator">2</span>)</span>;</li>
+</ul>
+
+<h2 id="result">Result</h2>
+
+<table>
+<caption>Genetic interaciton distribution in protein complexes and biological pathways</caption>
+<col />
+<col />
+<col />
+<thead>
+</thead>
+<tbody>
+<tr>
+	<td>GIs type</td>
+	<td>between complex</td>
+	<td>within complex</td>
+	<td>composite complex</td>
+	<td>between pathway</td>
+	<td>within pathway</td>
+	<td>composite pathway</td>
+</tr>
+<tr>
+	<td>Synthetic Lethality</td>
+	<td>5732</td>
+	<td>4819</td>
+	<td>4814</td>
+	<td>215</td>
+	<td>142</td>
+	<td>57</td>
+</tr>
+<tr>
+	<td>Phenotypic Suppression</td>
+	<td>1235</td>
+	<td>1038</td>
+	<td>1038</td>
+	<td>120</td>
+	<td>65</td>
+	<td>17</td>
+</tr>
+<tr>
+	<td>Phenotypic Enhancement</td>
+	<td>1627</td>
+	<td>1473</td>
+	<td>1462</td>
+	<td>142</td>
+	<td>139</td>
+	<td>67</td>
+</tr>
+<tr>
+	<td>Dosage Rescue</td>
+	<td>1384</td>
+	<td>1294</td>
+	<td>1294</td>
+	<td>54</td>
+	<td>31</td>
+	<td>6</td>
+</tr>
+<tr>
+	<td>Synthetic Haploinsufficiency</td>
+	<td>150</td>
+	<td>148</td>
+	<td>148</td>
+	<td>0</td>
+	<td>0</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>Negative Genetic</td>
+	<td>26962</td>
+	<td>20428</td>
+	<td>20426</td>
+	<td>2581</td>
+	<td>206</td>
+	<td>55</td>
+</tr>
+<tr>
+	<td>Synthetic Rescue</td>
+	<td>1741</td>
+	<td>1483</td>
+	<td>1483</td>
+	<td>57</td>
+	<td>37</td>
+	<td>6</td>
+</tr>
+<tr>
+	<td>Dosage Lethality</td>
+	<td>261</td>
+	<td>225</td>
+	<td>225</td>
+	<td>6</td>
+	<td>3</td>
+	<td>3</td>
+</tr>
+<tr>
+	<td>Positive Genetic</td>
+	<td>6451</td>
+	<td>4906</td>
+	<td>4906</td>
+	<td>1027</td>
+	<td>136</td>
+	<td>30</td>
+</tr>
+<tr>
+	<td>Synthetic Growth Defect</td>
+	<td>7508</td>
+	<td>5884</td>
+	<td>5881</td>
+	<td>125</td>
+	<td>117</td>
+	<td>32</td>
+</tr>
+<tr>
+	<td>Dosage Growth Defect</td>
+	<td>245</td>
+	<td>186</td>
+	<td>186</td>
+	<td>4</td>
+	<td>3</td>
+	<td>0</td>
+</tr>
+</tbody>
+</table>
+
+<p>+ There are 189,692 genetic interaction, about 125,000 are negative and 32,000 are positive interactions;
++ About half of the positive/negative genetic interactions can group into protein complexes;
++ Only a few genetic interactions can group into biological pathways;
++ Many genetic interactions can't map to protein complexes and pathways;
++ Maybe we can use the protein complexes information to assist genetic interaction mapping to pathway.</p>
+
+<h2 id="somepuzzlethings">Some puzzle things</h2>
+
+<ul>
+<li>What is term "Monochromatic analysis" means?</li>
+<li>Is complex-complex interaction analysis meaningful?</li>
+</ul>
+
+<div class="bibliography">
+<hr />
+<p>Bibliography</p>
+
+<div id="1"><p>[1] <span class="item">Baryshnikova, Anastasia, et al. "Quantitative analysis of fitness and genetic interactions in yeast on a genome scale." Nature methods 7.12 (2010): 1017-1024.</span></p></div>
+
+<div id="2"><p>[2] <span class="item">Szappanos, Balázs, et al. "An integrated approach to characterize genetic interactionnetworks in yeast metabolism." Nature genetics 43.7 (2011): 656-662.</span></p></div>
+
+<div id="3"><p>[3] <span class="item">Dixon, Scott J., et al. "Systematic mapping of genetic interaction networks." Annual review of genetics 43 (2009): 601-625.</span></p></div>
+
+<div id="4"><p>[4] <span class="item">Chatr-aryamontri, Andrew, et al. "The BioGRID interaction database: 2013 update." Nucleic Acids Research 41.D1 (2013): D816-D823.</span></p></div>
+
+<div id="5"><p>[5] <span class="item">http://www.yeastgenome.org/cgi-bin/GO/goSlimMapper.pl</span></p></div>
+
+<div id="6"><p>[6] <span class="item">Michaut, Magali, et al. "Protein complexes are central in the yeast genetic landscape." PLoS computational biology 7.2 (2011): e1001092.</span></p></div>
+
+<div id="7"><p>[7] <span class="item">Pu, Shuye, et al. "Up-to-date catalogues of yeast protein complexes." Nucleic acids research 37.3 (2009): 825-831.</span></p></div>
+
+<div id="8"><p>[8] <span class="item">Babu, Mohan, et al. "Interaction landscape of membrane-protein complexes in Saccharomyces cerevisiae." Nature (2012).</span></p></div>
+
+</div>
+
+</body>
+<div> Last updated by <a href="../../index.html">zhoujj</a>, 2013-02-14 17:47:57 </div>
+</html>

@@ -1,0 +1,123 @@
+<!doctype html>
+<head>
+	<meta charset='utf-8'>
+	<title>Flux Balance Analysis</title>
+</head>
+<body>
+	<h1>Flux Balance Analysis</h1>
+
+<h2>Concept</h2>
+
+<ul>
+<li>Flux Balance Analysis:A mathematical method for analyzing metabolism. It is a direct application of linear programming to biological systems that uses the stoichiometric coefficients for each reaction in the system as the set of constraints for the optimization.</li>
+<li><p>What is a model?</p>
+
+<ul>
+<li>"A representation of the essential aspects of an existing system(or a system to be constructed) which represents knowledge of that system in a usable form" (Evkhoff, 1974)</li>
+<li>Mathematical model vs. statistical model</li>
+</ul></li>
+<li><p>Aims</p>
+
+<ul>
+<li>Predicting knockout phenotypes</li>
+<li>Quantitative Flux Prediction</li>
+<li>Predict the effects of drugs on metabolism</li>
+<li>Many infectious disease processes involve microbial metabolic changes</li>
+</ul></li>
+</ul>
+
+<h2>Metabolic network reconstruction Method</h2>
+
+<p>Use universal reaction stoichiometries to predict network metabolic capabilities at steady state.</p>
+
+<ul>
+<li>Metabolites:</li>
+</ul>
+
+<blockquote>
+  <p>matrix[A  B  C  D]</p>
+</blockquote>
+
+<ul>
+<li>Reactions:</li>
+</ul>
+
+<blockquote>
+  <p>2A + B -> C;</p>
+  
+  <p>C -> D;</p>
+</blockquote>
+
+<ul>
+<li>Stoichiometry Vectors(matrix):</li>
+</ul>
+
+<blockquote>
+  <p>matrix[ -2  -1  1  0 ]</p>
+  
+  <p>matrix[  0  0  -1  1 ]</p>
+</blockquote>
+
+<ul>
+<li>Reversible reactions are represented by two reactions that proceed in each direction;</li>
+<li>Exchange reactions allow for fluxes from/into an infinite pool outside the system</li>
+<li>Reaction reprecentation:</li>
+</ul>
+
+<blockquote>
+  <p>dx/dt = S*V</p>
+  
+  <p>V is a vector of fluxes through each reaction</p>
+  
+  <p>Then S*V is a vector describing the change in concentration of each metabolite per unit time</p>
+</blockquote>
+
+<ul>
+<li><p>Genes to Reactions by Enzyme</p>
+
+<ul>
+<li>Expasy enzyme database</li>
+<li>EC number</li>
+</ul></li>
+<li><p>Online Metabolic Databases: KEGG</p></li>
+<li><p>Network Reconstruction</p>
+
+<ul>
+<li>Draft Reconstruction</li>
+<li>Manual Refinement: Proceed pathway by pathway
+<ul>
+<li>Identify substrate &amp; cofactor usage;</li>
+<li>Verify reaction stoichiometry &amp; charge balancing</li>
+<li>Verify reaction directionality;</li>
+<li>Assignment of reaction to cellular compartments;</li>
+<li>Develop gene-protein-reaction relationship;</li>
+</ul></li>
+<li>conversion of Network to Mathematical model
+<ul>
+<li>Mathematical representation via mass balance;</li>
+<li>Definition of systems boundaries;</li>
+<li>Biomass Reaction;</li>
+<li>Apply constraints to the system for performing FBA;</li>
+</ul></li>
+<li>Model validation</li>
+</ul></li>
+</ul>
+
+<h2>Application</h2>
+
+<ul>
+<li>Knockout Phenotype Prediction</li>
+<li>Quantitative Flux Predictions</li>
+</ul>
+
+<h2>Limitation of FBA</h2>
+
+<ul>
+<li>It does not use kinetic parameters, it cannot predict metabolite concentrations. </li>
+<li>It is only suitable for determining fluxes at steady state. </li>
+<li>Except in some modified forms, FBA does not account for regulatory effects such as activation of enzymes by protein kinases or regulation of gene expression.</li>
+</ul>
+
+</body>
+<div> 2013-01-25 20:26:07 </div>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<head>
+	<meta charset='utf-8'>
+	<title>Sequencing QC and data process</title>
+</head>
+<body>
+	<h1>Sequencing QC and data process</h1>
+
+<h2>Quality score</h2>
+
+<ul>
+<li><p>Definition</p>
+
+<p>The quality score or Q-score of a base is a measure of confidence in that base's identity. All laboratory-based sequencing methods cause occasional sequencing errors; thus, while a read appears to be a definite sequence of bases, in reality we must treat each base with a degree of uncertainty. The quality score is an expectation value of this uncertainty.</p>
+
+<p>Quality scores are expressed on a logarithmic scale, like a decibel system. The quality score, Q, is related to the probability of a sequencing error, Perror, by the following equation:
+Perror = <strong>1 / 10</strong>Q/10</p>
+
+<p>For example, a quality score of 40 (commonly expressed as "Q40") indicates a 1 / 104 = 0.01% chance of an error, and thus 99.99% confidence.</p></li>
+<li><p>Determining quality scores</p>
+
+<p>There is no a priori way to know a base's quality score. A simple heuristic method to estimate quality scores is to align a high-coverage set of reads together, perform error correction, and then count the number of errors found. Allowances should be made for a base's location on a read, as the reliability of reading machines is low in the middle of an insert. Sophisticated new methods, involving examining the parametric output of the sequencing machines, are currently in development.</p>
+
+<p>For Sanger reads, the program Phred assigns quality scores to each read, computed from the traces. At the end of a read, the trace signal tends to get weaker, creating a need for quality trimming.</p>
+
+<p>Since quality scores assigned to 454 contigs are on a different scale than Phred scores, Arachne provides a mapping tool RemapQuals to translate these scores onto a comparable scale.</p>
+
+<p>Others. <a href="http://en.wikipedia.org/wiki/Phred_quality_score">Phred quality score</a></p></li>
+<li><p>Related terms</p>
+
+<p>The aggregate quality of a sequence (such as a read or a contig) is defined as the average quality score of all bases in that sequence.</p>
+
+<p>The consensus quality at a location is the quality score of the consensus base; it represents the confidence of the consensus algorithm.</p></li>
+</ul>
+
+<h2>fastq file format</h2>
+
+<ul>
+<li><p>Definition</p>
+
+<p>A minimal FASTQ file might look like this:</p>
+
+<pre><code>@SEQ_ID
+GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT
++
+!''*((((***+))%%%++)(%%%%).1***-+*''))**55CCF&gt;&gt;&gt;&gt;&gt;&gt;CCCCCCC65
+</code></pre>
+
+<p>The original Sanger FASTQ files also allowed the sequence and quality strings to be wrapped (split over multiple lines), but this is generally discouraged as it can make parsing complicated due to the unfortunate choice of "@" and "+" as markers (these characters can also occur in the quality string).</p></li>
+</ul>
+
+<p>Ref:</p>
+
+<p><a href="http://www.broadinstitute.org/crd/wiki/index.php/Q20">http://www.broadinstitute.org/crd/wiki/index.php/Q20</a></p>
+
+<p><a href="http://en.wikipedia.org/wiki/Phred_quality_score">http://en.wikipedia.org/wiki/Phred_quality_score</a></p>
+
+<p><a href="http://en.wikipedia.org/wiki/FASTQ_format">http://en.wikipedia.org/wiki/FASTQ_format</a></p>
+
+<p><a href="http://en.wikipedia.org/wiki/List_of_file_formats#Biology">http://en.wikipedia.org/wiki/List_of_file_formats#Biology</a></p>
+
+<p>Latest update: Jan. 9, 2013</p>
+
+</body>
+<div> 2013-01-25 20:26:07 </div>
+</html>

@@ -1,0 +1,123 @@
+<!doctype html>
+<head>
+	<meta charset='utf-8'>
+	<title>Some examples about re-engineering gene regulatory network based on expression data</title>
+</head>
+<body>
+	<h1>Some examples about re-engineering gene regulatory network based on expression data</h1>
+
+<h2>Some related reviews</h2>
+
+<ol>
+<li><a href="http://www.the-dream-project.org/">Dialogue for Reverse Engineering Assessments and Methods</a></li>
+<li><a href="https://www.dropbox.com/s/7h9a5rh7ea5cggr/Integrating_multiple_evidence_sources_to_predict_transcription_factor_binding_in_the_human_genome_Genome-Res.-2010-Ernst-526-36.pdf">Wisdom of crowds for robust gene network inference</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Gene_regulatory_network">Gene regulatory network, wikipedia</a></li>
+</ol>
+
+<h2>Software for gene interaction inferring or re-engineering</h2>
+
+<ul>
+<li><a href="http://wiki.c2b2.columbia.edu/califanolab/index.php/Software/ARACNE">ARACNE</a></li>
+<li><a href="http://rwiki.sciviews.org/doku.php?id=packages:cran:catnet">catnet</a></li>
+<li><a href="http://www.montefiore.ulg.ac.be/~huynh-thu/software.html">GENIE3</a></li>
+<li>others</li>
+</ul>
+
+<h2>Examples</h2>
+
+<ul>
+<li><p>ARACNE</p>
+
+<p>If you have many gene expression microarray data or RNA-seq data, this method can work well.</p>
+
+<p>Download software:</p>
+
+<pre><code>$ wget http://wiki.c2b2.columbia.edu/califanolab/download/ARACNE2/ARACNE.src.tar.gz .
+$ tar xzvf ARACNE.src.tar.gz
+$ cd ./ARACNE
+</code></pre>
+
+<p>Prepare data: </p>
+
+<pre><code>Probe_ID        Gene_Symbol     GSM425337.CEL   GSM425338.CEL
+1415670_at      Copg            9.5180          9.6583
+1415671_at      Atp6v0d1        8.9955          9.1125
+1415672_at      Golga7          9.5823          9.6111
+</code></pre>
+
+<p>Inferring:</p>
+
+<pre><code>$ ./aracne2 -i c2c12.expr.data -p 1e-7 -e 0.15 1&gt;std.log 2&gt; err.log &amp;
+</code></pre></li>
+<li><p>GENIE3</p>
+
+<p>If you have many gene expression microarray data or RNA-seq data, this method can work well.</p>
+
+<p>Download software:</p>
+
+<pre><code>$ wget http://www.montefiore.ulg.ac.be/~huynh-thu/misc/GENIE3_R.zip
+$ unzip GENIE3_R.zip
+$ cd ./GENIE3_R
+$ R
+</code></pre>
+
+<p>Install <a href="http://en.wikipedia.org/wiki/Random_forest">randomForest</a> R <a href="http://cran.r-project.org/web/packages/randomForest/index.html">package</a>:</p>
+
+<pre><code>R&gt; install.package("randomForest")
+R&gt; library(randomForest)
+R&gt; source("genie3.R")
+</code></pre>
+
+<p>Prepare data:</p>
+
+<pre><code>"Itm2a" 4.27536 4.21628 4.42731
+"Sergef"        5.78297 5.77658 5.35783
+"Fam109a"       6.0614  5.8688  6.25398
+"Dhx9"  5.76787 5.63261 5.72688
+"Ssu72" 3.66481 3.52972 3.6411
+</code></pre>
+
+<p>Read in expression data:</p>
+
+<pre><code>R&gt; expr.matrix &lt;- read.expr.matrix("c2c12.expr.data.txt.MGI.filter.genie3.tsv", form="rows.are.genes")
+</code></pre>
+
+<p>Inferring interaction matrix:</p>
+
+<pre><code>R&gt; weight.matrix &lt;- get.weight.matrix(expr.matrix)
+</code></pre>
+
+<p>Get top XXXXX interaction:</p>
+
+<pre><code>R&gt; link.list &lt;- get.link.list(weight.matrix, report.max=100000)
+</code></pre>
+
+<p>Write out the result:</p>
+
+<pre><code>R&gt; write.table(link.list,"./c2c12.interaction.top100000.tab", quote = FALSE, sep = "\t")
+</code></pre></li>
+<li><p>catnet</p>
+
+<p>Cont.</p></li>
+<li><p>correlation method</p>
+
+<p>Cont.</p></li>
+</ul>
+
+<p>Ref:</p>
+
+<p><a href="http://www.graphviz.org/Documentation.php">http://www.graphviz.org/Documentation.php</a></p>
+
+<p><a href="http://rwiki.sciviews.org/doku.php?id=packages:cran:catnet">http://rwiki.sciviews.org/doku.php?id=packages:cran:catnet</a></p>
+
+<p><a href="http://dream.broadinstitute.org/">http://dream.broadinstitute.org/</a></p>
+
+<p><a href="http://genepattern.broadinstitute.org/gp/pages/index.jsf">http://genepattern.broadinstitute.org/gp/pages/index.jsf</a></p>
+
+<p><a href="http://cran.r-project.org/web/packages/catnet/index.html">http://cran.r-project.org/web/packages/catnet/index.html</a></p>
+
+<p>Last updated: Jan. 9, 2013</p>
+
+</body>
+<div> 2013-01-25 20:26:07 </div>
+</html>
