@@ -3,8 +3,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>UnCoverIt: a ghost born</title>
-    <meta name="description" content="Introduce UnCoverIt">
+    <title>vim设置python关键字自动补全</title>
+    <meta name="description" content="Configure vim for python auto complete">
     <meta name="author" content="Zhoujj">
 
     <!-- Enable responsive viewport -->
@@ -115,22 +115,92 @@
       <div class="content">
         
 <div class="page-header">
-  <h1>UnCoverIt: a ghost born </h1>
+  <h1>vim设置python关键字自动补全 </h1>
 </div>
 
 <div class="row-fluid post-full">
   <div class="span12">
     <div class="date">
-      <span>24 October 2013 posted by <a href="http://zhoujj2013.github.io/~zhoujj/">zhoujj</a></span>
+      <span>03 May 2014 posted by <a href="http://zhoujj2013.github.io/~zhoujj/">zhoujj</a></span>
     </div>
     <div class="content">
-      <p>Hi all, I am here.</p>
+      <p>因为自己比较喜欢在linux工作，但是又不想放弃eclipse中python强大的python自动补全功能，所以在百度上查了一下如何设置。但是这些专家们写得很难懂，让我这种非科班出身的分析员来说，实在无法理解。在此，我解释一下如何配置。</p>
 
-<p>In this web site, I will guide to you to understand the real idea behind the huge massive data set, such as DNA/RNA sequencing data, stock marketing data, complex social network and other kinds of data from our daily life.</p>
+<p>首先，我们要实现的目标：</p>
 
-<p>Hope everything is better to common people.</p>
+<ul>
+<li>
+<p>简单python关键词补全；</p>
+</li>
 
-<p>Let&#8217;s go!</p>
+<li>
+<p>python 函数补全带括号；</p>
+</li>
+
+<li>
+<p>python 模块补全；</p>
+</li>
+
+<li>
+<p>python 模块内函数，变量补全；</p>
+</li>
+
+<li>
+<p>from module import sub-module 补全；</p>
+</li>
+</ul>
+
+<p>下面简述配置步骤：</p>
+
+<ul>
+<li>下载最新的pydiction（http://www.vim.org/scripts/script.php?script_id=850）</li>
+</ul>
+
+<blockquote>
+<p>mkdir ~/.vim/after/ftplugin/</p>
+
+<p>cd ~/.vim/after/ftplugin/</p>
+
+<p>git clone https://github.com/rkulla/pydiction.git</p>
+
+<p>cp pydiction/after/ftplugin/python_pydiction.vim .</p>
+</blockquote>
+
+<p>vim自动会从~/.vim/after/ftplugin/读取配置文件，进行自动补全配置。</p>
+
+<ul>
+<li>配置~/.vimrc文件，开启自动补全</li>
+</ul>
+
+<blockquote>
+<p>vim ~/.vimrc</p>
+</blockquote>
+
+<p>添加如下两句：</p>
+
+<blockquote>
+<p>filetype plugin on</p>
+
+<p>let g:pydiction_location = &#8216;/path/to/complete-dict&#8217; #　告诉vim从这个文件查找python的关键字哈希表</p>
+
+<p>let g:pydiction_menu_height = 3</p>
+</blockquote>
+
+<p>已经成功实现功能。</p>
+
+<p>+ 增加新模块关键字</p>
+
+<p>某一些模块的关键字没有包含到默认的complete_dict中，当有新的模块时，要手动把新的模块关键字加到complete-dict文件。</p>
+
+<p>pydiction文件夹下有一个程序pydiction.py可以实现模块字添加，以添加scipy包为例：</p>
+
+<blockquote>
+<p>cd ~/.vim/after/ftplugin/pydiction/</p>
+
+<p>python ./pydiction.py scipy # 会自动保存旧的complete-dict</p>
+</blockquote>
+
+<p>PS: vim最好的编辑器了，它没有脱离根本。它能使用户自己知道自己在做什么事情，而MS office不能。</p>
     </div>
 
   
@@ -142,8 +212,8 @@
 
   
      
-    	<li><a href="/categories.html#life-ref">
-    		life <span>1</span>
+    	<li><a href="/categories.html#python-ref">
+    		python <span>1</span>
     	</a></li>
     
   
@@ -152,17 +222,35 @@
     </ul>
     
 
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/tags.html#python-ref">python <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#vim-ref">vim <span>1</span></a></li>
+    
+  
+
+
+
+    </ul>
     
 
     <hr>
     <div class="pagination">
       <ul>
       
-        <li class="prev disabled"><a>&larr; Previous</a></li>
+        <li class="prev"><a href="/life/2013/10/24/uncoverit-a-ghost-born" title="UnCoverIt: a ghost born">&larr; Previous</a></li>
       
         <li><a href="/archive.html">Archive</a></li>
       
-        <li class="next"><a href="/python/2014/05/03/python_auto_complete_vim" title="vim设置python关键字自动补全">Next &rarr;</a></li>
+        <li class="next disabled"><a>Next &rarr;</a>
       
       </ul>
     </div>
