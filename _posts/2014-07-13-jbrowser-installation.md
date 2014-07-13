@@ -32,21 +32,21 @@ _希望JBrowser就像一个播放机一样，让你听到生命的赞歌，也�
 
 + 下载及安装JBrowser，请参考（http://jbrowse.org/code/JBrowse-1.11.4/docs/tutorial/）；
 
-> # make a directory that this user can write to
+> \# make a directory that this user can write to
 > 
 > sudo mkdir /var/www/jbrowse;
 > 
 > sudo chown `whoami` /var/www/jbrowse;
 > 
-> # cd into it
+> \# cd into it
 > 
 > cd /var/www/jbrowse;
 > 
-> # fetch a JBrowse release zip file
+> \# fetch a JBrowse release zip file
 > 
 > curl -O http://jbrowse.org/releases/JBrowse-x.x.x.zip
 > 
-> # unzip it and cd into it
+> \# unzip it and cd into it
 > 
 > unzip JBrowse-x.x.x.zip
 > 
