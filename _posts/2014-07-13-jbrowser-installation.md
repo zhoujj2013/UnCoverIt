@@ -127,7 +127,7 @@ JBrowser先从主页面配置文件中读取主页的信息，再通过javascrip
 
 > [datasets.hg19] # datasets.<数据集的id>
 > 
-> url  = ?data=/zhoujj_jb/json/hg19   #?data=<相对于jbrowser根目录的相对路径，json目录下>/hg19
+> url = ?data=/zhoujj_jb/json/hg19   #?data=<相对于jbrowser根目录的相对路径，json目录下>/hg19
 > 
 > name = hg19 # 数据集的id
 > 
