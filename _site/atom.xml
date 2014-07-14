@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
  
  <title>UnCoverIt</title>
- <link href="http://zhoujj2013.github.io/" rel="self"/>
- <link href="http://zhoujj2013.github.io"/>
- <updated>2013-10-24T15:02:21+08:00</updated>
- <id>http://zhoujj2013.github.io</id>
+ <link href="http://zhoujj2013.github.io/UnCoverIt/" rel="self"/>
+ <link href="http://zhoujj2013.github.io/UnCoverIt"/>
+ <updated>2014-07-14T22:57:33+08:00</updated>
+ <id>http://zhoujj2013.github.io/UnCoverIt</id>
  <author>
    <name>Zhoujj</name>
    <email>zhoujj2013@gmail.com</email>
@@ -13,10 +13,275 @@
 
  
  <entry>
+   <title>JBrowser安装及配置</title>
+   <link href="http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/13/jbrowser-installation"/>
+   <updated>2014-07-13T00:00:00+08:00</updated>
+   <id>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/13/jbrowser-installation</id>
+   <content type="html">
+&lt;p&gt;这周有点空余时间，所以尝试着去把JBrowser配置好。从事生物信息分析已经４年了，在人们看来生物信息是个“高大上”的行当（虽然我不认为是这样），无论你的算法多么的ＮＢ，都无法离开肉眼的观察与判断。因为生物信息不是０／１的简单组合，也不是ＡＴＣＧ的简单排列，而是一首ＡＴＣＧ简单字符组成的长曲。&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;希望JBrowser就像一个播放机一样，让你听到生命的赞歌，也希望您对生命的感悟超越前人。&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;选择&lt;a href=&quot;http://jbrowse.org/&quot;&gt;JBrowser&lt;/a&gt;的原因：&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;相对UCSC Genome Browser的配置，JBrowser配置更加简单，对硬件需求低，对数据库没有要求；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;JBrowser是基于Javascript和HTML5构建的，对浏览器兼容性好；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;UCSC Genome Browser只对一些重要的物种提供数据，而对新测序物种没有相应支持，JBrowser提倡自主定制数据；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;JBrowser是&lt;a href=&quot;http://gmod.org/wiki/Main_Page&quot;&gt;GMOD&lt;/a&gt;的成员,其中GalaxybioMark等都是很成功的生物信息软件。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;JBrowser也有其致命的弱点：&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;基于Javascript和HTML5构建，信赖于浏览器处理和存储数据，很容易引起浏览器崩溃；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;所支持数据格式和格式转换支持不如UCSC；&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;下面简述配置步骤：&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;下载及安装JBrowser，请参考（http://jbrowse.org/code/JBrowse-1.11.4/docs/tutorial/）；&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table class=&quot;highlighttable&quot;&gt;&lt;tr&gt;&lt;td class=&quot;linenos&quot;&gt;&lt;div class=&quot;linenodiv&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt; 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;c&quot;&gt;# make a directory that this user can write to	&lt;/span&gt;
+sudo mkdir /var/www/jbrowse 
+sudo chown &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;whoami&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt; /var/www/jbrowse
+
+&lt;span class=&quot;c&quot;&gt;# cd into it&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /var/www/jbrowse;
+
+&lt;span class=&quot;c&quot;&gt;# fetch a JBrowse release zip file&lt;/span&gt;
+curl -O http://jbrowse.org/releases/JBrowse-x.x.x.zip
+
+&lt;span class=&quot;c&quot;&gt;# unzip it and cd into it&lt;/span&gt;
+unzip JBrowse-x.x.x.zip
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;JBrowse-x.x.x
+
+&lt;span class=&quot;c&quot;&gt;#一定要确保你用的是bash shell&lt;/span&gt;
+./setup.sh 
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;p&gt;安装成功后，你可以通过浏览器查看默认配置的基因组。&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;http://your.jbrowse.root/index.html?data=sample_data/json/volvox
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;JBrowser是如何工作的；&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;JBrowser读取json文件夹下的数据，然后根据track的信息来显示数据的。&lt;/p&gt;
+
+&lt;p&gt;json文件夹如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;path_to_json/json
+	---hg19
+	------trackList.conf  # 用来配置tracks
+	------tracks.conf     # 用来配置tracks
+	------names # 所有的名字
+	------seq  # 参考基因组存放的地方
+	------tracks # 所有要格式后的tracks数据存放的地方
+	---hg18
+	...
+	---c.elegan
+	...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;hg19/hg18/c.elegan分别代表三个不同的基因组。&lt;/p&gt;
+
+&lt;p&gt;JBrowser先从主页面配置文件中读取主页的信息，再通过javascript调用，根据trackList.conf和tracks.conf中的配置信息读取tracks的数据，然后再返回到页面，这个过程没有通过数据库，所以如果读取大文件的话会花费一些时间。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;JBrowser主页面配置；&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;下面列出一些主页面的主要配置文件：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;index.html        # 这个是主页html文件，里面都是javascript的调用
+*.css             # 是对genome browser元件的样式进行设置的
+jbrowse.conf      # 这两个是主页设置文件，一个是txt format，另外一个文件是json format，设置效果是一样的
+jbrowse_conf.json # 这两个是主页设置文件，一个是txt format，另外一个文件是json format，设置效果是一样的
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;对about页面的设置：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;[aboutThisBrowser]
+title = &lt;span class=&quot;nt&quot;&gt;&amp;lt;i&amp;gt;&lt;/span&gt;Oryza sativa&lt;span class=&quot;nt&quot;&gt;&amp;lt;/i&amp;gt;&lt;/span&gt;        # 可以用markdown来设置
+description = Browser for O. sativa transcripts and RNA-seq data, produced by the Smith laboratory at Example State University.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;对于tracks面板的设置：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;[trackSelector] # 用#注释，表示不设置
+type = Faceted
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;对于数据集的设置（对hg19数据进行开放）：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;[datasets.hg19]                    # datasets.&lt;span class=&quot;err&quot;&gt;&amp;lt;&lt;/span&gt;数据集的id&amp;gt;
+url = ?data=/zhoujj_jb/json/hg19   #?data=&lt;span class=&quot;err&quot;&gt;&amp;lt;&lt;/span&gt;相对于jbrowser根目录的相对路径，json目录下&amp;gt;/hg19
+name = hg19                        # 数据集的id
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;这些是主页面的基本设置，但是更重要的是，如何把自己的数据上传到JBrowser？这一部分的内存太多了。我先列一下，日后再补充。&lt;/p&gt;
+
+&lt;p&gt;这一部分主要包括:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;导入参考序列(reference genome)；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;导入UCSC tracks&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;导入gff2/gtf/gff3&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;导入bed文件&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;导入bam/bigwig文件&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;其它文件格式转化为jbrowser支持的格式&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>JBrowser导入参考基因组序列</title>
+   <link href="http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/13/jbrowser-import-reference-genome"/>
+   <updated>2014-07-13T00:00:00+08:00</updated>
+   <id>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/13/jbrowser-import-reference-genome</id>
+   <content type="html">
+&lt;p&gt;这个文章不好写啊！&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>vim设置python关键字自动补全</title>
+   <link href="http://zhoujj2013.github.io/UnCoverIt/python/2014/05/03/python_auto_complete_vim"/>
+   <updated>2014-05-03T00:00:00+08:00</updated>
+   <id>http://zhoujj2013.github.io/UnCoverIt/python/2014/05/03/python_auto_complete_vim</id>
+   <content type="html">
+&lt;p&gt;因为自己比较喜欢在linux工作，但是又不想放弃eclipse中python强大的python自动补全功能，所以在百度上查了一下如何设置。但是这些专家们写得很难懂，让我这种非科班出身的分析员来说，实在无法理解。在此，我解释一下如何配置。&lt;/p&gt;
+
+&lt;p&gt;首先，我们要实现的目标：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;简单python关键词补全；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;python 函数补全带括号；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;python 模块补全；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;python 模块内函数，变量补全；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;from module import sub-module 补全；&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;下面简述配置步骤：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;下载最新的pydiction（http://www.vim.org/scripts/script.php?script_id=850）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;mkdir ~/.vim/after/ftplugin/&lt;/p&gt;
+
+  &lt;p&gt;cd ~/.vim/after/ftplugin/&lt;/p&gt;
+
+  &lt;p&gt;git clone https://github.com/rkulla/pydiction.git&lt;/p&gt;
+
+  &lt;p&gt;cp pydiction/after/ftplugin/python_pydiction.vim .&lt;/p&gt;
+
+&lt;/blockquote&gt;
+
+&lt;p&gt;vim自动会从~/.vim/after/ftplugin/读取配置文件，进行自动补全配置。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;配置~/.vimrc文件，开启自动补全&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;vim ~/.vimrc&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;添加如下两句：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;filetype plugin on &lt;/p&gt;
+
+  &lt;p&gt;let g:pydiction_location = &amp;#8216;/path/to/complete-dict&amp;#8217;  #　告诉vim从这个文件查找python的关键字哈希表&lt;/p&gt;
+
+  &lt;p&gt;let g:pydiction_menu_height = 3 &lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;已经成功实现功能。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;增加新模块关键字&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;某一些模块的关键字没有包含到默认的complete_dict中，当有新的模块时，要手动把新的模块关键字加到complete-dict文件。&lt;/p&gt;
+
+&lt;p&gt;pydiction文件夹下有一个程序pydiction.py可以实现模块字添加，以添加scipy包为例：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;cd ~/.vim/after/ftplugin/pydiction/&lt;/p&gt;
+
+  &lt;p&gt;python ./pydiction.py scipy # 会自动保存旧的complete-dict&lt;/p&gt;
+
+&lt;/blockquote&gt;
+
+&lt;p&gt;PS: vim最好的编辑器了，它没有脱离根本。它能使用户自己知道自己在做什么事情，而MS office不能。&lt;/p&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
    <title>UnCoverIt: a ghost born</title>
-   <link href="http://zhoujj2013.github.io/life/2013/10/24/uncoverit-a-ghost-born"/>
+   <link href="http://zhoujj2013.github.io/UnCoverIt/life/2013/10/24/uncoverit-a-ghost-born"/>
    <updated>2013-10-24T00:00:00+08:00</updated>
-   <id>http://zhoujj2013.github.io/life/2013/10/24/uncoverit-a-ghost-born</id>
+   <id>http://zhoujj2013.github.io/UnCoverIt/life/2013/10/24/uncoverit-a-ghost-born</id>
    <content type="html">
 &lt;p&gt;Hi all, I am here.&lt;/p&gt;
 
@@ -24,7 +289,8 @@
 
 &lt;p&gt;Hope everything is better to common people.&lt;/p&gt;
 
-&lt;p&gt;Let’s go!&lt;/p&gt;
+&lt;p&gt;Let&amp;#8217;s go!&lt;/p&gt;
+
 </content>
  </entry>
  

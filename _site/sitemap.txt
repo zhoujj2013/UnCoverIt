@@ -1,12 +1,15 @@
 
-http://zhoujj2013.github.io/about.html
-http://zhoujj2013.github.io/index.html
-http://zhoujj2013.github.io/categories.html
-http://zhoujj2013.github.io/pages.html
-http://zhoujj2013.github.io/archive.html
-http://zhoujj2013.github.io/tags.html
-http://zhoujj2013.github.io/sitemap.txt
-http://zhoujj2013.github.io/rss.xml
-http://zhoujj2013.github.io/atom.xml
+http://zhoujj2013.github.io/UnCoverIt/about.html
+http://zhoujj2013.github.io/UnCoverIt/categories.html
+http://zhoujj2013.github.io/UnCoverIt/rss.xml
+http://zhoujj2013.github.io/UnCoverIt/tags.html
+http://zhoujj2013.github.io/UnCoverIt/archive.html
+http://zhoujj2013.github.io/UnCoverIt/sitemap.txt
+http://zhoujj2013.github.io/UnCoverIt/pages.html
+http://zhoujj2013.github.io/UnCoverIt/atom.xml
+http://zhoujj2013.github.io/UnCoverIt/index.html
 
-http://zhoujj2013.github.io/life/2013/10/24/uncoverit-a-ghost-born
+http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/13/jbrowser-installation
+http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/13/jbrowser-import-reference-genome
+http://zhoujj2013.github.io/UnCoverIt/python/2014/05/03/python_auto_complete_vim
+http://zhoujj2013.github.io/UnCoverIt/life/2013/10/24/uncoverit-a-ghost-born
