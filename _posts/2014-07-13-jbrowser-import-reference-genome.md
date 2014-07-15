@@ -27,4 +27,49 @@ http://genome.ucsc.edu/FAQ/FAQformat.html
 
 我详细描述一下方法１：
 
-+ 
++ 利用./bin/prepare-refseqs.pl导入fasta文件；
+
+{% highlight bash %}
+# $JB = path_to_jbrowser # 这里$JB=/var/www/jbrowser
+# 建立文件夹存在个人的JBrowser文件
+mkdir zhoujj_jb
+
+# 在JBrowser安装文件夹建立软连接
+ln -s /home/zhoujj/zhoujj_jb /var/www/jbrowser
+
+# 建立文件夹存放以hg19为参考基因组的tracks
+mkdir -p ./json/hg19
+
+# --fasta 输入文件
+# --out json文件输出文件夹
+perl $JB/bin/prepare-refseqs.pl --fasta ./hg19.fa --out ./json/hg19
+{% endhighlight %}
+
++ 利用./bin/add-json.pl添加dataset_id，这个id会显示在参考基因组选择菜单;
+
+{% highlight bash %}
+perl $JB/bin/add-json.pl '{ "dataset_id": "hg19" }' ./json/hg19/trackList.json
+{% endhighlight %}
+
++ 为基因组序列建立索引；
+
+{% highlight bash %}
+perl $JB/bin/generate-names.pl --dir ./json/hg19/ -v --sortMem 2048000000
+{% endhighlight %}
+
++ 修改JBrowser配置文件；
+
+{% highlight bash %}
+sudo vim $JB/jbrowse.conf
+# 添加以下命令
+[datasets.hg19]
+url  = ?data=zhoujj_jb/json/hg19
+name = hg19
+# 保存并退出
+{% endhighlight %}
+
+现在可以打开浏览器测试：
+http://host/jbrowser/index.html?data=zhoujj_jb/json/hg19
+
+在JBrower中，导入参考序列fasta文件、bed文件、gff3文件后，要建立基因名或者序列名字的索引，才能在浏览器中正常查看。
+
