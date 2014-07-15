@@ -4,7 +4,7 @@
  <title>UnCoverIt</title>
  <link href="http://zhoujj2013.github.io/UnCoverIt/" rel="self"/>
  <link href="http://zhoujj2013.github.io/UnCoverIt"/>
- <updated>2014-07-14T22:57:33+08:00</updated>
+ <updated>2014-07-15T17:58:11+08:00</updated>
  <id>http://zhoujj2013.github.io/UnCoverIt</id>
  <author>
    <name>Zhoujj</name>
@@ -186,7 +186,82 @@ name = hg19                        # 数据集的id
    <updated>2014-07-13T00:00:00+08:00</updated>
    <id>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/13/jbrowser-import-reference-genome</id>
    <content type="html">
-&lt;p&gt;这个文章不好写啊！&lt;/p&gt;
+&lt;p&gt;向JBrowser导入数据，首先要弄清楚输入文件的格式，再根据要求导入JBrowser。&lt;/p&gt;
+
+&lt;p&gt;从事生物信息工作，８０％的程序都是利用一些已有的生物信息分析工具完成的，所以搞清楚程序输入和输出特别重要。&lt;/p&gt;
+
+&lt;p&gt;常用生物信息数据格式，请参考（大部分生物研究材料都是英文的，如看不懂，也要慢慢看）：&lt;/p&gt;
+
+&lt;p&gt;http://genome.ucsc.edu/FAQ/FAQformat.html&lt;/p&gt;
+
+&lt;p&gt;向JBrowser导入参考序列，有三种方法：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;利用./bin/prepare-refseqs.pl导入fasta文件；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;利用./bin/prepare-refseqs.pl导入gff3文件；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;利用./bin/prepare-refseqs.pl，根据biodb-to-json.pl配置文件，从CHADO数据库中导入数据；&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;我推荐使用方法１，因为包含参考基因组和基因位置信息的gff3文件太大，导入时需要的很大的内存；另外数据要导入CHADO数据库也是一件挺复杂的事情，熟悉CHADO数据库的朋友可以使用方法３。&lt;/p&gt;
+
+&lt;p&gt;我详细描述一下方法１：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;利用./bin/prepare-refseqs.pl导入fasta文件；&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# $JB = path_to_jbrowser # 这里$JB=/var/www/jbrowser&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 建立文件夹存在个人的JBrowser文件&lt;/span&gt;
+mkdir zhoujj_jb
+
+&lt;span class=&quot;c&quot;&gt;# 在JBrowser安装文件夹建立软连接&lt;/span&gt;
+ln -s /home/zhoujj/zhoujj_jb /var/www/jbrowser
+
+&lt;span class=&quot;c&quot;&gt;# 建立文件夹存放以hg19为参考基因组的tracks&lt;/span&gt;
+mkdir -p ./json/hg19
+
+&lt;span class=&quot;c&quot;&gt;# --fasta 输入文件&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# --out json文件输出文件夹&lt;/span&gt;
+perl &lt;span class=&quot;nv&quot;&gt;$JB&lt;/span&gt;/bin/prepare-refseqs.pl --fasta ./hg19.fa --out ./json/hg19
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;利用./bin/add-json.pl添加dataset_id，这个id会显示在参考基因组选择菜单;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;perl &lt;span class=&quot;nv&quot;&gt;$JB&lt;/span&gt;/bin/add-json.pl &lt;span class=&quot;s1&quot;&gt;&amp;#39;{ &amp;quot;dataset_id&amp;quot;: &amp;quot;hg19&amp;quot; }&amp;#39;&lt;/span&gt; ./json/hg19/trackList.json
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;为基因组序列建立索引；&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;perl &lt;span class=&quot;nv&quot;&gt;$JB&lt;/span&gt;/bin/generate-names.pl --dir ./json/hg19/ -v --sortMem 2048000000
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;修改JBrowser配置文件；&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;sudo vim &lt;span class=&quot;nv&quot;&gt;$JB&lt;/span&gt;/jbrowse.conf
+&lt;span class=&quot;c&quot;&gt;# 添加以下命令&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;datasets.hg19&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;url&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ?data&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;zhoujj_jb/json/hg19
+&lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; hg19
+&lt;span class=&quot;c&quot;&gt;# 保存并退出&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;现在可以打开浏览器测试：
+http://host/jbrowser/index.html?data=zhoujj_jb/json/hg19&lt;/p&gt;
+
+&lt;p&gt;在JBrower中，导入参考序列fasta文件、bed文件、gff3文件后，要建立基因名或者序列名字的索引，才能在浏览器中正常查看。&lt;/p&gt;
+
 </content>
  </entry>
  
