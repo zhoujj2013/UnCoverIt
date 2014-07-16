@@ -5,10 +5,65 @@
         <description>UnCoverIt - Zhoujj</description>
         <link>http://zhoujj2013.github.io/UnCoverIt</link>
         <link>http://zhoujj2013.github.io/UnCoverIt</link>
-        <lastBuildDate>2014-07-16T11:55:39+08:00</lastBuildDate>
-        <pubDate>2014-07-16T11:55:39+08:00</pubDate>
+        <lastBuildDate>2014-07-16T14:40:04+08:00</lastBuildDate>
+        <pubDate>2014-07-16T14:40:04+08:00</pubDate>
         <ttl>1800</ttl>
 
+
+        <item>
+                <title>JBrowser:导入UCSC数据库基因信息数据</title>
+                <description>
+&lt;p&gt;UCSC基因组数据库中有很多有用的基因组数据，再加上这两年新加入的encode project数据，组合这些数据可以对模式物种进行深入研究。但是它不包含的刚测序的物种信息，一般来说，hg19、hg18、mouse、zera fish、fly、c.elegan和yeast的数据较为全面。&lt;/p&gt;
+
+&lt;p&gt;JBrowser提供perl脚本可以方便地把ucsc数据导入浏览器。&lt;/p&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;下载必要的数据库文件&lt;/h4&gt;
+
+&lt;p&gt;ucsc是一个大型的数据库，可以先解的其ftp目录结构：&lt;/p&gt;
+
+&lt;p&gt;hg19 ftp数据库的目录结构
+http://hgdownload.soe.ucsc.edu/goldenPath/hg19/database/&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# 建立文件夹&lt;/span&gt;
+mkdir ucsc &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;ucsc
+
+&lt;span class=&quot;c&quot;&gt;# 下载该物种数据库sql文件&lt;/span&gt;
+wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/database/trackDb.sql
+wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/database/trackDb.txt.gz
+
+&lt;span class=&quot;c&quot;&gt;# 下载refgene基因集文件，这个是ucsc特有的格式&lt;/span&gt;
+wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/database/refGene.sql
+wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/database/refGene.txt.gz
+
+&lt;span class=&quot;c&quot;&gt;# 每一个数据集包含两个文件&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ..
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;refgenejbrowser&quot;&gt;把refGene导入JBrowser&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# --in 这里是指输入文件夹&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# --track 这个的名字要与所下载文件的tracks一致&lt;/span&gt;
+perl &lt;span class=&quot;nv&quot;&gt;$JB&lt;/span&gt;/bin/ucsc-to-json.pl --in ./ucsc/ --track &lt;span class=&quot;s1&quot;&gt;&amp;#39;refGene&amp;#39;&lt;/span&gt; -out ./json/hg19/ --cssclass transcript --subfeatureClasses &lt;span class=&quot;s1&quot;&gt;&amp;#39;{&amp;quot;CDS&amp;quot;:&amp;quot;transcript-CDS&amp;quot;, &amp;quot;UTR&amp;quot;: &amp;quot;transcript-UTR&amp;quot;}&amp;#39;&lt;/span&gt; --arrowheadClass transcript-arrowhead
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;建立索引（可以选择不建立索引）&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;perl /var/www/jbrowser/bin/generate-names.pl --dir ./json/hg19/ -tracks refGene -v --sortMem 2048000000
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;其它的ucsc数据库里的tracks导入方法类似。&lt;/p&gt;
+
+&lt;p&gt;参考：
+http://gmod.org/wiki/JBrowse_Configuration_Guide&lt;/p&gt;
+
+&lt;p&gt;转载请注明出处：
+http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/jbrowser-import-ucsc-tracks/&lt;/p&gt;
+
+</description>
+                <link>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/jbrowser-import-ucsc-tracks</link>
+                <guid>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/jbrowser-import-ucsc-tracks</guid>
+                <pubDate>2014-07-16T00:00:00+08:00</pubDate>
+        </item>
 
         <item>
                 <title>JBrowser:导入bed和gff3文件</title>

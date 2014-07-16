@@ -3,8 +3,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>JBrowser导入参考基因组序列</title>
-    <meta name="description" content="Import reference genome to JBrowser">
+    <title>JBrowser:导入UCSC数据库基因信息数据</title>
+    <meta name="description" content="Import ucsc tracks to JBrowser.">
     <meta name="author" content="Zhoujj">
 
     <!-- Enable responsive viewport -->
@@ -115,91 +115,61 @@
       <div class="content">
         
 <div class="page-header">
-  <h1>JBrowser导入参考基因组序列 </h1>
+  <h1>JBrowser:导入UCSC数据库基因信息数据 </h1>
 </div>
 
 <div class="row-fluid post-full">
   <div class="span12">
     <div class="date">
-      <span>13 July 2014 posted by <a href="http://zhoujj2013.github.io/~zhoujj/">zhoujj</a></span>
+      <span>16 July 2014 posted by <a href="http://zhoujj2013.github.io/~zhoujj/">zhoujj</a></span>
     </div>
     <div class="content">
       
-<p>向JBrowser导入数据，首先要弄清楚输入文件的格式，再根据要求导入JBrowser。</p>
+<p>UCSC基因组数据库中有很多有用的基因组数据，再加上这两年新加入的encode project数据，组合这些数据可以对模式物种进行深入研究。但是它不包含的刚测序的物种信息，一般来说，hg19、hg18、mouse、zera fish、fly、c.elegan和yeast的数据较为全面。</p>
 
-<p>从事生物信息工作，８０％的程序都是利用一些已有的生物信息分析工具完成的，所以搞清楚程序输入和输出特别重要。</p>
+<p>JBrowser提供perl脚本可以方便地把ucsc数据导入浏览器。</p>
 
-<p>常用生物信息数据格式，请参考（大部分生物研究材料都是英文的，如看不懂，也要慢慢看）：</p>
+<h4 id="section">下载必要的数据库文件</h4>
 
-<p>http://genome.ucsc.edu/FAQ/FAQformat.html</p>
+<p>ucsc是一个大型的数据库，可以先解的其ftp目录结构：</p>
 
-<p>向JBrowser导入参考序列，有三种方法：</p>
+<p>hg19 ftp数据库的目录结构
+http://hgdownload.soe.ucsc.edu/goldenPath/hg19/database/</p>
 
-<ol>
-  <li>
-    <p>利用./bin/prepare-refseqs.pl导入fasta文件；</p>
-  </li>
-  <li>
-    <p>利用./bin/prepare-refseqs.pl导入gff3文件；</p>
-  </li>
-  <li>
-    <p>利用./bin/prepare-refseqs.pl，根据biodb-to-json.pl配置文件，从CHADO数据库中导入数据；</p>
-  </li>
-</ol>
+<div class="highlight"><pre><code class="bash"><span class="c"># 建立文件夹</span>
+mkdir ucsc <span class="o">&amp;&amp;</span> <span class="nb">cd </span>ucsc
 
-<p>我推荐使用方法１，因为包含参考基因组和基因位置信息的gff3文件太大，导入时需要的很大的内存；另外数据要导入CHADO数据库也是一件挺复杂的事情，熟悉CHADO数据库的朋友可以使用方法３。</p>
+<span class="c"># 下载该物种数据库sql文件</span>
+wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/database/trackDb.sql
+wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/database/trackDb.txt.gz
 
-<p>我详细描述一下方法１：</p>
+<span class="c"># 下载refgene基因集文件，这个是ucsc特有的格式</span>
+wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/database/refGene.sql
+wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/database/refGene.txt.gz
 
-<ul>
-  <li>利用./bin/prepare-refseqs.pl导入fasta文件；</li>
-</ul>
-
-<div class="highlight"><pre><code class="bash"><span class="c"># $JB = path_to_jbrowser # 这里$JB=/var/www/jbrowser</span>
-<span class="c"># 建立文件夹存在个人的JBrowser文件</span>
-mkdir zhoujj_jb
-
-<span class="c"># 在JBrowser安装文件夹建立软连接</span>
-ln -s /home/zhoujj/zhoujj_jb /var/www/jbrowser
-
-<span class="c"># 建立文件夹存放以hg19为参考基因组的tracks</span>
-mkdir -p ./json/hg19
-
-<span class="c"># --fasta 输入文件</span>
-<span class="c"># --out json文件输出文件夹</span>
-perl <span class="nv">$JB</span>/bin/prepare-refseqs.pl --fasta ./hg19.fa --out ./json/hg19
+<span class="c"># 每一个数据集包含两个文件</span>
+<span class="nb">cd</span> ..
 </code></pre></div>
 
-<ul>
-  <li>利用./bin/add-json.pl添加dataset_id，这个id会显示在参考基因组选择菜单;</li>
-</ul>
+<h4 id="refgenejbrowser">把refGene导入JBrowser</h4>
 
-<div class="highlight"><pre><code class="bash">perl <span class="nv">$JB</span>/bin/add-json.pl <span class="s1">&#39;{ &quot;dataset_id&quot;: &quot;hg19&quot; }&#39;</span> ./json/hg19/trackList.json
+<div class="highlight"><pre><code class="bash"><span class="c"># --in 这里是指输入文件夹</span>
+<span class="c"># --track 这个的名字要与所下载文件的tracks一致</span>
+perl <span class="nv">$JB</span>/bin/ucsc-to-json.pl --in ./ucsc/ --track <span class="s1">&#39;refGene&#39;</span> -out ./json/hg19/ --cssclass transcript --subfeatureClasses <span class="s1">&#39;{&quot;CDS&quot;:&quot;transcript-CDS&quot;, &quot;UTR&quot;: &quot;transcript-UTR&quot;}&#39;</span> --arrowheadClass transcript-arrowhead
 </code></pre></div>
 
-<ul>
-  <li>为基因组序列建立索引；</li>
-</ul>
+<h4 id="section-1">建立索引（可以选择不建立索引）</h4>
 
-<div class="highlight"><pre><code class="bash">perl <span class="nv">$JB</span>/bin/generate-names.pl --dir ./json/hg19/ -v --sortMem 2048000000
+<div class="highlight"><pre><code class="bash">perl /var/www/jbrowser/bin/generate-names.pl --dir ./json/hg19/ -tracks refGene -v --sortMem 2048000000
 </code></pre></div>
 
-<ul>
-  <li>修改JBrowser配置文件；</li>
-</ul>
+<p>其它的ucsc数据库里的tracks导入方法类似。</p>
 
-<div class="highlight"><pre><code class="bash">sudo vim <span class="nv">$JB</span>/jbrowse.conf
-<span class="c"># 添加以下命令</span>
-<span class="o">[</span>datasets.hg19<span class="o">]</span>
-<span class="nv">url</span>  <span class="o">=</span> ?data<span class="o">=</span>zhoujj_jb/json/hg19
-<span class="nv">name</span> <span class="o">=</span> hg19
-<span class="c"># 保存并退出</span>
-</code></pre></div>
+<p>参考：
+http://gmod.org/wiki/JBrowse_Configuration_Guide</p>
 
-<p>现在可以打开浏览器测试：
-http://host/jbrowser/index.html?data=zhoujj_jb/json/hg19</p>
-
-<p>在JBrower中，导入参考序列fasta文件、bed文件、gff3文件后，要建立基因名或者序列名字的索引，才能在浏览器中正常查看。</p>
+<p>转载请注明出处：
+http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/jbrowser-import-ucsc-tracks/</p>
 
 
     </div>
@@ -249,11 +219,11 @@ http://host/jbrowser/index.html?data=zhoujj_jb/json/hg19</p>
     <div class="pagination">
       <ul>
       
-        <li class="prev"><a href="/python/2014/05/03/python_auto_complete_vim" title="vim设置python关键字自动补全">&larr; Previous</a></li>
+        <li class="prev"><a href="/bioinformatics/2014/07/15/jbrowser-import-bed-and-gff3" title="JBrowser:导入bed和gff3文件">&larr; Previous</a></li>
       
         <li><a href="/archive.html">Archive</a></li>
       
-        <li class="next"><a href="/bioinformatics/2014/07/13/jbrowser-installation" title="JBrowser安装及配置">Next &rarr;</a></li>
+        <li class="next disabled"><a>Next &rarr;</a>
       
       </ul>
     </div>
