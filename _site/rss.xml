@@ -5,13 +5,23 @@
         <description>UnCoverIt - Zhoujj</description>
         <link>http://zhoujj2013.github.io/UnCoverIt</link>
         <link>http://zhoujj2013.github.io/UnCoverIt</link>
-        <lastBuildDate>2014-07-16T16:36:35+08:00</lastBuildDate>
-        <pubDate>2014-07-16T16:36:35+08:00</pubDate>
+        <lastBuildDate>2014-07-16T17:14:02+08:00</lastBuildDate>
+        <pubDate>2014-07-16T17:14:02+08:00</pubDate>
         <ttl>1800</ttl>
 
 
         <item>
-                <title>JBrowser:导入vcf、wig和bam数据</title>
+                <title>Learn:用shell命令完成简单生物信息分析查询及统计</title>
+                <description>
+&lt;p&gt;这个是写给生物信息入门者。&lt;/p&gt;
+</description>
+                <link>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/simple-shell-command-for-bioinfo</link>
+                <guid>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/simple-shell-command-for-bioinfo</guid>
+                <pubDate>2014-07-16T00:00:00+08:00</pubDate>
+        </item>
+
+        <item>
+                <title>JBrowser:导入vcf wig和bam数据</title>
                 <description>
 &lt;h4 id=&quot;vcf-wigbam&quot;&gt;vcf, wig和bam文件的介绍&lt;/h4&gt;
 
