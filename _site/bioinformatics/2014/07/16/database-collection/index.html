@@ -3,8 +3,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>JBrowser:导入UCSC数据库基因信息数据</title>
-    <meta name="description" content="Import ucsc tracks to JBrowser.">
+    <title>Learn:生物数据库集合</title>
+    <meta name="description" content="Database collection for biological data analysis.">
     <meta name="author" content="Zhoujj">
 
     <!-- Enable responsive viewport -->
@@ -115,7 +115,7 @@
       <div class="content">
         
 <div class="page-header">
-  <h1>JBrowser:导入UCSC数据库基因信息数据 </h1>
+  <h1>Learn:生物数据库集合 </h1>
 </div>
 
 <div class="row-fluid post-full">
@@ -125,51 +125,63 @@
     </div>
     <div class="content">
       
-<p>UCSC基因组数据库中有很多有用的基因组数据，再加上这两年新加入的encode project数据，组合这些数据可以对模式物种进行深入研究。但是它不包含的刚测序的物种信息，一般来说，hg19、hg18、mouse、zera fish、fly、c.elegan和yeast的数据较为全面。</p>
+<p>生物信息数据量大，种类繁多，所以形成各种各样的生物数据库。</p>
 
-<p>JBrowser提供perl脚本可以方便地把ucsc数据导入浏览器。</p>
+<p>生物数据库之多，我们不可能把所有的数据库都掌握，只能合理利用某一些数据库。</p>
 
-<h4 id="section">下载必要的数据库文件</h4>
+<h4 id="section">主要生物信息数据库</h4>
 
-<p>ucsc是一个大型的数据库，可以先解的其ftp目录结构：</p>
+<ul>
+  <li>
+    <p>NCBI (<a href="http://www.ncbi.nlm.nih.gov/">http://www.ncbi.nlm.nih.gov/</a>)</p>
+  </li>
+  <li>
+    <p>EBI (<a href="http://www.ebi.ac.uk/">http://www.ebi.ac.uk/</a>)</p>
+  </li>
+  <li>
+    <p>DDJB (<a href="http://www.ddbj.nig.ac.jp/">http://www.ddbj.nig.ac.jp/</a>)</p>
+  </li>
+  <li>
+    <p>ENSEMBL (<a href="http://www.ensembl.org/index.html">http://www.ensembl.org/index.html</a>)</p>
+  </li>
+  <li>
+    <p>UCSC (<a href="http://genome.ucsc.edu/">http://genome.ucsc.edu/</a>)</p>
+  </li>
+</ul>
 
-<p>hg19 ftp数据库的目录结构
-http://hgdownload.soe.ucsc.edu/goldenPath/hg19/database/</p>
+<p>当然还有很多数据库，在这就不列举了。</p>
 
-<div class="highlight"><pre><code class="bash"><span class="c"># 建立文件夹</span>
-mkdir ucsc <span class="o">&amp;&amp;</span> <span class="nb">cd </span>ucsc
+<h4 id="section-1">寻找生物信息数据库</h4>
 
-<span class="c"># 下载该物种数据库sql文件</span>
-wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/database/trackDb.sql
-wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/database/trackDb.txt.gz
+<p>Oxford Journals <a href="http://nar.oxfordjournals.org/">Nucleic Acids Research</a> 每年度会收集现有的生物信息数据库，并整理到<a href="http://www.oxfordjournals.org/our_journals/nar/database/c/">Database Summary Paper Categories</a>。</p>
 
-<span class="c"># 下载refgene基因集文件，这个是ucsc特有的格式</span>
-wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/database/refGene.sql
-wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/database/refGene.txt.gz
+<p>用户可以根据自己的研究需要寻找自己想要的数据库，如果你发现你想要的数据库不在里面，那恭喜你，你可以把你想要的数据库做出来，然后发表文章了。</p>
 
-<span class="c"># 每一个数据集包含两个文件</span>
-<span class="nb">cd</span> ..
-</code></pre></div>
+<p>当然，你也可以用万能的google查寻你自己想要的数据库。</p>
 
-<h4 id="refgenejbrowser">把refGene导入JBrowser</h4>
+<h4 id="section-2">如何认识一个生物数据库</h4>
 
-<div class="highlight"><pre><code class="bash"><span class="c"># --in 这里是指输入文件夹</span>
-<span class="c"># --track 这个的名字要与所下载文件的tracks一致</span>
-perl <span class="nv">$JB</span>/bin/ucsc-to-json.pl --in ./ucsc/ --track <span class="s1">&#39;refGene&#39;</span> -out ./json/hg19/ --cssclass transcript --subfeatureClasses <span class="s1">&#39;{&quot;CDS&quot;:&quot;transcript-CDS&quot;, &quot;UTR&quot;: &quot;transcript-UTR&quot;}&#39;</span> --arrowheadClass transcript-arrowhead
-</code></pre></div>
+<p>数据库有很多，但是那个数据库才是你能用上的，或者适合你用的。在这之前，你要细心从几个方面去了解目标数据库：</p>
 
-<h4 id="section-1">建立索引（可以选择不建立索引）</h4>
+<ul>
+  <li>
+    <p>数据库存储什么类型的生物信息；</p>
+  </li>
+  <li>
+    <p>所存储的数据是否可信；</p>
+  </li>
+  <li>
+    <p>所存储的数据是否符合你的研究背景；</p>
+  </li>
+</ul>
 
-<div class="highlight"><pre><code class="bash">perl /var/www/jbrowser/bin/generate-names.pl --dir ./json/hg19/ -tracks refGene -v --sortMem 2048000000
-</code></pre></div>
+<p>如果这些都满足了，我想80%是你想要的数据库。</p>
 
-<p>其它的ucsc数据库里的tracks导入方法类似。</p>
+<h4 id="section-3">怎么使用生物信息数据库</h4>
 
-<p>参考：
-http://gmod.org/wiki/JBrowse_Configuration_Guide</p>
+<p>这方面无法写。</p>
 
-<p>转载请注明出处：
-http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/jbrowser-import-ucsc-tracks/</p>
+<p>PS: 了解一个数据库不是一件容易的事情，因为很多数据包含的信息量很大，数据内容很乱，API接口很多。</p>
 
 
     </div>
@@ -204,9 +216,9 @@ http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/jbrowser-import-
      
     	<li><a href="/tags.html#bioinformatics-ref">bioinformatics <span>7</span></a></li>
      
-    	<li><a href="/tags.html#visualization-ref">visualization <span>5</span></a></li>
+    	<li><a href="/tags.html#database-ref">database <span>1</span></a></li>
      
-    	<li><a href="/tags.html#web-ref">web <span>5</span></a></li>
+    	<li><a href="/tags.html#learn-ref">learn <span>2</span></a></li>
     
   
 
@@ -219,11 +231,11 @@ http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/jbrowser-import-
     <div class="pagination">
       <ul>
       
-        <li class="prev"><a href="/bioinformatics/2014/07/16/database-collection" title="Learn:生物数据库集合">&larr; Previous</a></li>
+        <li class="prev"><a href="/bioinformatics/2014/07/15/jbrowser-import-bed-and-gff3" title="JBrowser:导入bed和gff3文件">&larr; Previous</a></li>
       
         <li><a href="/archive.html">Archive</a></li>
       
-        <li class="next"><a href="/bioinformatics/2014/07/16/jbrowser-import-vcf-wig-bam" title="JBrowser:导入vcf wig和bam数据">Next &rarr;</a></li>
+        <li class="next"><a href="/bioinformatics/2014/07/16/jbrowser-import-ucsc-tracks" title="JBrowser:导入UCSC数据库基因信息数据">Next &rarr;</a></li>
       
       </ul>
     </div>

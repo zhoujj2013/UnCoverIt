@@ -5,15 +5,149 @@
         <description>UnCoverIt - Zhoujj</description>
         <link>http://zhoujj2013.github.io/UnCoverIt</link>
         <link>http://zhoujj2013.github.io/UnCoverIt</link>
-        <lastBuildDate>2014-07-16T17:14:02+08:00</lastBuildDate>
-        <pubDate>2014-07-16T17:14:02+08:00</pubDate>
+        <lastBuildDate>2014-07-16T22:22:15+08:00</lastBuildDate>
+        <pubDate>2014-07-16T22:22:15+08:00</pubDate>
         <ttl>1800</ttl>
 
 
         <item>
                 <title>Learn:用shell命令完成简单生物信息分析查询及统计</title>
                 <description>
-&lt;p&gt;这个是写给生物信息入门者。&lt;/p&gt;
+&lt;p&gt;在开始这篇文之前，先具有一些linux知识和一些生物知识。&lt;/p&gt;
+
+&lt;p&gt;如果没有使用过linux，请阅读：(不需要全部阅读，了解一下就好)&lt;/p&gt;
+
+&lt;p&gt;http://en.wikipedia.org/wiki/Linux&lt;/p&gt;
+
+&lt;p&gt;http://www.92csz.com/study/linux/&lt;/p&gt;
+
+&lt;p&gt;如果不是生物学背景的读者，请有时间的时候，阅读：&lt;/p&gt;
+
+&lt;p&gt;http://www.nature.com/scitable&lt;/p&gt;
+
+&lt;p&gt;如果你在MS window下工作，还应该去安装putty大型机登录软件和winscp运程文件浏览器:&lt;/p&gt;
+
+&lt;p&gt;http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html&lt;/p&gt;
+
+&lt;p&gt;http://winscp.net/eng/docs/lang:chs&lt;/p&gt;
+
+&lt;p&gt;如果你没有linux系统，请先安装Oracle VM VirtualBox，并在虚拟机中安装linux（建议安装debian linux）:&lt;/p&gt;
+
+&lt;p&gt;https://www.virtualbox.org/wiki/Downloads&lt;/p&gt;
+
+&lt;p&gt;https://www.debian.org/&lt;/p&gt;
+
+&lt;p&gt;如果你对生物数据格式一无所知，请查看fa,gtf格式:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://genome.ucsc.edu/FAQ/FAQformat.html&quot;&gt;http://genome.ucsc.edu/FAQ/FAQformat.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://genetics.bwh.harvard.edu/pph/FASTA.html&quot;&gt;http://genetics.bwh.harvard.edu/pph/FASTA.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;下面以zera fish为例子，讲解一下如何在linux terminal下做一些简单的生物学分析：&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;从ensembl收集zebra fish数据&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# 获取自己当前所在路径并查看当前文件夹有什么文件及文件夹&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# 建立存放zebra fish数据的文件夹并进入此文件夹&lt;/span&gt;
+mkdir zebra_fish
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;zebra_fish
+
+&lt;span class=&quot;c&quot;&gt;# 至于我是如何知道这些下载路径，请慢慢熟悉ensembl数据库。&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 下载zebra fish参考序列&lt;/span&gt;
+wget ftp://ftp.ensembl.org/pub/release-75/fasta/danio_rerio/dna/Danio_rerio.Zv9.75.dna.toplevel.fa.gz
+
+&lt;span class=&quot;c&quot;&gt;# 下载zebra fish蛋白序列&lt;/span&gt;
+wget ftp://ftp.ensembl.org/pub/release-75/fasta/danio_rerio/pep/Danio_rerio.Zv9.75.pep.all.fa.gz
+
+&lt;span class=&quot;c&quot;&gt;# 下载zebra fish基因集gtf文件&lt;/span&gt;
+wget ftp://ftp.ensembl.org/pub/release-75/gtf/danio_rerio/Danio_rerio.Zv9.75.gtf.gz
+
+&lt;span class=&quot;c&quot;&gt;# 如果标准错误输出中看到任务完成，就表示下载成功，一般来说会有进度条的。&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 查看文件夹文件长名列表&lt;/span&gt;
+ls -l
+
+&lt;span class=&quot;c&quot;&gt;# 查看文件夹文件短名列表，请注意对比&lt;/span&gt;
+ls
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;查看数据文件&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# 用gunzip解压文件，一般来说，以*.gz, *.bz, *.tar.gz结尾的文件为压缩文件&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 用gzip可以压缩文件，如果没有安装gzip，可以sudo apt-get install gzip&lt;/span&gt;
+gunzip Danio_rerio.Zv9.75.dna.toplevel.fa.gz
+
+&lt;span class=&quot;c&quot;&gt;# 如果你觉得一个个解压太烦了，可以这样&lt;/span&gt;
+ls *.gz | xargs gunzip
+&lt;span class=&quot;c&quot;&gt;# 或者，这是一个while循环语句&lt;/span&gt;
+ls *.gz | &lt;span class=&quot;k&quot;&gt;while &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;read &lt;/span&gt;line; &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;gunzip &lt;span class=&quot;nv&quot;&gt;$line&lt;/span&gt;;&lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;;
+
+&lt;span class=&quot;c&quot;&gt;# less查看文件&lt;/span&gt;
+less Danio_rerio.Zv9.75.gtf
+
+&lt;span class=&quot;c&quot;&gt;# 你会发现有的行太长了，要换行才能显示，显得格式很乱，加上-S参数可以不换行显示&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 用less打开后，可以通过上下左右键移动，也可以用pagedown和pageup上下翻页&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 按&amp;quot;/&amp;quot;可以进行字符串查找，就像word里的查找框一样&lt;/span&gt;
+less -S Danio_rerio.Zv9.75.gtf
+
+&lt;span class=&quot;c&quot;&gt;# 查看所有的染色体名字，grep是筛选的意思，筛选条件就是&amp;quot;^&amp;gt;&amp;quot;,以&amp;gt;开头&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 就是查看所有以&amp;gt;开头的行&lt;/span&gt;
+grep &lt;span class=&quot;s2&quot;&gt;&amp;quot;^&amp;gt;&amp;quot;&lt;/span&gt; Danio_rerio.Zv9.75.dna.toplevel.fa
+
+&lt;span class=&quot;c&quot;&gt;# 你会发现输出会有&amp;quot;&amp;gt;&amp;quot;号，如何去除呢？&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 可以用sed命令去除，sed教程：http://www.cnblogs.com/cbscan/articles/2277351.html　和　http://www.kuqin.com/docs/sed.html&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 用null来替换&amp;quot;&amp;gt;&amp;quot;&lt;/span&gt;
+grep &lt;span class=&quot;s2&quot;&gt;&amp;quot;^&amp;gt;&amp;quot;&lt;/span&gt; Danio_rerio.Zv9.75.dna.toplevel.fa | sed &lt;span class=&quot;s1&quot;&gt;&amp;#39;s/^&amp;gt;//g&amp;#39;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# 查看特定转录本的gtf信息&lt;/span&gt;
+grep &lt;span class=&quot;s2&quot;&gt;&amp;quot;ENSDART00000126123&amp;quot;&lt;/span&gt; Danio_rerio.Zv9.75.gtf 
+
+&lt;span class=&quot;c&quot;&gt;# 或者&lt;/span&gt;
+grep &lt;span class=&quot;s2&quot;&gt;&amp;quot;ENSDART00000126123&amp;quot;&lt;/span&gt; Danio_rerio.Zv9.75.gtf | less -S
+
+&lt;span class=&quot;c&quot;&gt;# 或者可以生成另外一个文件并保存&lt;/span&gt;
+grep &lt;span class=&quot;s2&quot;&gt;&amp;quot;ENSDART00000126123&amp;quot;&lt;/span&gt; Danio_rerio.Zv9.75.gtf &amp;gt; new.gtf
+
+&lt;span class=&quot;c&quot;&gt;# 如果有多个转录本需要收集，可以用&amp;quot;&amp;gt;&amp;gt;&amp;quot;把数据追加到文件&lt;/span&gt;
+grep &lt;span class=&quot;s2&quot;&gt;&amp;quot;ENSDART00000126752&amp;quot;&lt;/span&gt; Danio_rerio.Zv9.75.gtf &amp;gt;&amp;gt; new.gtf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;简单统计分析&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;awk命令的使用，请参考：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.cnblogs.com/ggjucheng/archive/2013/01/13/2858470.html&quot;&gt;http://www.cnblogs.com/ggjucheng/archive/2013/01/13/2858470.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# 统计文件内容行数，你会得到一个很大的数字，因为基因组挺大的&lt;/span&gt;
+wc -l Danio_rerio.Zv9.75.dna.toplevel.fa
+
+&lt;span class=&quot;c&quot;&gt;# 统计基因组序列条数，因为担心有重复的基因组序列，所以先排序sort，然后把相同的序列id去除uniq&lt;/span&gt;
+grep &lt;span class=&quot;s2&quot;&gt;&amp;quot;^&amp;gt;&amp;quot;&lt;/span&gt; Danio_rerio.Zv9.75.dna.toplevel.fa | sort | uniq | wc -l
+
+&lt;span class=&quot;c&quot;&gt;# 统计zebra fish基因组中有多少个蛋白序列&lt;/span&gt;
+grep &lt;span class=&quot;s2&quot;&gt;&amp;quot;^&amp;gt;&amp;quot;&lt;/span&gt; Danio_rerio.Zv9.75.pep.all.fa | wc -l
+
+&lt;span class=&quot;c&quot;&gt;# 统计zebra fish基因组中有多少个exon&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# -v &amp;quot;^#&amp;quot; 表示除去以#开头的行&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# awk -F&amp;quot;\t&amp;quot; &amp;#39;$3 ~ /exon/&amp;#39; 表示以&amp;quot;\t&amp;quot;分割每列，并且第３列包含字符串&amp;quot;exon&amp;quot;&lt;/span&gt;
+grep -v &lt;span class=&quot;s2&quot;&gt;&amp;quot;^#&amp;quot;&lt;/span&gt; Danio_rerio.Zv9.75.gtf | awk -F&lt;span class=&quot;s2&quot;&gt;&amp;quot;\t&amp;quot;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;$3 ~ /exon/&amp;#39;&lt;/span&gt; | wc -l
+
+&lt;span class=&quot;c&quot;&gt;# 统计zebra fish基因组中有多少个rRNA基因&lt;/span&gt;
+grep -v &lt;span class=&quot;s2&quot;&gt;&amp;quot;^#&amp;quot;&lt;/span&gt; Danio_rerio.Zv9.75.gtf　| awk -F&lt;span class=&quot;s2&quot;&gt;&amp;quot;\t&amp;quot;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;$2 ~ /rRNA/ &amp;amp;&amp;amp; $3 ~ /gene/&amp;#39;&lt;/span&gt; | wc -l
+
+&lt;span class=&quot;c&quot;&gt;# 统计zebra fish基因组中每一个染色体上有多少个蛋白编码基因&lt;/span&gt;
+grep -v &lt;span class=&quot;s2&quot;&gt;&amp;quot;^#&amp;quot;&lt;/span&gt; Danio_rerio.Zv9.75.gtf | awk -F&lt;span class=&quot;s2&quot;&gt;&amp;quot;\t&amp;quot;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;$2 ~ /protein_coding/ &amp;amp;&amp;amp; $3 ~ /gene/&amp;#39;&lt;/span&gt; | cut -f 1 | sort | uniq -c &amp;gt; chr_gene_count.lst
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;这些只是基本的操作，可以让你尽快熟悉linux命令行环境，建议多点尝试。&lt;/p&gt;
+
+&lt;p&gt;仅仅看教程，是无法学会技能的，但是我们确信：实践是可以让你成为高手。&lt;/p&gt;
+
+&lt;p&gt;转载请标明出处：&lt;/p&gt;
+
+&lt;p&gt;http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/15/simple-shell-command-for-bioinfo/&lt;/p&gt;
+
 </description>
                 <link>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/simple-shell-command-for-bioinfo</link>
                 <guid>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/simple-shell-command-for-bioinfo</guid>
@@ -25,18 +159,30 @@
                 <description>
 &lt;h4 id=&quot;vcf-wigbam&quot;&gt;vcf, wig和bam文件的介绍&lt;/h4&gt;
 
-&lt;p&gt;vcf文件主要是用来记录基因组variants位置及variants功能注释。
-详细格式请查看：
-http://samtools.github.io/hts-specs/&lt;/p&gt;
+&lt;p&gt;vcf文件主要是用来记录基因组variants位置及variants功能注释。&lt;/p&gt;
 
-&lt;p&gt;wig是用来表示连续和非连续数据信号的文件格式。
-详细格式请查看：
-http://www.genome.ucsc.edu/goldenPath/help/wiggle.html&lt;/p&gt;
+&lt;p&gt;详细格式请查看：&lt;/p&gt;
+
+&lt;p&gt;http://samtools.github.io/hts-specs/&lt;/p&gt;
+
+&lt;p&gt;wig是用来表示连续和非连续数据信号的文件格式。&lt;/p&gt;
+
+&lt;p&gt;详细格式请查看：&lt;/p&gt;
+
+&lt;p&gt;http://www.genome.ucsc.edu/goldenPath/help/wiggle.html&lt;/p&gt;
 
 &lt;p&gt;bam是短片断序列alignment结果sam文件，通过samtools排序压缩后生成的文件，用于存储比对文件。
-bam文件需要通过samtools进行查看。
-详细格式请查看：
-http://samtools.github.io/hts-specs/SAMv1.pdf&lt;/p&gt;
+bam文件需要通过samtools进行查看。&lt;/p&gt;
+
+&lt;p&gt;详细格式请查看：&lt;/p&gt;
+
+&lt;p&gt;http://samtools.github.io/hts-specs/SAMv1.pdf&lt;/p&gt;
+
+&lt;p&gt;http://genome.sph.umich.edu/wiki/SAM&lt;/p&gt;
+
+&lt;p&gt;http://picard.sourceforge.net/explain-flags.html&lt;/p&gt;
+
+&lt;p&gt;http://wiki.bits.vib.be/index.php/.sam&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;samtool view &amp;lt;bam_file&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -253,6 +399,73 @@ http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/jbrowser-import-
 </description>
                 <link>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/jbrowser-import-ucsc-tracks</link>
                 <guid>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/jbrowser-import-ucsc-tracks</guid>
+                <pubDate>2014-07-16T00:00:00+08:00</pubDate>
+        </item>
+
+        <item>
+                <title>Learn:生物数据库集合</title>
+                <description>
+&lt;p&gt;生物信息数据量大，种类繁多，所以形成各种各样的生物数据库。&lt;/p&gt;
+
+&lt;p&gt;生物数据库之多，我们不可能把所有的数据库都掌握，只能合理利用某一些数据库。&lt;/p&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;主要生物信息数据库&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;NCBI (&lt;a href=&quot;http://www.ncbi.nlm.nih.gov/&quot;&gt;http://www.ncbi.nlm.nih.gov/&lt;/a&gt;)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;EBI (&lt;a href=&quot;http://www.ebi.ac.uk/&quot;&gt;http://www.ebi.ac.uk/&lt;/a&gt;)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;DDJB (&lt;a href=&quot;http://www.ddbj.nig.ac.jp/&quot;&gt;http://www.ddbj.nig.ac.jp/&lt;/a&gt;)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;ENSEMBL (&lt;a href=&quot;http://www.ensembl.org/index.html&quot;&gt;http://www.ensembl.org/index.html&lt;/a&gt;)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;UCSC (&lt;a href=&quot;http://genome.ucsc.edu/&quot;&gt;http://genome.ucsc.edu/&lt;/a&gt;)&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;当然还有很多数据库，在这就不列举了。&lt;/p&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;寻找生物信息数据库&lt;/h4&gt;
+
+&lt;p&gt;Oxford Journals &lt;a href=&quot;http://nar.oxfordjournals.org/&quot;&gt;Nucleic Acids Research&lt;/a&gt; 每年度会收集现有的生物信息数据库，并整理到&lt;a href=&quot;http://www.oxfordjournals.org/our_journals/nar/database/c/&quot;&gt;Database Summary Paper Categories&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;用户可以根据自己的研究需要寻找自己想要的数据库，如果你发现你想要的数据库不在里面，那恭喜你，你可以把你想要的数据库做出来，然后发表文章了。&lt;/p&gt;
+
+&lt;p&gt;当然，你也可以用万能的google查寻你自己想要的数据库。&lt;/p&gt;
+
+&lt;h4 id=&quot;section-2&quot;&gt;如何认识一个生物数据库&lt;/h4&gt;
+
+&lt;p&gt;数据库有很多，但是那个数据库才是你能用上的，或者适合你用的。在这之前，你要细心从几个方面去了解目标数据库：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;数据库存储什么类型的生物信息；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;所存储的数据是否可信；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;所存储的数据是否符合你的研究背景；&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;如果这些都满足了，我想80%是你想要的数据库。&lt;/p&gt;
+
+&lt;h4 id=&quot;section-3&quot;&gt;怎么使用生物信息数据库&lt;/h4&gt;
+
+&lt;p&gt;这方面无法写。&lt;/p&gt;
+
+&lt;p&gt;PS: 了解一个数据库不是一件容易的事情，因为很多数据包含的信息量很大，数据内容很乱，API接口很多。&lt;/p&gt;
+
+</description>
+                <link>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/database-collection</link>
+                <guid>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/database-collection</guid>
                 <pubDate>2014-07-16T00:00:00+08:00</pubDate>
         </item>
 

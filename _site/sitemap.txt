@@ -12,6 +12,7 @@ http://zhoujj2013.github.io/UnCoverIt/index.html
 http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/simple-shell-command-for-bioinfo
 http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/jbrowser-import-vcf-wig-bam
 http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/jbrowser-import-ucsc-tracks
+http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/database-collection
 http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/15/jbrowser-import-bed-and-gff3
 http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/13/jbrowser-installation
 http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/13/jbrowser-import-reference-genome

@@ -125,7 +125,141 @@
     </div>
     <div class="content">
       
-<p>这个是写给生物信息入门者。</p>
+<p>在开始这篇文之前，先具有一些linux知识和一些生物知识。</p>
+
+<p>如果没有使用过linux，请阅读：(不需要全部阅读，了解一下就好)</p>
+
+<p>http://en.wikipedia.org/wiki/Linux</p>
+
+<p>http://www.92csz.com/study/linux/</p>
+
+<p>如果不是生物学背景的读者，请有时间的时候，阅读：</p>
+
+<p>http://www.nature.com/scitable</p>
+
+<p>如果你在MS window下工作，还应该去安装putty大型机登录软件和winscp运程文件浏览器:</p>
+
+<p>http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html</p>
+
+<p>http://winscp.net/eng/docs/lang:chs</p>
+
+<p>如果你没有linux系统，请先安装Oracle VM VirtualBox，并在虚拟机中安装linux（建议安装debian linux）:</p>
+
+<p>https://www.virtualbox.org/wiki/Downloads</p>
+
+<p>https://www.debian.org/</p>
+
+<p>如果你对生物数据格式一无所知，请查看fa,gtf格式:</p>
+
+<p><a href="http://genome.ucsc.edu/FAQ/FAQformat.html">http://genome.ucsc.edu/FAQ/FAQformat.html</a></p>
+
+<p><a href="http://genetics.bwh.harvard.edu/pph/FASTA.html">http://genetics.bwh.harvard.edu/pph/FASTA.html</a></p>
+
+<p>下面以zera fish为例子，讲解一下如何在linux terminal下做一些简单的生物学分析：</p>
+
+<p><strong>从ensembl收集zebra fish数据</strong></p>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># 获取自己当前所在路径并查看当前文件夹有什么文件及文件夹</span>
+<span class="nb">pwd</span>
+
+<span class="c"># 建立存放zebra fish数据的文件夹并进入此文件夹</span>
+mkdir zebra_fish
+<span class="nb">cd </span>zebra_fish
+
+<span class="c"># 至于我是如何知道这些下载路径，请慢慢熟悉ensembl数据库。</span>
+<span class="c"># 下载zebra fish参考序列</span>
+wget ftp://ftp.ensembl.org/pub/release-75/fasta/danio_rerio/dna/Danio_rerio.Zv9.75.dna.toplevel.fa.gz
+
+<span class="c"># 下载zebra fish蛋白序列</span>
+wget ftp://ftp.ensembl.org/pub/release-75/fasta/danio_rerio/pep/Danio_rerio.Zv9.75.pep.all.fa.gz
+
+<span class="c"># 下载zebra fish基因集gtf文件</span>
+wget ftp://ftp.ensembl.org/pub/release-75/gtf/danio_rerio/Danio_rerio.Zv9.75.gtf.gz
+
+<span class="c"># 如果标准错误输出中看到任务完成，就表示下载成功，一般来说会有进度条的。</span>
+<span class="c"># 查看文件夹文件长名列表</span>
+ls -l
+
+<span class="c"># 查看文件夹文件短名列表，请注意对比</span>
+ls
+</code></pre></div>
+
+<p><strong>查看数据文件</strong></p>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># 用gunzip解压文件，一般来说，以*.gz, *.bz, *.tar.gz结尾的文件为压缩文件</span>
+<span class="c"># 用gzip可以压缩文件，如果没有安装gzip，可以sudo apt-get install gzip</span>
+gunzip Danio_rerio.Zv9.75.dna.toplevel.fa.gz
+
+<span class="c"># 如果你觉得一个个解压太烦了，可以这样</span>
+ls *.gz | xargs gunzip
+<span class="c"># 或者，这是一个while循环语句</span>
+ls *.gz | <span class="k">while </span><span class="nb">read </span>line; <span class="k">do </span>gunzip <span class="nv">$line</span>;<span class="k">done</span>;
+
+<span class="c"># less查看文件</span>
+less Danio_rerio.Zv9.75.gtf
+
+<span class="c"># 你会发现有的行太长了，要换行才能显示，显得格式很乱，加上-S参数可以不换行显示</span>
+<span class="c"># 用less打开后，可以通过上下左右键移动，也可以用pagedown和pageup上下翻页</span>
+<span class="c"># 按&quot;/&quot;可以进行字符串查找，就像word里的查找框一样</span>
+less -S Danio_rerio.Zv9.75.gtf
+
+<span class="c"># 查看所有的染色体名字，grep是筛选的意思，筛选条件就是&quot;^&gt;&quot;,以&gt;开头</span>
+<span class="c"># 就是查看所有以&gt;开头的行</span>
+grep <span class="s2">&quot;^&gt;&quot;</span> Danio_rerio.Zv9.75.dna.toplevel.fa
+
+<span class="c"># 你会发现输出会有&quot;&gt;&quot;号，如何去除呢？</span>
+<span class="c"># 可以用sed命令去除，sed教程：http://www.cnblogs.com/cbscan/articles/2277351.html　和　http://www.kuqin.com/docs/sed.html</span>
+<span class="c"># 用null来替换&quot;&gt;&quot;</span>
+grep <span class="s2">&quot;^&gt;&quot;</span> Danio_rerio.Zv9.75.dna.toplevel.fa | sed <span class="s1">&#39;s/^&gt;//g&#39;</span>
+
+<span class="c"># 查看特定转录本的gtf信息</span>
+grep <span class="s2">&quot;ENSDART00000126123&quot;</span> Danio_rerio.Zv9.75.gtf 
+
+<span class="c"># 或者</span>
+grep <span class="s2">&quot;ENSDART00000126123&quot;</span> Danio_rerio.Zv9.75.gtf | less -S
+
+<span class="c"># 或者可以生成另外一个文件并保存</span>
+grep <span class="s2">&quot;ENSDART00000126123&quot;</span> Danio_rerio.Zv9.75.gtf &gt; new.gtf
+
+<span class="c"># 如果有多个转录本需要收集，可以用&quot;&gt;&gt;&quot;把数据追加到文件</span>
+grep <span class="s2">&quot;ENSDART00000126752&quot;</span> Danio_rerio.Zv9.75.gtf &gt;&gt; new.gtf
+</code></pre></div>
+
+<p><strong>简单统计分析</strong></p>
+
+<p>awk命令的使用，请参考：</p>
+
+<p><a href="http://www.cnblogs.com/ggjucheng/archive/2013/01/13/2858470.html">http://www.cnblogs.com/ggjucheng/archive/2013/01/13/2858470.html</a></p>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># 统计文件内容行数，你会得到一个很大的数字，因为基因组挺大的</span>
+wc -l Danio_rerio.Zv9.75.dna.toplevel.fa
+
+<span class="c"># 统计基因组序列条数，因为担心有重复的基因组序列，所以先排序sort，然后把相同的序列id去除uniq</span>
+grep <span class="s2">&quot;^&gt;&quot;</span> Danio_rerio.Zv9.75.dna.toplevel.fa | sort | uniq | wc -l
+
+<span class="c"># 统计zebra fish基因组中有多少个蛋白序列</span>
+grep <span class="s2">&quot;^&gt;&quot;</span> Danio_rerio.Zv9.75.pep.all.fa | wc -l
+
+<span class="c"># 统计zebra fish基因组中有多少个exon</span>
+<span class="c"># -v &quot;^#&quot; 表示除去以#开头的行</span>
+<span class="c"># awk -F&quot;\t&quot; &#39;$3 ~ /exon/&#39; 表示以&quot;\t&quot;分割每列，并且第３列包含字符串&quot;exon&quot;</span>
+grep -v <span class="s2">&quot;^#&quot;</span> Danio_rerio.Zv9.75.gtf | awk -F<span class="s2">&quot;\t&quot;</span> <span class="s1">&#39;$3 ~ /exon/&#39;</span> | wc -l
+
+<span class="c"># 统计zebra fish基因组中有多少个rRNA基因</span>
+grep -v <span class="s2">&quot;^#&quot;</span> Danio_rerio.Zv9.75.gtf　| awk -F<span class="s2">&quot;\t&quot;</span> <span class="s1">&#39;$2 ~ /rRNA/ &amp;&amp; $3 ~ /gene/&#39;</span> | wc -l
+
+<span class="c"># 统计zebra fish基因组中每一个染色体上有多少个蛋白编码基因</span>
+grep -v <span class="s2">&quot;^#&quot;</span> Danio_rerio.Zv9.75.gtf | awk -F<span class="s2">&quot;\t&quot;</span> <span class="s1">&#39;$2 ~ /protein_coding/ &amp;&amp; $3 ~ /gene/&#39;</span> | cut -f 1 | sort | uniq -c &gt; chr_gene_count.lst
+</code></pre></div>
+
+<p>这些只是基本的操作，可以让你尽快熟悉linux命令行环境，建议多点尝试。</p>
+
+<p>仅仅看教程，是无法学会技能的，但是我们确信：实践是可以让你成为高手。</p>
+
+<p>转载请标明出处：</p>
+
+<p>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/15/simple-shell-command-for-bioinfo/</p>
+
 
     </div>
 
@@ -139,7 +273,7 @@
   
      
     	<li><a href="/categories.html#bioinformatics-ref">
-    		bioinformatics <span>6</span>
+    		bioinformatics <span>7</span>
     	</a></li>
     
   
@@ -157,9 +291,9 @@
 
   
      
-    	<li><a href="/tags.html#bioinformatics-ref">bioinformatics <span>6</span></a></li>
+    	<li><a href="/tags.html#bioinformatics-ref">bioinformatics <span>7</span></a></li>
      
-    	<li><a href="/tags.html#learn-ref">learn <span>1</span></a></li>
+    	<li><a href="/tags.html#learn-ref">learn <span>2</span></a></li>
      
     	<li><a href="/tags.html#shell-ref">shell <span>1</span></a></li>
     
