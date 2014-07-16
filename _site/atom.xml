@@ -4,13 +4,194 @@
  <title>UnCoverIt</title>
  <link href="http://zhoujj2013.github.io/UnCoverIt/" rel="self"/>
  <link href="http://zhoujj2013.github.io/UnCoverIt"/>
- <updated>2014-07-16T14:40:04+08:00</updated>
+ <updated>2014-07-16T16:26:41+08:00</updated>
  <id>http://zhoujj2013.github.io/UnCoverIt</id>
  <author>
    <name>Zhoujj</name>
    <email>zhoujj2013@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>JBrowser:导入vcf、wig和bam数据</title>
+   <link href="http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/jbrowser-import-vcf-wig-bam"/>
+   <updated>2014-07-16T00:00:00+08:00</updated>
+   <id>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/jbrowser-import-vcf-wig-bam</id>
+   <content type="html">
+&lt;h4 id=&quot;vcf-wigbam&quot;&gt;vcf, wig和bam文件的介绍&lt;/h4&gt;
+
+&lt;p&gt;vcf文件主要是用来记录基因组variants位置及variants功能注释。
+详细格式请查看：
+http://samtools.github.io/hts-specs/&lt;/p&gt;
+
+&lt;p&gt;wig是用来表示连续和非连续数据信号的文件格式。
+详细格式请查看：
+http://www.genome.ucsc.edu/goldenPath/help/wiggle.html&lt;/p&gt;
+
+&lt;p&gt;bam是短片断序列alignment结果sam文件，通过samtools排序压缩后生成的文件，用于存储比对文件。
+bam文件需要通过samtools进行查看。
+详细格式请查看：
+http://samtools.github.io/hts-specs/SAMv1.pdf&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;samtool view &amp;lt;bam_file&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;vcf&quot;&gt;导入vcf文件&lt;/h4&gt;
+
+&lt;p&gt;我个人觉得tracks.conf配置文件的配置内容更加易读，所以接下来的配置信息，我都写到tracks.conf文件。&lt;/p&gt;
+
+&lt;p&gt;vcf文件有两种显示方式：CanvasVariants和HTMLVariants。我暂没有发现两者的区别。&lt;/p&gt;
+
+&lt;p&gt;在导入vcf文件前要对vcf文件进行压缩，并建立index，这个过程要求安装samtools/tabix。&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# tabix: https://github.com/samtools/tabix&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 下载并安装tabix&lt;/span&gt;
+git clone https://github.com/samtools/tabix.git
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;tabix
+make
+
+&lt;span class=&quot;c&quot;&gt;# 对vcf进行压缩,以s410.vcf为例&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$tabix&lt;/span&gt;/bgzip s410.vcf
+
+&lt;span class=&quot;c&quot;&gt;# 建立index&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$tabix&lt;/span&gt;/tabix -p s410.vcf.gz
+
+&lt;span class=&quot;c&quot;&gt;# 生成s410.vcf.gz.tbi&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;CanvasVariants&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; tracks . s410 &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;storeClass&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; JBrowse/Store/SeqFeature/VCFTabix
+&lt;span class=&quot;nv&quot;&gt;urlTemplate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ../../vcf/s410.vcf.gz
+&lt;span class=&quot;nv&quot;&gt;category&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; VCF
+&lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; JBrowse/View/Track/CanvasVariants
+&lt;span class=&quot;nv&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; s410 VCF1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;HTMLVariants&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; tracks . s410-2 &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+hooks.modify &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; track, feature, div &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; div.style.backgroundColor &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; track.config.variantIsHeterozygous&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;feature&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; ? &lt;span class=&quot;s1&quot;&gt;&amp;#39;red&amp;#39;&lt;/span&gt; : &lt;span class=&quot;s1&quot;&gt;&amp;#39;blue&amp;#39;&lt;/span&gt;; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; s410 VCF2
+&lt;span class=&quot;c&quot;&gt;# 区分杂合和纯合位点&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;variantIsHeterozygous&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; feature &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; var &lt;span class=&quot;nv&quot;&gt;genotypes&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; feature.get&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;genotypes&amp;#39;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;;  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; var sampleName in genotypes &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; try &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; var &lt;span class=&quot;nv&quot;&gt;gtString&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; genotypes&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;sampleName&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;.GT.values&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;0&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; ! /^1&lt;span class=&quot;o&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\|\/&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;*&lt;span class=&quot;nv&quot;&gt;$/&lt;/span&gt;.test&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; gtString&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; ! /^0&lt;span class=&quot;o&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\|\/&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;0&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;*&lt;span class=&quot;nv&quot;&gt;$/&lt;/span&gt;.test&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; gtString &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; catch&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;e&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{}&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;storeClass&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; JBrowse/Store/SeqFeature/VCFTabix
+&lt;span class=&quot;nv&quot;&gt;urlTemplate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ../../vcf/s410.vcf.gz
+&lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; JBrowse/View/Track/HTMLVariants
+metadata.category &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; VCF
+metadata.Description &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; Variants called from XX.bam using samtools and bcftools.  Heterozygous variants are shown in red, homozygous variants in blue.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;bam&quot;&gt;导入bam文件&lt;/h4&gt;
+
+&lt;p&gt;bam文件导入后，有两种显示方式&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;直接显示每一个reads的比对情况(type = JBrowse/View/Track/Alignments2)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;只显示比对的coverage情况(type = JBrowse/View/Track/SNPCoverage)&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;两种方式均要临时读进某个region的alignment数据，所显示的速度较为慢的。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;alignment2方式&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;[ tracks . s410_bam ]                     #　以s410.bam为例，要求已经排序并建立index, **.bam.bai文件
+style.height = 7
+key = BAM - s410 alignment2
+storeClass = JBrowse/Store/SeqFeature/BAM
+urlTemplate = ../../data/s410.sorted.rmdup.bam
+maxFeatureScreenDensity = 4
+metadata.category = BAM
+metadata.Description = small test pattern of BAM-format paired alignments of simulated resequencing reads on the s410 sample.
+type = JBrowse/View/Track/Alignments2
+chunkSizeLimit = 50000000                  # 这个是限制在某一个region允许读取的数据量，如果读进的数据量太大会造成浏览器“罢工”。
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;coverage方式&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;[ tracks . volvox-sorted_bam_coverage ]
+storeClass = JBrowse/Store/SeqFeature/BAM
+urlTemplate = ../../data/s410.sorted.rmdup.bam
+metadata.category = BAM
+metadata.Description = SNP/Coverage view of s410.bam, simulated resequencing alignments.
+type = JBrowse/View/Track/SNPCoverage       #注意这个设置的区别
+key = BAM - s410 SNPs/Coverage
+chunkSizeLimit = 50000000
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;wig&quot;&gt;导入wig文件&lt;/h4&gt;
+
+&lt;p&gt;JBrowser并不直接支持wig文件，它要求wig文件压缩成bigwig格式，这个可以大大节约存储空间。&lt;/p&gt;
+
+&lt;p&gt;目前还没有现成的程序支持bam文件转换为wig文件，wig文件主要是用来看sequencing的coverage和density分布情况，所以先解决bam和wig文件转换问题。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;from bam file to wig file&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# 先用samtools把bam转化为sam数据流，再通过管道把数据导入到sam2wig.pl脚本，生成wig文件&lt;/span&gt;
+samtools view ../data/s410.sorted.rmdup.bam | perl sam2wig.pl --bin 30 --minMQ 30 - &amp;gt; s410.wig
+
+&lt;span class=&quot;c&quot;&gt;# 下载ucsc tools&lt;/span&gt;
+wget http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/fetchChromSizes
+wget http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/wigToBigWig
+
+&lt;span class=&quot;c&quot;&gt;# 把wig转化为bigwig格式&lt;/span&gt;
+./fetchChromSizes hg19 &amp;gt; hg19.chrom.sizes
+./wigToBigWig ./s410.wig hg19.chrom.sizes s410.bw
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;sam2wig.pl代码如下：&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/zhoujj2013/2f44ba0c0437f0241cc4.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;&lt;strong&gt;配置bigwig文件&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;bigwig有两种显示的方式，一种是density，另外一种是XY-plot。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;density plot方式&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;[ tracks . s410_bw_density ]
+style.neg_color = function(feature) { return feature.get(&amp;#39;score&amp;#39;) &lt;span class=&quot;nt&quot;&gt;&amp;lt; 150&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;green&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;#39;;&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;如果位点的&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;sequencing&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;depth&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt; 150X显示为红色，否则绿色
+bicolor_pivot = mean
+key = s410 BigWig Density
+storeClass = JBrowse/Store/BigWig
+urlTemplate = ../../sam2wig/s410
+type = JBrowse/View/Track/Wiggle/Density
+metadata.category = Quantitative / Density # 这里是表示两层的分类目录，用/分开。
+metadata.Description = Wiggle/Density view of s410.bw.  Also demonstrates use of a user-configurable callback to set the value of neg_color to green when the score is below 150.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;XY-plot方式&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;[ tracks . s410_bw_xyplot ]
+style.pos_color = function(feature) { return feature.get(&amp;#39;score&amp;#39;) &amp;gt; 30 ? &amp;#39;red&amp;#39; : &amp;#39;blue&amp;#39;; }
+variance_band = true
+key = s410 BigWig XY
+storeClass = JBrowse/Store/BigWig
+urlTemplate = ../../sam2wig/s410.bw
+type = JBrowse/View/Track/Wiggle/XYPlot
+metadata.category = Quantitative / XY Plot
+metadata.description = Wiggle/XYPlot view of volvox_microarray.bw.  Demonstrates use of a user-configured callback to set the bar color to red when the score is above 30.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;完成vcf、wig、bam文件导入后，不需要建立索引，直接就可以查看信号。&lt;/p&gt;
+
+&lt;p&gt;参考：
+http://gmod.org/wiki/JBrowse_Configuration_Guide&lt;/p&gt;
+
+&lt;p&gt;转载请标明出处：
+http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/jbrowser-import-vcf-wig-bam/&lt;/p&gt;
+
+</content>
+ </entry>
  
  <entry>
    <title>JBrowser:导入UCSC数据库基因信息数据</title>
@@ -262,7 +443,7 @@ http://gmod.org/wiki/JBrowse_Configuration_Guide&lt;/p&gt;
  </entry>
  
  <entry>
-   <title>JBrowser安装及配置</title>
+   <title>JBrowser:安装及配置</title>
    <link href="http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/13/jbrowser-installation"/>
    <updated>2014-07-13T00:00:00+08:00</updated>
    <id>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/13/jbrowser-installation</id>
@@ -430,7 +611,7 @@ name = hg19                        # 数据集的id
  </entry>
  
  <entry>
-   <title>JBrowser导入参考基因组序列</title>
+   <title>JBrowser:导入参考基因组序列</title>
    <link href="http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/13/jbrowser-import-reference-genome"/>
    <updated>2014-07-13T00:00:00+08:00</updated>
    <id>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/13/jbrowser-import-reference-genome</id>
