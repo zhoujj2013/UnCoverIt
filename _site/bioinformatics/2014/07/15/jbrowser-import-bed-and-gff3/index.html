@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>JBrowser:导入bed和gff3文件</title>
+    <meta name="description" content="JBrowser: Import bed and gff3 tracks into jbrowser.">
+    <meta name="author" content="Zhoujj">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/themes/twitter/bootstrap/css/bootstrap.2.2.2.min.css" rel="stylesheet">
+    <link href="/assets/themes/twitter/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container-narrow">
+        <!--<a class="brand" href="/">UnCoverIt</a>-->
+          <ul class="nav">
+			<li><a href="/">Home</a></li>
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/about.html">About</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-narrow">
+
+      <div class="content">
+        
+<div class="page-header">
+  <h1>JBrowser:导入bed和gff3文件 </h1>
+</div>
+
+<div class="row-fluid post-full">
+  <div class="span12">
+    <div class="date">
+      <span>15 July 2014 posted by <a href="http://zhoujj2013.github.io/~zhoujj/">zhoujj</a></span>
+    </div>
+    <div class="content">
+      
+<p>Bed和gff3文件是存储基因功能元件位置信息的文件。想把数据导入JBrowser，首先要理解文件格式及其存储内容。</p>
+
+<p>Bed的每一个位置坐标代表一个位置，详细格式见：http://genome.ucsc.edu/FAQ/FAQformat.html#format1</p>
+
+<p>gff3可以表现一个基因或者转录本的结构及位置信息，详细格式见：http://genome.ucsc.edu/FAQ/FAQformat.html#format3</p>
+
+<p>想了解更多与gff3格式相关的信息，请参考：</p>
+
+<p>http://www.sequenceontology.org/gff3.shtml</p>
+
+<p>http://gmod.org/wiki/GFF3#GFF3_Annotation_Section</p>
+
+<p>在线的gff3格式认证识别：</p>
+
+<p>http://modencode.oicr.on.ca/cgi-bin/validate_gff3_online</p>
+
+<p>gff3格式当时发布的时候是想用这种格式表示基因组的所有信息，也就是说，bed文件也可以转化为gff3格式导入。</p>
+
+<h4 id="jbrowserbed">直接向JBrowser中导入bed文件</h4>
+
+<ul>
+  <li>利用$JB/bin/flatfile-to-json.pl导入bed文件；</li>
+</ul>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># --className 是把基因组元件显示的css样品，详细请查看：$JB/docs/featureglyphs.html</span>
+<span class="c"># --arrowheadClass 表示是否在元件两边加上方向，此处不需要加箭头方向</span>
+perl <span class="nv">$JB</span>/bin/flatfile-to-json.pl --bed TargetGeneRegionExtend2bp.bed --key <span class="s1">&#39;XXTargetReg&#39;</span> --className feature2 --trackLabel RandomTarget --arrowheadClass none --metadata <span class="s1">&#39;{&quot;category&quot; : &quot;TargetReSequencing&quot;}&#39;</span> --out ./json/hg19/
+</code></pre></div>
+
+<ul>
+  <li>利用$JB/bin/flatfile-to-json.pl对bed文件的gene元件建立名字索引；</li>
+</ul>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># --sortMem 是指定建立名字索引时所用的内存，单位是b</span>
+perl <span class="nv">$JB</span>/bin/generate-names.pl --dir ./json/hg19/ -tracks RandomTarget -v --sortMem 2048000000
+</code></pre></div>
+
+<p>可以从tracksselector里面选择我们刚才建立的track。</p>
+
+<p>完成名字索引建立后，我们可以在查询框查询相应名字，ajax是会有自动提示的。</p>
+
+<h4 id="jbrowergff3gtfgff2">向JBrower导入gff3/gtf/gff2文件</h4>
+
+<p>JBrowser的html feature暂时只支持gff3格式文件，gtf和gff2文件都要根据http://gmod.org/wiki/GFF3#GFF3_Annotation_Section中的说明进行格式转换，由于gff3有一些field名字是可以自定义的，所以还得根据JBrowser进行调整。</p>
+
+<p>JBrowser还有另外一种CanvasFeatures，它是支持gtf和gff3格式的，但是它是临时读取文件的，显示速度有点过慢。</p>
+
+<p>关于HTMLfeatures和CanvasFeatures，我日后详细写个文章来研究。</p>
+
+<p><strong>HTMLfeatures导入</strong></p>
+
+<ul>
+  <li>把Ensembl gtf文件转换为gff3格式；</li>
+</ul>
+
+<p>先准备chromosome名字的转换文件chr.lst</p>
+
+<div class="highlight"><pre><code class="html">MT	chrM
+X	chrX
+Y	chrY
+1	chr1
+2	chr2
+3	chr3
+4	chr4
+5	chr5
+6	chr6
+7	chr7
+8	chr8
+9	chr9
+10	chr10
+11	chr11
+12	chr12
+13	chr13
+14	chr14
+15	chr15
+16	chr16
+17	chr17
+18	chr18
+19	chr19
+20	chr20
+21	chr21
+22	chr22
+</code></pre></div>
+
+<p>转换gtf文件格式为gff3:</p>
+
+<div class="highlight"><pre><code class="bash">perl ./gtf2gff3.pl Homo_sapiens.GRCh37.75.gtf chr.lst &gt; Homo_sapiens.GRCh37.75.gff3
+</code></pre></div>
+
+<p>gtf2gff3.pl代码如下：</p>
+
+<script src="https://gist.github.com/zhoujj2013/024ef0789c1f5538d568.js"></script>
+
+<ul>
+  <li>分染色体导入gff3文件（如果单个gff3文件太大会导致程序运行的内存峰值达到5G）;</li>
+</ul>
+
+<p>单个文件导入：</p>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># --trackLabel 是指文件存储时，track的id</span>
+<span class="c"># --className 显示的基因的样式</span>
+<span class="c"># --subfeatureClasses 基因结构里的元件样式，如CDS,exon,UTR等</span>
+<span class="c"># --key 是显示在jbrowser中的tracks名字，与trackLabel可以是相同的，但是名字的用途是有区别的</span>
+<span class="c"># --autocomplete 是让基因的名字可以查询</span>
+perl <span class="nv">$JB</span>/bin/flatfile-to-json.pl --out ./json/hg19/ --gff Homo_sapiens.GRCh37.75.gff3  --type mRNA   --autocomplete all --trackLabel EnsemblTrans --key <span class="s1">&#39;EnsemblTrans&#39;</span> --getSubfeatures --className transcript  --subfeatureClasses <span class="s1">&#39;{&quot;CDS&quot;: &quot;transcript-CDS&quot;}&#39;</span>  --arrowheadClass arrowhead  --urltemplate <span class="s2">&quot;http://asia.ensembl.org/Homo_sapiens/Transcript/Summary?t={id}&amp;db=core&quot;</span> --maxLookback 2000 
+</code></pre></div>
+
+<p>分染色体导入：</p>
+
+<p>写了个perl脚本，把染色体分开导入gff3文件，代码如下：</p>
+
+<script src="https://gist.github.com/zhoujj2013/5e2c1f861fbe904e7de5.js"></script>
+
+<p>运行以下命令导入：</p>
+
+<div class="highlight"><pre><code class="bash">perl ./import_gff3_by_chr.pl Homo_sapiens.GRCh37.75.gff3 ./json/hg19/
+</code></pre></div>
+
+<ul>
+  <li>为新的tracks建立索引</li>
+</ul>
+
+<div class="highlight"><pre><code class="bash">perl /var/www/jbrowser/bin/generate-names.pl --dir ./json/hg19/ -tracks EnsemblTrans -v --sortMem 2048000000
+</code></pre></div>
+
+<p><strong>CanvasFeatures导入</strong></p>
+
+<p>CanvasFeatures导入会相对容易一些，唯一要做的工作是格式转换，要把你手上的gff／gtf文件变为JBrowser所要求的。CanvasFeatures是支持gff3和gtf文件直接导入的，但是文件格式有一些要求。</p>
+
+<p>把你的文件转换成http://gmod.org/wiki/GFF3#GFF3_Annotation_Section所要求的格式就不会错的。在此我就不写转换脚本程序了。</p>
+
+<ul>
+  <li>导入gff3文件</li>
+</ul>
+
+<p>在./json/hg19/tracks.conf文件中加入以下配置：</p>
+
+<div class="highlight"><pre><code class="html">[ tracks . hg19EnsemblTrans ]                         # 注意这里的格式
+storeClass = JBrowse/Store/SeqFeature/GFF3
+urlTemplate = ../../Homo_sapiens.GRCh37.75.gff3  # 相对于./json/hg19/的文件路径，注意文件格式
+type = CanvasFeatures
+metadata.description = This is just all the features in the Homo_sapiens.GRCh37.75.gff3 file, displayed directly from a web-accessible GFF3 file
+category = Gene                                  # 这个tracks的类别
+key = GFF3 - Homo_sapiens.GRCh37.75.gff3　　　　 # jbrowser要显示的名字
+</code></pre></div>
+
+<ul>
+  <li>导入gtf文件</li>
+</ul>
+
+<p>在./json/hg19/tracks.conf文件中加入以下配置：</p>
+
+<div class="highlight"><pre><code class="html">[ tracks . hg19EnsemblTrans ]
+storeClass = JBrowse/Store/SeqFeature/GTF
+urlTemplate = ../../Homo_sapiens.GRCh37.75.gtf    # 注意ensembl中的chromosome id一定要与reference genome是一致的
+type = CanvasFeatures
+metadata.description = This is just all the features in the Homo_sapiens.GRCh37.75.gtf file, which like the Homo_sapiens.GRCh37.75.gff3 file, is displayed directly from a web-accessible GTF file
+category = Gene
+key = GTF - Homo_sapiens.GRCh37.75.gtf in-memory adaptor
+style.label = transcript_id,gene_id  # 指定你所要显示转录本及基因类型
+</code></pre></div>
+
+<p>如果你用CanvasFeatures来显示tracks的话，这些tracks的名字是无法建立索引的。</p>
+
+<p>此处我们可以总结出：</p>
+
+<ul>
+  <li>
+    <p>生物信息分析经常要对格式进行转换，对生物信息常用数据格式一定熟悉；</p>
+  </li>
+  <li>
+    <p>掌握一门编程语言，可以完成基本程序书写非常重要；</p>
+  </li>
+  <li>
+    <p>要学习看生物信息软件的使用说明，并通过google查询解决方案。</p>
+  </li>
+</ul>
+
+<p>参考：
+http://gmod.org/wiki/JBrowse_Configuration_Guide</p>
+
+<p>声明：</p>
+
+<p>转载请注明出处：http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/15/jbrowser-import-bed-and-gff3/</p>
+
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-folder-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/categories.html#bioinformatics-ref">
+    		bioinformatics <span>3</span>
+    	</a></li>
+    
+  
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/tags.html#bioinformatics-ref">bioinformatics <span>3</span></a></li>
+     
+    	<li><a href="/tags.html#visualization-ref">visualization <span>3</span></a></li>
+     
+    	<li><a href="/tags.html#web-ref">web <span>3</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/bioinformatics/2014/07/13/jbrowser-installation" title="JBrowser安装及配置">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next disabled"><a>Next &rarr;</a>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'zhoujj'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+</div>
+
+
+      </div>
+      <hr>
+      <footer>
+        <p>Copyright &copy; 2014 <a href="http://zhoujj2013.github.io/~zhoujj/index.html" title="Zhoujj's homepage" target="_blank">Zhoujj</a> 
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+        </p>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+
