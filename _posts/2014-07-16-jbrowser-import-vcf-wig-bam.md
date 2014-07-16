@@ -21,6 +21,9 @@ bam是短片断序列alignment结果sam文件，通过samtools排序压缩后生
 bam文件需要通过samtools进行查看。
 详细格式请查看：
 http://samtools.github.io/hts-specs/SAMv1.pdf
+http://genome.sph.umich.edu/wiki/SAM
+http://picard.sourceforge.net/explain-flags.html
+http://wiki.bits.vib.be/index.php/.sam
 
 {% highlight bash %}
 samtool view <bam_file>
