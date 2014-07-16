@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "JBrowser:导入vcf、wig和bam数据"
+title: "JBrowser:导入vcf wig和bam数据"
 description: "Import vcf, wig and bam to jbrowser."
 category: "bioinformatics"
 tags: ["bioinformatics", "visualization", "web"]
