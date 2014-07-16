@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "JBrowser导入参考基因组序列"
+title: "JBrowser:导入参考基因组序列"
 description: "Import reference genome to JBrowser"
 category: "bioinformatics"
 tags: ["bioinformatics", "visualization", "web"]

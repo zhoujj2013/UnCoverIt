@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "JBrowser安装及配置"
+title: "JBrowser:安装及配置"
 description: "JBrowser installation and configuration"
 category: "bioinformatics"
 tags: ["bioinformatics", "visualization", "web"]
