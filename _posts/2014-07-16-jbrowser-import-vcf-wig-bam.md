@@ -10,19 +10,28 @@ tags: ["bioinformatics", "visualization", "web"]
 #### vcf, wig和bam文件的介绍
 
 vcf文件主要是用来记录基因组variants位置及variants功能注释。
+
 详细格式请查看：
+
 http://samtools.github.io/hts-specs/
 
 wig是用来表示连续和非连续数据信号的文件格式。
+
 详细格式请查看：
+
 http://www.genome.ucsc.edu/goldenPath/help/wiggle.html
 
 bam是短片断序列alignment结果sam文件，通过samtools排序压缩后生成的文件，用于存储比对文件。
 bam文件需要通过samtools进行查看。
+
 详细格式请查看：
+
 http://samtools.github.io/hts-specs/SAMv1.pdf
+
 http://genome.sph.umich.edu/wiki/SAM
+
 http://picard.sourceforge.net/explain-flags.html
+
 http://wiki.bits.vib.be/index.php/.sam
 
 {% highlight bash %}
