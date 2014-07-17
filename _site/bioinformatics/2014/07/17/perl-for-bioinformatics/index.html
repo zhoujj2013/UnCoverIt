@@ -1,0 +1,363 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Learn:用Perl处理生物信息数据</title>
+    <meta name="description" content="Using perl in bioinformatics.">
+    <meta name="author" content="Zhoujj">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/themes/twitter/bootstrap/css/bootstrap.2.2.2.min.css" rel="stylesheet">
+    <link href="/assets/themes/twitter/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container-narrow">
+        <!--<a class="brand" href="/">UnCoverIt</a>-->
+          <ul class="nav">
+			<li><a href="/">Home</a></li>
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/about.html">About</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-narrow">
+
+      <div class="content">
+        
+<div class="page-header">
+  <h1>Learn:用Perl处理生物信息数据 </h1>
+</div>
+
+<div class="row-fluid post-full">
+  <div class="span12">
+    <div class="date">
+      <span>17 July 2014 posted by <a href="http://zhoujj2013.github.io/~zhoujj/">zhoujj</a></span>
+    </div>
+    <div class="content">
+      
+<p>我在计算机方面不在行，所以就不讨论为什么选择perl语言。因为生物研究者更加关心什么工具可以让他们能快速处理大量的生物信息数据，perl脚本可以满足您的需求。</p>
+
+<p>100M的2<em>75bp reads大概有10G左右，比对结果文件</em>.sam大概30G。这个数据太大了，在普通桌面电脑中是无法进行分析的，因此在大型计算机下，很有必要掌握一门能快速处理文本的语言。</p>
+
+<p>大多数优秀的生物信息数据分析软件是要求在linux/unix环境下运行了，所以进行生物信息分析的最基本要求是：你能在linux命令行环境下随心所欲地处理数据。</p>
+
+<h4 id="perl">perl语言学习材料</h4>
+
+<p>perl语言博大精深，此处我引用<a href="http://perlmaven.com/">Perl Maven</a>。这个教程的好处是有英文版，也有中文版，当然重要的是free。</p>
+
+<p>Perl Maven中文版</p>
+
+<p><a href="http://cn.perlmaven.com/perl-tutorial">http://cn.perlmaven.com/perl-tutorial</a></p>
+
+<p>Perl Maven英文版</p>
+
+<p><a href="http://perlmaven.com/perl-tutorial">http://perlmaven.com/perl-tutorial</a></p>
+
+<p>建议先阅读中文版本，再阅读英文版本，理解作者的真正用意。</p>
+
+<p><a href="https://dl.dropboxusercontent.com/u/87531643/web/perl1linerCH.txt">perl单行命令</a></p>
+
+<h4 id="bash-shell">bash shell学习材料</h4>
+
+<p>在<a href="http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/simple-shell-command-for-bioinfo/">Learn:用shell命令完成简单生物信息分析查询及统计</a>中，我们用到sed和awk命令，其实是两种古老的文本处理工具。</p>
+
+<p>sed命令教程</p>
+
+<p><a href="http://www.kuqin.com/docs/sed.html">教程</a></p>
+
+<p><a href="https://dl.dropboxusercontent.com/u/87531643/web/sed1linerCH.txt">sed单行命令</a></p>
+
+<p>awk命令教程</p>
+
+<p><a href="http://www.kuqin.com/docs/awk.html">教程</a></p>
+
+<p><a href="https://dl.dropboxusercontent.com/u/87531643/web/awk1linerEN.txt">awk单行命令</a></p>
+
+<p>详细解释：<a href="http://www.catonmat.net/blog/awk-one-liners-explained-part-one/">part1</a> <a href="http://www.catonmat.net/blog/awk-one-liners-explained-part-two/">part2</a> <a href="http://www.catonmat.net/blog/awk-one-liners-explained-part-three/">part3</a> <a href="http://www.catonmat.net/blog/update-on-famous-awk-one-liners-explained/">part4</a></p>
+
+<h4 id="perl-1">在命令行中使用perl</h4>
+
+<p>前面的文章提到用shell命令对zebra fish基因组文件进行一些简单统计分析，但是面对一些复杂的情况，只依赖命令行会显得苍白无力了。</p>
+
+<p>例如：计算zebra fish基因组的长度、计算zebra fish每一个蛋白序列的长度、计算zebra fish外显子的平均长度等。</p>
+
+<p>下面先看一下perl怎么在命令行下使用单行命令：</p>
+
+<div class="highlight"><pre><code class="sh"><span class="c"># 用perl进行计算</span>
+<span class="c"># -e 表示直接执行</span>
+perl -e <span class="s1">&#39;print 10*10,&quot;\n&quot;;&#39;</span>
+
+<span class="c"># 用perl读取fasta文件的序列id</span>
+<span class="c"># 按照顺序一行一行读取文件</span>
+<span class="c"># chomp; 把换行符去除</span>
+perl -ne <span class="s1">&#39;chomp; my $id = $1 if(/&gt;(\S+)/); print &quot;$id\n&quot; if($id);&#39;</span> Danio_rerio.Zv9.75.dna.toplevel.fa
+
+<span class="c"># 用单行perl计算基因组的长度</span>
+<span class="c"># BEGIN{my $sum = 0;} 程序开始读文件前执行，定义了一个全局变量</span>
+<span class="c"># END{print &quot;Total: $sum\n&quot;;} 程序完成文件读取后执行</span>
+perl -ne <span class="s1">&#39;BEGIN{my $sum = 0;} chomp; next if(/^&gt;/); $sum += length($_); END{print &quot;Total: $sum\n&quot;;}&#39;</span> Danio_rerio.Zv9.75.dna.toplevel.fa
+
+<span class="c"># 用同样的方法可以完成所有基因的蛋白序列平均长度统计</span>
+perl -ne <span class="s1">&#39;BEGIN{my $sum = 0; my $count = 0;} chomp; $count++ if(/^&gt;/); next if(/^&gt;/); $sum += length($_); END{my $avg = $sum/$count; print &quot;PEP average length: $avg\n&quot;;}&#39;</span> Danio_rerio.Zv9.75.pep.all.fa
+</code></pre></div>
+
+<p>这时候，想一下我们在做生物学研究时，还需要那些统计分析，可以尝试用perl完成。</p>
+
+<h4 id="perl-2">perl脚本</h4>
+
+<p>当然还有一些更加复杂的分析，用perl脚本去实现更加方便。</p>
+
+<p>以下是如何计算zebra fish的染色体长度？</p>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># 新建一个文件名</span>
+vim seq_len.pl
+</code></pre></div>
+
+<p>vim是linux系统下的文本编程器，当然你可以用gedit。</p>
+
+<p>具体请参考：</p>
+
+<p><a href="http://www.openvim.com/tutorial.html">Interactive Vim tutorial</a></p>
+
+<p>以下是seq_len.pl的代码：</p>
+
+<div class="highlight"><pre><code class="perl"><span class="c1">#!/usr/bin/perl -w</span>
+
+<span class="k">use</span> <span class="n">strict</span><span class="p">;</span> <span class="c1">#用严格的语法格式，这样不容易出错</span>
+
+<span class="k">my</span> <span class="p">(</span><span class="nv">$fa_f</span><span class="p">)</span> <span class="o">=</span> <span class="nv">@ARGV</span><span class="p">;</span> <span class="c1"># 读入所要处理的fasta文件名</span>
+
+<span class="nb">open</span> <span class="n">IN</span><span class="p">,</span><span class="s">&quot;$fa_f&quot;</span> <span class="o">||</span> <span class="nb">die</span> <span class="vg">$!</span><span class="p">;</span> <span class="c1"># 打开fasta文件，如果打开失败的话，输出标准错误信息</span>
+<span class="vg">$/</span> <span class="o">=</span> <span class="s">&quot;&gt;&quot;</span><span class="p">;</span> <span class="sr">&lt;IN&gt;</span><span class="p">;</span> <span class="vg">$/</span> <span class="o">=</span> <span class="s">&quot;\n&quot;</span><span class="p">;</span> <span class="c1"># $/ 变量是perl是存储文件句柄的分隔符</span>
+<span class="k">while</span><span class="p">(</span><span class="sr">&lt;IN&gt;</span><span class="p">){</span>
+	<span class="k">my</span> <span class="nv">$id</span> <span class="o">=</span> <span class="nv">$1</span> <span class="k">if</span><span class="p">(</span><span class="sr">/\S+/</span><span class="p">);</span> <span class="c1"># 获取序列的id</span>
+	<span class="vg">$/</span> <span class="o">=</span> <span class="s">&quot;&gt;&quot;</span><span class="p">;</span>              <span class="c1"># 分隔符$/ 变量变成&quot;&gt;&quot;，可以每次读进属于id的序列</span>
+	<span class="k">my</span> <span class="nv">$seq</span> <span class="o">=</span> <span class="sr">&lt;IN&gt;</span><span class="p">;</span>
+	<span class="nb">chomp</span><span class="p">(</span><span class="nv">$seq</span><span class="p">);</span>           <span class="c1"># 去除分隔符&quot;&gt;&quot;</span>
+	<span class="nv">$seq</span> <span class="o">=~</span> <span class="sr">s/\n//g</span><span class="p">;</span>       <span class="c1"># 把换行符&quot;\n&quot;去除</span>
+	<span class="vg">$/</span> <span class="o">=</span> <span class="s">&quot;\n&quot;</span><span class="p">;</span>
+	<span class="k">print</span> <span class="s">&quot;$id\t&quot;</span><span class="o">.</span><span class="nb">length</span><span class="p">(</span><span class="nv">$seq</span><span class="p">)</span><span class="o">.</span><span class="s">&quot;\n&quot;</span><span class="p">;</span>  <span class="c1"># 输出结果</span>
+<span class="p">}</span>
+<span class="nb">close</span> <span class="n">IN</span><span class="p">;</span>
+</code></pre></div>
+
+<p>运行perl程序:</p>
+
+<div class="highlight"><pre><code class="bash">perl ./seq_len.pl Danio_rerio.Zv9.75.dna.toplevel.fa
+</code></pre></div>
+
+<h4 id="mix-togethter">Mix togethter</h4>
+
+<p>尝试把perl和shell结合在一起，我们要对每一个基因组都进行DNA和蛋白质序列长度进行统计。</p>
+
+<p>建立并打开basic_stat.sh</p>
+
+<div class="highlight"><pre><code class="bash">vim basic_stat.sh
+</code></pre></div>
+
+<p>basic_stat.sh代码如下：</p>
+
+<div class="highlight"><pre><code class="bash"><span class="c">#!/bin/bash</span>
+
+<span class="c"># $1 表示输入的第一个参数，$2代表第二个参数</span>
+perl ./seq_len.pl <span class="nv">$1</span>.dna.toplevel.fa &gt; <span class="nv">$1</span>.ChrLen.lst
+perl ./seq_len.pl <span class="nv">$1</span>.pep.all.fa &gt; <span class="nv">$1</span>.ProteinLen.lst
+</code></pre></div>
+
+<p>运行shell脚本：</p>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># sh ./basic_stat.sh &lt;genome_name_prefix&gt;</span>
+sh ./basic_stat.sh Danio_rerio.Zv9.75
+</code></pre></div>
+
+<p>转载请标明出处：</p>
+
+<p><a href="http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/17/perl-for-bioinformatics/">http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/17/perl-for-bioinformatics/</a></p>
+
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-folder-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/categories.html#bioinformatics-ref">
+    		bioinformatics <span>10</span>
+    	</a></li>
+    
+  
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/tags.html#bioinformatics-ref">bioinformatics <span>10</span></a></li>
+     
+    	<li><a href="/tags.html#perl-ref">perl <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#learn-ref">learn <span>5</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/bioinformatics/2014/07/16/simple-shell-command-for-bioinfo" title="Learn:用shell命令完成简单生物信息分析查询及统计">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/bioinformatics/2014/07/18/bioinfo-tools-collect-and-use" title="Learn:常用生物信息分析软件<i>陈列馆</i>">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'zhoujj'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+</div>
+
+
+      </div>
+      <hr>
+      <footer>
+        <p>Copyright &copy; 2014 <a href="http://zhoujj2013.github.io/~zhoujj/index.html" title="Zhoujj's homepage" target="_blank">Zhoujj</a> 
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+        </p>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

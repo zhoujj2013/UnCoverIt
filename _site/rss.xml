@@ -5,10 +5,402 @@
         <description>UnCoverIt - Zhoujj</description>
         <link>http://zhoujj2013.github.io/UnCoverIt</link>
         <link>http://zhoujj2013.github.io/UnCoverIt</link>
-        <lastBuildDate>2014-07-16T22:22:15+08:00</lastBuildDate>
-        <pubDate>2014-07-16T22:22:15+08:00</pubDate>
+        <lastBuildDate>2014-07-17T16:41:48+08:00</lastBuildDate>
+        <pubDate>2014-07-17T16:41:48+08:00</pubDate>
         <ttl>1800</ttl>
 
+
+        <item>
+                <title>Learn:利用shell和perl构建转录组(RNA-seq)分析流程</title>
+                <description>
+&lt;p&gt;&amp;lt;流程构建设想&amp;gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;测序数据质量控制&lt;/h4&gt;
+
+&lt;h4 id=&quot;reads&quot;&gt;短reads比对及结果分析&lt;/h4&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;表达量计算及差异表达分析&lt;/h4&gt;
+
+&lt;h4 id=&quot;section-2&quot;&gt;生物信息分析报告&lt;/h4&gt;
+
+</description>
+                <link>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/19/bioinfo-mix-together</link>
+                <guid>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/19/bioinfo-mix-together</guid>
+                <pubDate>2014-07-19T00:00:00+08:00</pubDate>
+        </item>
+
+        <item>
+                <title>Learn:常用生物信息分析软件<i>陈列馆</i></title>
+                <description>
+&lt;p&gt;近几年来，二代测序技术(NGS)得到广泛地应用，NGS产生海量生物信息数据，然后这些数据就是通过各种生物信息处理软件，转化为生物学意义的有用信息。生物信息分析软件各类繁多，但是主要是基于NGS的短片段序列分析为主。近两年，研究者对生物功能的研究不断深入，还出现了很多基因功能分析软件以及各种生物信息数据分析流程。&lt;/p&gt;
+
+&lt;p&gt;现阶段生物信息分析几乎都是基于序列比对结果展开的。&lt;/p&gt;
+
+&lt;p&gt;下面以TopHat为例子，说明如何利用生物信息分析软件进行生物学研究。&lt;/p&gt;
+
+&lt;h4 id=&quot;tophat&quot;&gt;Tophat的安装及使用&lt;/h4&gt;
+
+&lt;p&gt;TopHat要求先安装bowtie2, 因为&lt;a href=&quot;http://bowtie-bio.sourceforge.net/bowtie2/index.shtml&quot;&gt;bowtie2&lt;/a&gt;是TopHat的比对工具：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# 在个人目录下建立存放程序的目录&lt;/span&gt;
+mkdir ~/software
+
+&lt;span class=&quot;c&quot;&gt;# 下载bowtie2和tophat，此处我下载预编译版本，也就说，下载完毕就可以使用。&lt;/span&gt;
+wget http://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.2.3/bowtie2-2.2.3-linux-x86_64.zip/download -O bowtie2-2.2.3-linux-x86_64.zip
+wget http://ccb.jhu.edu/software/tophat/downloads/tophat-2.0.12.Linux_x86_64.tar.gz
+
+&lt;span class=&quot;c&quot;&gt;# 解压bowtie2-2.2.3-linux-x86_64.zip&lt;/span&gt;
+unzip bowtie2-2.2.3-linux-x86_64.zip
+
+&lt;span class=&quot;c&quot;&gt;# 把bowtie2加入到系统环境变量，用vim打开~/.bashrc，添加行&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;~/software/bowtie2-2.2.3/:&lt;span class=&quot;nv&quot;&gt;$PATH&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; ~/.bashrc
+which bowtie2
+
+&lt;span class=&quot;c&quot;&gt;# 同时，你也可以把bowtie1安装上，如果你是用ubuntu的话&lt;/span&gt;
+sudo apt-get install bowtie
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;测试bowtie2是否正常运行:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# 进入example文件夹&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/software/bowtie2-2.2.3/example/
+
+&lt;span class=&quot;c&quot;&gt;# 建立参考基因组index&lt;/span&gt;
+bowtie2-build reference/lambda_virus.fa reference/lambda_virus
+
+&lt;span class=&quot;c&quot;&gt;# 测序bowtie2比对&lt;/span&gt;
+bowtie2 -x ./reference/lambda_virus -1 ./reads/reads_1.fq -2 ./reads/reads_2.fq -S align.sam 2&amp;gt; bowtie.log
+
+&lt;span class=&quot;c&quot;&gt;# 查看比对情况和比对结果&lt;/span&gt;
+cat bowtie.log
+less -S align.sam
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;安装tophat:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# 解压tophat数据包&lt;/span&gt;
+tar xzvf tophat-2.0.12.Linux_x86_64.tar.gz
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ./tophat-2.0.12.Linux_x86_64
+./tophat -h
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;我们用tophat官方网站的数据对tophat进行测试：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;mkdir &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cd test&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 下载hg19的参考基因组&lt;/span&gt;
+wget ftp://ftp.ccb.jhu.edu/pub/data/bowtie2_indexes/hg19.zip
+unzip hg19.zip
+
+&lt;span class=&quot;c&quot;&gt;# 下载tophat的reads数据&lt;/span&gt;
+wget http://ccb.jhu.edu/software/tophat/downloads/tophat2_simulation_data/junction_test/sim_1.fq.tar.gz
+wget http://ccb.jhu.edu/software/tophat/downloads/tophat2_simulation_data/junction_test/sim_2.fq.tar.gz
+tar xzvf sim_1.fq.tar.gz
+tar xzvf sim_2.fq.tar.gz
+
+&lt;span class=&quot;c&quot;&gt;# 使用tophat处理RNAseq数据，此处用的是一个模拟数据，ref: http://genomebiology.com/2013/14/4/R36&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 这个数据量比较大，请放到后台运行。当然你也可以投放到大型节点运行。&lt;/span&gt;
+nohup ../tophat ./hg19/hg19 ./sim_1.fq ./sim_2.fq &amp;gt;tophat.std 2&amp;gt;tophat.err&amp;amp;
+
+&lt;span class=&quot;c&quot;&gt;# 用top -u &amp;lt;username&amp;gt;查看情况&lt;/span&gt;
+top -u username
+
+&lt;span class=&quot;c&quot;&gt;# 查看tophat_out结果&lt;/span&gt;
+ls -l ./tophat_out
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;从这个简单的例子可以看到，生物信息分析是需要读大量材料，去不断尝试新的软件，不断学习和积累的。因为你不可能把所有的分析软件用一次，所以你要具备学习的能力。&lt;/p&gt;
+
+&lt;p&gt;当你遇到一个生物学问题的时候，你能想起用什么软件相互组合，才能够解决你的问题。&lt;/p&gt;
+
+&lt;p&gt;最后剩下的就是不断学习，不断尝试，也许这就是科研。&lt;/p&gt;
+
+&lt;p&gt;由此看来，生物信息分析不是一门容易的技术活。&lt;/p&gt;
+
+&lt;h4 id=&quot;seek-for-help&quot;&gt;获取帮助(seek for help)&lt;/h4&gt;
+
+&lt;p&gt;当我们在安装使用过程中遇到困难的时候:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;应该先查看程序的使用说明文档；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;用google search看一下有没有人遇到类似的情况，寻找合适的解决方案；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;如果实在不行，可以在生物信息社区寻求解答的方法，如&lt;a href=&quot;http://seqanswers.com/&quot;&gt;seqanswer&lt;/a&gt;和&lt;a href=&quot;https://www.biostars.org/&quot;&gt;biostar&lt;/a&gt;；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;最后实在解决不了，请找expert。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;生物信息分析软件常规安装方法&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;c语言程序包：&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;./configure &lt;span class=&quot;nv&quot;&gt;prefix&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&amp;lt;install_dir&amp;gt; &lt;span class=&quot;c&quot;&gt;#有的程序没有这一部分&lt;/span&gt;
+make
+make &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;
+make install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Perl语言程序包&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;perl Makefile.PL &lt;span class=&quot;nv&quot;&gt;PREFIX&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&amp;lt;install_dir&amp;gt; &lt;span class=&quot;c&quot;&gt;#有的程序没有这一部分&lt;/span&gt;
+make
+make install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Python语言包&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;python setup.py build --build-base&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&amp;lt;install_dir_path&amp;gt;
+python setup.py install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;预编译版本&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;一般来说，这种已经编译的程序是不需要再进行其它操作了。&lt;/p&gt;
+
+&lt;p&gt;直接把目标文件变成可执行，就可以用了。&lt;/p&gt;
+
+&lt;p&gt;例如，fastqc&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;chmod 755 fastqc
+./fastqc --help
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;常用生物信息分析软件&lt;/h4&gt;
+
+&lt;p&gt;下面列出一些常用的生物信息分析软件:&lt;/p&gt;
+
+&lt;p&gt;（链接时刻在变，我只提供keywork，如有需要请自行google）&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;局部比对&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;NCBI blast&lt;/p&gt;
+
+&lt;p&gt;blat&lt;/p&gt;
+
+&lt;p&gt;fasta&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;全局比对&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;muscle&lt;/p&gt;
+
+&lt;p&gt;clustal&lt;/p&gt;
+
+&lt;p&gt;t-coffee&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;全基因组比对&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;blastz/lastz&lt;/p&gt;
+
+&lt;p&gt;MUMmer&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;短序列比对&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;SOAP2&lt;/p&gt;
+
+&lt;p&gt;Bowtie1/Bowtie2&lt;/p&gt;
+
+&lt;p&gt;BWA&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;短序列测序质量控制&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;fastQC&lt;/p&gt;
+
+&lt;p&gt;cutadaptor&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;RNAseq比对、表达量估计和差异表达分析&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;TopHat/cufflinks&lt;/p&gt;
+
+&lt;p&gt;DEseq&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;序列信号估计&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;MACS&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;短序列拼接&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Trinity&lt;/p&gt;
+
+&lt;p&gt;SOAPdenovo&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;NGS数据操作工具集合&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;samtools&lt;/p&gt;
+
+&lt;p&gt;BEDtools&lt;/p&gt;
+
+&lt;p&gt;BEDops&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;分子进化相关的信息分析工具&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;PAML&lt;/p&gt;
+
+&lt;p&gt;Treebest&lt;/p&gt;
+
+&lt;p&gt;转载请标明出处：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/17/bioinfo-tools-collect-and-use/&quot;&gt;http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/17/bioinfo-tools-collect-and-use/&lt;/a&gt;&lt;/p&gt;
+
+</description>
+                <link>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/18/bioinfo-tools-collect-and-use</link>
+                <guid>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/18/bioinfo-tools-collect-and-use</guid>
+                <pubDate>2014-07-18T00:00:00+08:00</pubDate>
+        </item>
+
+        <item>
+                <title>Learn:用Perl处理生物信息数据</title>
+                <description>
+&lt;p&gt;我在计算机方面不在行，所以就不讨论为什么选择perl语言。因为生物研究者更加关心什么工具可以让他们能快速处理大量的生物信息数据，perl脚本可以满足您的需求。&lt;/p&gt;
+
+&lt;p&gt;100M的2&lt;em&gt;75bp reads大概有10G左右，比对结果文件&lt;/em&gt;.sam大概30G。这个数据太大了，在普通桌面电脑中是无法进行分析的，因此在大型计算机下，很有必要掌握一门能快速处理文本的语言。&lt;/p&gt;
+
+&lt;p&gt;大多数优秀的生物信息数据分析软件是要求在linux/unix环境下运行了，所以进行生物信息分析的最基本要求是：你能在linux命令行环境下随心所欲地处理数据。&lt;/p&gt;
+
+&lt;h4 id=&quot;perl&quot;&gt;perl语言学习材料&lt;/h4&gt;
+
+&lt;p&gt;perl语言博大精深，此处我引用&lt;a href=&quot;http://perlmaven.com/&quot;&gt;Perl Maven&lt;/a&gt;。这个教程的好处是有英文版，也有中文版，当然重要的是free。&lt;/p&gt;
+
+&lt;p&gt;Perl Maven中文版&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cn.perlmaven.com/perl-tutorial&quot;&gt;http://cn.perlmaven.com/perl-tutorial&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Perl Maven英文版&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://perlmaven.com/perl-tutorial&quot;&gt;http://perlmaven.com/perl-tutorial&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;建议先阅读中文版本，再阅读英文版本，理解作者的真正用意。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://dl.dropboxusercontent.com/u/87531643/web/perl1linerCH.txt&quot;&gt;perl单行命令&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;bash-shell&quot;&gt;bash shell学习材料&lt;/h4&gt;
+
+&lt;p&gt;在&lt;a href=&quot;http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/16/simple-shell-command-for-bioinfo/&quot;&gt;Learn:用shell命令完成简单生物信息分析查询及统计&lt;/a&gt;中，我们用到sed和awk命令，其实是两种古老的文本处理工具。&lt;/p&gt;
+
+&lt;p&gt;sed命令教程&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.kuqin.com/docs/sed.html&quot;&gt;教程&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://dl.dropboxusercontent.com/u/87531643/web/sed1linerCH.txt&quot;&gt;sed单行命令&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;awk命令教程&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.kuqin.com/docs/awk.html&quot;&gt;教程&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://dl.dropboxusercontent.com/u/87531643/web/awk1linerEN.txt&quot;&gt;awk单行命令&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;详细解释：&lt;a href=&quot;http://www.catonmat.net/blog/awk-one-liners-explained-part-one/&quot;&gt;part1&lt;/a&gt; &lt;a href=&quot;http://www.catonmat.net/blog/awk-one-liners-explained-part-two/&quot;&gt;part2&lt;/a&gt; &lt;a href=&quot;http://www.catonmat.net/blog/awk-one-liners-explained-part-three/&quot;&gt;part3&lt;/a&gt; &lt;a href=&quot;http://www.catonmat.net/blog/update-on-famous-awk-one-liners-explained/&quot;&gt;part4&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;perl-1&quot;&gt;在命令行中使用perl&lt;/h4&gt;
+
+&lt;p&gt;前面的文章提到用shell命令对zebra fish基因组文件进行一些简单统计分析，但是面对一些复杂的情况，只依赖命令行会显得苍白无力了。&lt;/p&gt;
+
+&lt;p&gt;例如：计算zebra fish基因组的长度、计算zebra fish每一个蛋白序列的长度、计算zebra fish外显子的平均长度等。&lt;/p&gt;
+
+&lt;p&gt;下面先看一下perl怎么在命令行下使用单行命令：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;&lt;span class=&quot;c&quot;&gt;# 用perl进行计算&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# -e 表示直接执行&lt;/span&gt;
+perl -e &lt;span class=&quot;s1&quot;&gt;&amp;#39;print 10*10,&amp;quot;\n&amp;quot;;&amp;#39;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# 用perl读取fasta文件的序列id&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 按照顺序一行一行读取文件&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# chomp; 把换行符去除&lt;/span&gt;
+perl -ne &lt;span class=&quot;s1&quot;&gt;&amp;#39;chomp; my $id = $1 if(/&amp;gt;(\S+)/); print &amp;quot;$id\n&amp;quot; if($id);&amp;#39;&lt;/span&gt; Danio_rerio.Zv9.75.dna.toplevel.fa
+
+&lt;span class=&quot;c&quot;&gt;# 用单行perl计算基因组的长度&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# BEGIN{my $sum = 0;} 程序开始读文件前执行，定义了一个全局变量&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# END{print &amp;quot;Total: $sum\n&amp;quot;;} 程序完成文件读取后执行&lt;/span&gt;
+perl -ne &lt;span class=&quot;s1&quot;&gt;&amp;#39;BEGIN{my $sum = 0;} chomp; next if(/^&amp;gt;/); $sum += length($_); END{print &amp;quot;Total: $sum\n&amp;quot;;}&amp;#39;&lt;/span&gt; Danio_rerio.Zv9.75.dna.toplevel.fa
+
+&lt;span class=&quot;c&quot;&gt;# 用同样的方法可以完成所有基因的蛋白序列平均长度统计&lt;/span&gt;
+perl -ne &lt;span class=&quot;s1&quot;&gt;&amp;#39;BEGIN{my $sum = 0; my $count = 0;} chomp; $count++ if(/^&amp;gt;/); next if(/^&amp;gt;/); $sum += length($_); END{my $avg = $sum/$count; print &amp;quot;PEP average length: $avg\n&amp;quot;;}&amp;#39;&lt;/span&gt; Danio_rerio.Zv9.75.pep.all.fa
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;这时候，想一下我们在做生物学研究时，还需要那些统计分析，可以尝试用perl完成。&lt;/p&gt;
+
+&lt;h4 id=&quot;perl-2&quot;&gt;perl脚本&lt;/h4&gt;
+
+&lt;p&gt;当然还有一些更加复杂的分析，用perl脚本去实现更加方便。&lt;/p&gt;
+
+&lt;p&gt;以下是如何计算zebra fish的染色体长度？&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# 新建一个文件名&lt;/span&gt;
+vim seq_len.pl
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;vim是linux系统下的文本编程器，当然你可以用gedit。&lt;/p&gt;
+
+&lt;p&gt;具体请参考：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.openvim.com/tutorial.html&quot;&gt;Interactive Vim tutorial&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;以下是seq_len.pl的代码：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;perl&quot;&gt;&lt;span class=&quot;c1&quot;&gt;#!/usr/bin/perl -w&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;strict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#用严格的语法格式，这样不容易出错&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$fa_f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;@ARGV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# 读入所要处理的fasta文件名&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IN&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;$fa_f&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;die&lt;/span&gt; &lt;span class=&quot;vg&quot;&gt;$!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# 打开fasta文件，如果打开失败的话，输出标准错误信息&lt;/span&gt;
+&lt;span class=&quot;vg&quot;&gt;$/&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;&amp;lt;IN&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;vg&quot;&gt;$/&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;\n&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# $/ 变量是perl是存储文件句柄的分隔符&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;&amp;lt;IN&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/\S+/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# 获取序列的id&lt;/span&gt;
+	&lt;span class=&quot;vg&quot;&gt;$/&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;              &lt;span class=&quot;c1&quot;&gt;# 分隔符$/ 变量变成&amp;quot;&amp;gt;&amp;quot;，可以每次读进属于id的序列&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$seq&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;&amp;lt;IN&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;nb&quot;&gt;chomp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$seq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;           &lt;span class=&quot;c1&quot;&gt;# 去除分隔符&amp;quot;&amp;gt;&amp;quot;&lt;/span&gt;
+	&lt;span class=&quot;nv&quot;&gt;$seq&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=~&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;s/\n//g&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;       &lt;span class=&quot;c1&quot;&gt;# 把换行符&amp;quot;\n&amp;quot;去除&lt;/span&gt;
+	&lt;span class=&quot;vg&quot;&gt;$/&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;\n&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;$id\t&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$seq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;\n&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# 输出结果&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;close&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IN&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;运行perl程序:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;perl ./seq_len.pl Danio_rerio.Zv9.75.dna.toplevel.fa
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;mix-togethter&quot;&gt;Mix togethter&lt;/h4&gt;
+
+&lt;p&gt;尝试把perl和shell结合在一起，我们要对每一个基因组都进行DNA和蛋白质序列长度进行统计。&lt;/p&gt;
+
+&lt;p&gt;建立并打开basic_stat.sh&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;vim basic_stat.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;basic_stat.sh代码如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# $1 表示输入的第一个参数，$2代表第二个参数&lt;/span&gt;
+perl ./seq_len.pl &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;.dna.toplevel.fa &amp;gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;.ChrLen.lst
+perl ./seq_len.pl &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;.pep.all.fa &amp;gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;.ProteinLen.lst
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;运行shell脚本：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# sh ./basic_stat.sh &amp;lt;genome_name_prefix&amp;gt;&lt;/span&gt;
+sh ./basic_stat.sh Danio_rerio.Zv9.75
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;转载请标明出处：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/17/perl-for-bioinformatics/&quot;&gt;http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/17/perl-for-bioinformatics/&lt;/a&gt;&lt;/p&gt;
+
+</description>
+                <link>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/17/perl-for-bioinformatics</link>
+                <guid>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/17/perl-for-bioinformatics</guid>
+                <pubDate>2014-07-17T00:00:00+08:00</pubDate>
+        </item>
 
         <item>
                 <title>Learn:用shell命令完成简单生物信息分析查询及统计</title>

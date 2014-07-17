@@ -1,0 +1,438 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Learn:常用生物信息分析软件<i>陈列馆</i></title>
+    <meta name="description" content="Bioinformatics tools collection and usage.">
+    <meta name="author" content="Zhoujj">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/themes/twitter/bootstrap/css/bootstrap.2.2.2.min.css" rel="stylesheet">
+    <link href="/assets/themes/twitter/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container-narrow">
+        <!--<a class="brand" href="/">UnCoverIt</a>-->
+          <ul class="nav">
+			<li><a href="/">Home</a></li>
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/about.html">About</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-narrow">
+
+      <div class="content">
+        
+<div class="page-header">
+  <h1>Learn:常用生物信息分析软件<i>陈列馆</i> </h1>
+</div>
+
+<div class="row-fluid post-full">
+  <div class="span12">
+    <div class="date">
+      <span>18 July 2014 posted by <a href="http://zhoujj2013.github.io/~zhoujj/">zhoujj</a></span>
+    </div>
+    <div class="content">
+      
+<p>近几年来，二代测序技术(NGS)得到广泛地应用，NGS产生海量生物信息数据，然后这些数据就是通过各种生物信息处理软件，转化为生物学意义的有用信息。生物信息分析软件各类繁多，但是主要是基于NGS的短片段序列分析为主。近两年，研究者对生物功能的研究不断深入，还出现了很多基因功能分析软件以及各种生物信息数据分析流程。</p>
+
+<p>现阶段生物信息分析几乎都是基于序列比对结果展开的。</p>
+
+<p>下面以TopHat为例子，说明如何利用生物信息分析软件进行生物学研究。</p>
+
+<h4 id="tophat">Tophat的安装及使用</h4>
+
+<p>TopHat要求先安装bowtie2, 因为<a href="http://bowtie-bio.sourceforge.net/bowtie2/index.shtml">bowtie2</a>是TopHat的比对工具：</p>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># 在个人目录下建立存放程序的目录</span>
+mkdir ~/software
+
+<span class="c"># 下载bowtie2和tophat，此处我下载预编译版本，也就说，下载完毕就可以使用。</span>
+wget http://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.2.3/bowtie2-2.2.3-linux-x86_64.zip/download -O bowtie2-2.2.3-linux-x86_64.zip
+wget http://ccb.jhu.edu/software/tophat/downloads/tophat-2.0.12.Linux_x86_64.tar.gz
+
+<span class="c"># 解压bowtie2-2.2.3-linux-x86_64.zip</span>
+unzip bowtie2-2.2.3-linux-x86_64.zip
+
+<span class="c"># 把bowtie2加入到系统环境变量，用vim打开~/.bashrc，添加行</span>
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>~/software/bowtie2-2.2.3/:<span class="nv">$PATH</span>
+<span class="nb">source</span> ~/.bashrc
+which bowtie2
+
+<span class="c"># 同时，你也可以把bowtie1安装上，如果你是用ubuntu的话</span>
+sudo apt-get install bowtie
+</code></pre></div>
+
+<p>测试bowtie2是否正常运行:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># 进入example文件夹</span>
+<span class="nb">cd</span> ~/software/bowtie2-2.2.3/example/
+
+<span class="c"># 建立参考基因组index</span>
+bowtie2-build reference/lambda_virus.fa reference/lambda_virus
+
+<span class="c"># 测序bowtie2比对</span>
+bowtie2 -x ./reference/lambda_virus -1 ./reads/reads_1.fq -2 ./reads/reads_2.fq -S align.sam 2&gt; bowtie.log
+
+<span class="c"># 查看比对情况和比对结果</span>
+cat bowtie.log
+less -S align.sam
+</code></pre></div>
+
+<p>安装tophat:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># 解压tophat数据包</span>
+tar xzvf tophat-2.0.12.Linux_x86_64.tar.gz
+<span class="nb">cd</span> ./tophat-2.0.12.Linux_x86_64
+./tophat -h
+</code></pre></div>
+
+<p>我们用tophat官方网站的数据对tophat进行测试：</p>
+
+<div class="highlight"><pre><code class="bash">mkdir <span class="nb">test</span>
+<span class="nb">cd test</span>
+<span class="c"># 下载hg19的参考基因组</span>
+wget ftp://ftp.ccb.jhu.edu/pub/data/bowtie2_indexes/hg19.zip
+unzip hg19.zip
+
+<span class="c"># 下载tophat的reads数据</span>
+wget http://ccb.jhu.edu/software/tophat/downloads/tophat2_simulation_data/junction_test/sim_1.fq.tar.gz
+wget http://ccb.jhu.edu/software/tophat/downloads/tophat2_simulation_data/junction_test/sim_2.fq.tar.gz
+tar xzvf sim_1.fq.tar.gz
+tar xzvf sim_2.fq.tar.gz
+
+<span class="c"># 使用tophat处理RNAseq数据，此处用的是一个模拟数据，ref: http://genomebiology.com/2013/14/4/R36</span>
+<span class="c"># 这个数据量比较大，请放到后台运行。当然你也可以投放到大型节点运行。</span>
+nohup ../tophat ./hg19/hg19 ./sim_1.fq ./sim_2.fq &gt;tophat.std 2&gt;tophat.err&amp;
+
+<span class="c"># 用top -u &lt;username&gt;查看情况</span>
+top -u username
+
+<span class="c"># 查看tophat_out结果</span>
+ls -l ./tophat_out
+</code></pre></div>
+
+<p>从这个简单的例子可以看到，生物信息分析是需要读大量材料，去不断尝试新的软件，不断学习和积累的。因为你不可能把所有的分析软件用一次，所以你要具备学习的能力。</p>
+
+<p>当你遇到一个生物学问题的时候，你能想起用什么软件相互组合，才能够解决你的问题。</p>
+
+<p>最后剩下的就是不断学习，不断尝试，也许这就是科研。</p>
+
+<p>由此看来，生物信息分析不是一门容易的技术活。</p>
+
+<h4 id="seek-for-help">获取帮助(seek for help)</h4>
+
+<p>当我们在安装使用过程中遇到困难的时候:</p>
+
+<ol>
+  <li>
+    <p>应该先查看程序的使用说明文档；</p>
+  </li>
+  <li>
+    <p>用google search看一下有没有人遇到类似的情况，寻找合适的解决方案；</p>
+  </li>
+  <li>
+    <p>如果实在不行，可以在生物信息社区寻求解答的方法，如<a href="http://seqanswers.com/">seqanswer</a>和<a href="https://www.biostars.org/">biostar</a>；</p>
+  </li>
+  <li>
+    <p>最后实在解决不了，请找expert。</p>
+  </li>
+</ol>
+
+<h4 id="section">生物信息分析软件常规安装方法</h4>
+
+<p><strong>c语言程序包：</strong></p>
+
+<div class="highlight"><pre><code class="bash">./configure <span class="nv">prefix</span><span class="o">=</span>&lt;install_dir&gt; <span class="c">#有的程序没有这一部分</span>
+make
+make <span class="nb">test</span>
+make install
+</code></pre></div>
+
+<p><strong>Perl语言程序包</strong></p>
+
+<div class="highlight"><pre><code class="bash">perl Makefile.PL <span class="nv">PREFIX</span><span class="o">=</span>&lt;install_dir&gt; <span class="c">#有的程序没有这一部分</span>
+make
+make install
+</code></pre></div>
+
+<p><strong>Python语言包</strong></p>
+
+<div class="highlight"><pre><code class="bash">python setup.py build --build-base<span class="o">=</span>&lt;install_dir_path&gt;
+python setup.py install
+</code></pre></div>
+
+<p><strong>预编译版本</strong></p>
+
+<p>一般来说，这种已经编译的程序是不需要再进行其它操作了。</p>
+
+<p>直接把目标文件变成可执行，就可以用了。</p>
+
+<p>例如，fastqc</p>
+
+<div class="highlight"><pre><code class="bash">chmod 755 fastqc
+./fastqc --help
+</code></pre></div>
+
+<h4 id="section-1">常用生物信息分析软件</h4>
+
+<p>下面列出一些常用的生物信息分析软件:</p>
+
+<p>（链接时刻在变，我只提供keywork，如有需要请自行google）</p>
+
+<p><strong>局部比对</strong></p>
+
+<p>NCBI blast</p>
+
+<p>blat</p>
+
+<p>fasta</p>
+
+<p><strong>全局比对</strong></p>
+
+<p>muscle</p>
+
+<p>clustal</p>
+
+<p>t-coffee</p>
+
+<p><strong>全基因组比对</strong></p>
+
+<p>blastz/lastz</p>
+
+<p>MUMmer</p>
+
+<p><strong>短序列比对</strong></p>
+
+<p>SOAP2</p>
+
+<p>Bowtie1/Bowtie2</p>
+
+<p>BWA</p>
+
+<p><strong>短序列测序质量控制</strong></p>
+
+<p>fastQC</p>
+
+<p>cutadaptor</p>
+
+<p><strong>RNAseq比对、表达量估计和差异表达分析</strong></p>
+
+<p>TopHat/cufflinks</p>
+
+<p>DEseq</p>
+
+<p><strong>序列信号估计</strong></p>
+
+<p>MACS</p>
+
+<p><strong>短序列拼接</strong></p>
+
+<p>Trinity</p>
+
+<p>SOAPdenovo</p>
+
+<p><strong>NGS数据操作工具集合</strong></p>
+
+<p>samtools</p>
+
+<p>BEDtools</p>
+
+<p>BEDops</p>
+
+<p><strong>分子进化相关的信息分析工具</strong></p>
+
+<p>PAML</p>
+
+<p>Treebest</p>
+
+<p>转载请标明出处：</p>
+
+<p><a href="http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/17/bioinfo-tools-collect-and-use/">http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/17/bioinfo-tools-collect-and-use/</a></p>
+
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-folder-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/categories.html#bioinformatics-ref">
+    		bioinformatics <span>10</span>
+    	</a></li>
+    
+  
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/tags.html#bioinformatics-ref">bioinformatics <span>10</span></a></li>
+     
+    	<li><a href="/tags.html#learn-ref">learn <span>5</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/bioinformatics/2014/07/17/perl-for-bioinformatics" title="Learn:用Perl处理生物信息数据">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/bioinformatics/2014/07/19/bioinfo-mix-together" title="Learn:利用shell和perl构建转录组(RNA-seq)分析流程">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'zhoujj'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+</div>
+
+
+      </div>
+      <hr>
+      <footer>
+        <p>Copyright &copy; 2014 <a href="http://zhoujj2013.github.io/~zhoujj/index.html" title="Zhoujj's homepage" target="_blank">Zhoujj</a> 
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+        </p>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+
