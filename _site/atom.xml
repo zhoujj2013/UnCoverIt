@@ -4,7 +4,7 @@
  <title>UnCoverIt</title>
  <link href="http://zhoujj2013.github.io/UnCoverIt/" rel="self"/>
  <link href="http://zhoujj2013.github.io/UnCoverIt"/>
- <updated>2014-07-17T16:41:48+08:00</updated>
+ <updated>2014-07-18T12:10:14+08:00</updated>
  <id>http://zhoujj2013.github.io/UnCoverIt</id>
  <author>
    <name>Zhoujj</name>
@@ -18,7 +18,45 @@
    <updated>2014-07-19T00:00:00+08:00</updated>
    <id>http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/19/bioinfo-mix-together</id>
    <content type="html">
-&lt;p&gt;&amp;lt;流程构建设想&amp;gt;&lt;/p&gt;
+&lt;p&gt;随着NGS的高速发展，越来越多有价值的物种被测序，随之而来的，基因表达及表观遗传数据会急剧增加。&lt;/p&gt;
+
+&lt;p&gt;公共数据库有大量已经公开的数据，这些数据大多数是基于二代测序技术产生的。&lt;/p&gt;
+
+&lt;p&gt;fly/C.elegan:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.modencode.org/&quot;&gt;http://www.modencode.org/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Mouse and Human:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://genome.ucsc.edu/ENCODE/&quot;&gt;http://genome.ucsc.edu/ENCODE/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;GEO/ENA&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.ncbi.nlm.nih.gov/geo/&quot;&gt;http://www.ncbi.nlm.nih.gov/geo/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.ebi.ac.uk/ena/&quot;&gt;http://www.ebi.ac.uk/ena/&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;zebra-fish&quot;&gt;zebra fish转录分析方案设计&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;生物学问题&lt;/strong&gt;: 比较同一时期，male body 和 male head样品的基因表达的差异。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;数据来源&lt;/strong&gt;: 参考文章，&lt;a href=&quot;http://genome.cshlp.org/content/22/10/2067.long&quot;&gt;http://genome.cshlp.org/content/22/10/2067.long&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;male_body(ERR004012): &lt;/p&gt;
+
+&lt;p&gt;ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR004/ERR004012/ERR004012_1.fastq.gz&lt;/p&gt;
+
+&lt;p&gt;ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR004/ERR004012/ERR004012_2.fastq.gz&lt;/p&gt;
+
+&lt;p&gt;male_head(ERR004022): &lt;/p&gt;
+
+&lt;p&gt;ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR004/ERR004022/ERR004022_1.fastq.gz&lt;/p&gt;
+
+&lt;p&gt;ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR004/ERR004022/ERR004022_2.fastq.gz&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;方案设计&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://dl.dropboxusercontent.com/u/87531643/web/rna-seq.png&quot; alt=&quot;rna-seq_diagram&quot; title=&quot;数据分析流程图&quot; /&gt;&lt;/p&gt;
 
 &lt;h4 id=&quot;section&quot;&gt;测序数据质量控制&lt;/h4&gt;
 
