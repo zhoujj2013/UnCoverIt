@@ -5,10 +5,162 @@
         <description>UnCoverIt - Zhoujj</description>
         <link>http://zhoujj2013.github.io/UnCoverIt</link>
         <link>http://zhoujj2013.github.io/UnCoverIt</link>
-        <lastBuildDate>2014-07-18T16:17:00+08:00</lastBuildDate>
-        <pubDate>2014-07-18T16:17:00+08:00</pubDate>
+        <lastBuildDate>2014-08-02T23:08:29+08:00</lastBuildDate>
+        <pubDate>2014-08-02T23:08:29+08:00</pubDate>
         <ttl>1800</ttl>
 
+
+        <item>
+                <title>Hadoop, Spark, Storm cloud computing software collection</title>
+                <description>
+&lt;p&gt;&lt;a href=&quot;http://hadoop.apache.org/&quot;&gt;Hadoop&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://storm.incubator.apache.org/&quot;&gt;Storm&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://spark.apache.org/&quot;&gt;Spark&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;这些东西有点高深，我现在暂时找不实验的设备。等我有时间找些mouse试一下。&lt;/p&gt;
+
+</description>
+                <link>http://zhoujj2013.github.io/UnCoverIt/computing/2014/08/02/hadoop-spark-storm-cloud-computing</link>
+                <guid>http://zhoujj2013.github.io/UnCoverIt/computing/2014/08/02/hadoop-spark-storm-cloud-computing</guid>
+                <pubDate>2014-08-02T00:00:00+08:00</pubDate>
+        </item>
+
+        <item>
+                <title>Ubuntu 12.04 LTS安装CUDA6.0及pycuda配置</title>
+                <description>
+&lt;p&gt;操作系统：Ubuntu12.04 64位(本人只测试64位)
+硬件环境：Intel Celeron D 2.8G + abit LG-95C + DDR2 2G 667 (见笑了，老机器)
+显卡型号：Nvidia GeForce 210 512M&lt;/p&gt;
+
+&lt;h4 id=&quot;ubuntunvidadriver&quot;&gt;删除ubuntu自带的nvida显卡driver&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;sudo apt-get -purge remove nvidia-common
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;将Ubuntu集成的Nvidia驱动加入黑名单防止冲突，如果之前没有安装过ubuntu的附加驱动，是可以的，否则的话必须将Ubuntu集成的驱动加入黑名单，具体的做法是修改/etc/modprobe.d/blacklist.conf文件：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;sudo apt-get install vim
+sudo vim /etc/modprobe.d/blacklist.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;禁止其它显卡驱动运行，加入如下两行：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;blacklist nouveau
+options nouveau modeset=0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;nvidacuda-tools-kit&quot;&gt;安装nvida驱动及CUDA tools kit&lt;/h4&gt;
+
+&lt;p&gt;先要把安装依赖包安装：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;sudo apt-get install freeglut3
+
+&lt;span class=&quot;c&quot;&gt;#因为cuda安装程序只会去找libglut.so&lt;/span&gt;
+sudo ln -s /usr/lib/x86_64-linux-gnu/libglut.so.3 /usr/lib/libglut.so
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;按Ctrl + Alt + F1进入tty命令行终端，登录之后首先将Ubuntu的X Server关闭，并重新启动：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;sudo service lightdm stop
+sudo reboot 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;重启后，安装cuda 6.0:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;sudo service lightdm stop
+
+chmod 755 cuda_6.0.37_linux_64.run
+
+sudo ./cuda_6.0.37_linux_64.run
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;接下来，同意安装提示，建议全部按yes或者enter，直到系统提示设置环境变量。&lt;/p&gt;
+
+&lt;p&gt;测试cuda 6.0是否安装成功：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;sudo service lightdm start
+nvidia-settings
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;如果能弹出setting的界面，说明已经安装成功。&lt;/p&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;设置环境变量及动态链接库&lt;/h4&gt;
+
+&lt;p&gt;在~/.bashrc中加入：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;export LD_LIBRARY_PATH=/usr/local/cuda-6.0/lib64:$LD_LIBRARY_PATH
+export PATH=/usr/local/cuda-6.0/bin:PATH
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;更新环境变量：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; ~/.bashrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;在/etc/ld.so.conf.d/中，新建一个文件。因为ld.so.conf文件里include所有/etc/ld.so.conf.d/下的配置文件：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;sudo vim /etc/ld.so.conf.d/cuda.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;并加入：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;/usr/local/cuda-6.0/lib64
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;接着更新库：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;sudo ldconfig
+
+ldconfig -v|grep cuda
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;输出如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;/usr/local/cuda-6.0/lib64:
+    libcudart.so.6.0 -&amp;gt; libcudart.so.6.0.35
+    libicudata.so.48 -&amp;gt; libicudata.so.48.1.1
+    libcuda.so.1 -&amp;gt; libcuda.so.304.54
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;说明已经更新成功。&lt;/p&gt;
+
+&lt;h4 id=&quot;cuda60-samples&quot;&gt;编译cuda6.0 samples&lt;/h4&gt;
+
+&lt;p&gt;cuda6.0 samples有很多的文件，所以还要求有好几个库。&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;&lt;span class=&quot;c&quot;&gt;# 安装库包&lt;/span&gt;
+sudo apt-get install g++ openmpi-bin openmpi-doc libopenmpi-dev freeglut3-dev libxi-dev libxmu-dev
+&lt;span class=&quot;c&quot;&gt;# 编译文件,可以设置多线程编译, j4表示用4个cpu core&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/NVIDIA_CUDA-6.0_Samples/
+make j1 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;测试：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;NVIDIA_CUDA-6.0_Samples/bin/linux/release/
+./deviceQuery
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;pycuda&quot;&gt;PyCUDA安装及配置&lt;/h4&gt;
+
+&lt;p&gt;Reference:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.nvidia.com/cuda-downloads&quot;&gt;https://developer.nvidia.com/cuda-downloads&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.nvidia.com/language-solutions&quot;&gt;https://developer.nvidia.com/language-solutions&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://blog.163.com/thinki_cao/blog/static/83944875201303125444265/&quot;&gt;http://blog.163.com/thinki_cao/blog/static/83944875201303125444265/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.nvidia.com/pycuda&quot;&gt;https://developer.nvidia.com/pycuda&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://mathema.tician.de/software/pycuda/&quot;&gt;http://mathema.tician.de/software/pycuda/&lt;/a&gt;&lt;/p&gt;
+</description>
+                <link>http://zhoujj2013.github.io/UnCoverIt/computing/2014/08/01/ubuntu-1204-cuda-installation-and-pycuda</link>
+                <guid>http://zhoujj2013.github.io/UnCoverIt/computing/2014/08/01/ubuntu-1204-cuda-installation-and-pycuda</guid>
+                <pubDate>2014-08-01T00:00:00+08:00</pubDate>
+        </item>
 
         <item>
                 <title>Learn:利用shell和perl构建转录组(RNA-seq)分析流程</title>

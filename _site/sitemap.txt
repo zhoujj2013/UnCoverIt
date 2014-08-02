@@ -9,6 +9,8 @@ http://zhoujj2013.github.io/UnCoverIt/pages.html
 http://zhoujj2013.github.io/UnCoverIt/atom.xml
 http://zhoujj2013.github.io/UnCoverIt/index.html
 
+http://zhoujj2013.github.io/UnCoverIt/computing/2014/08/02/hadoop-spark-storm-cloud-computing
+http://zhoujj2013.github.io/UnCoverIt/computing/2014/08/01/ubuntu-1204-cuda-installation-and-pycuda
 http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/19/bioinfo-mix-together
 http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/18/bioinfo-tools-collect-and-use
 http://zhoujj2013.github.io/UnCoverIt/bioinformatics/2014/07/17/perl-for-bioinformatics
